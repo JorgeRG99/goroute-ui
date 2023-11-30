@@ -1,12 +1,15 @@
 import "./App.css";
-import { GetStarted } from "./components/GetStarted";
 import { WebNavbar } from "./components/WebNavbar";
+import { Home } from "./pages/Home";
+import { PopupProvider } from "./context/popups";
 
 function App() {
   return (
     <>
-      <WebNavbar />
-      <GetStarted />
+      <PopupProvider>
+        <WebNavbar />
+        <Home />
+      </PopupProvider>
     </>
   );
 }

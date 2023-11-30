@@ -18,6 +18,10 @@ export default {
           primary: {
             foreground: "#FFFFFF",
             DEFAULT: "#17aa5a",
+          },
+          secondary: {
+            foreground: "#FFFFFF",
+            DEFAULT: "#CC780A",
           }
         },
       },

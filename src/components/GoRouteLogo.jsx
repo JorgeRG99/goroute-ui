@@ -1,4 +1,3 @@
-import React from "react";
 import CompanyLogo from "../assets/logo.svg";
 
 export const GoRouteLogo = () => (
