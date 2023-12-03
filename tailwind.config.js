@@ -8,7 +8,10 @@ export default {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+      'activities': 'repeat(auto-fit, minmax(200px, 1fr))',
+    }},
   },
   darkMode: "class",
   plugins: [nextui({

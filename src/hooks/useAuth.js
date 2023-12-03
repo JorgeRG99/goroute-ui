@@ -1,52 +1,94 @@
 import { useContext, useEffect } from 'react';
-import { REGISTER_ENDPOINT, LOGIN_ENDPOINT } from '../../config'
-import { getFromStorage, storage } from '../services/storage';
-import { AuthContext } from '../context/auth';
+import { userLogin, userLogout, userRegister, user, userEdit } from '../services/user'
+import { getFromStorage, storage, deleteFromStorage } from '../services/storage';
+import { UserContext } from '../context/user';
 
 export const useAuth = () => {
-    const { authToken, setAuthToken } = useContext(AuthContext);
+    const { userData, setUserData } = useContext(UserContext);
 
     useEffect(() => {
-        if (!authToken) setAuthToken(getFromStorage("AuthToken"));
+        const userAuthToken = getFromStorage("AuthToken")
 
-      }, [setAuthToken, authToken]);
+        if (userAuthToken) {
+            const updateUserData = async () => {
+                const userNewData = await user(userAuthToken)
 
-    const register = async ( userData ) => {
+                setUserData({
+                    authToken: userAuthToken,
+                    ...userNewData,
+                    followers: JSON.parse(userNewData.followers),
+                    follows: JSON.parse(userNewData.follows),
+                });
+            }
+
+            updateUserData();
+        }
+    }, [setUserData]);
+
+    const register = async (userData) => {
         try {
-            const res = await fetch(REGISTER_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userData),
-            });
-            if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`);
-            return await res.json();
+            return await userRegister(userData)
         } catch (error) {
             throw new Error(`Error en el registro de usuario ${error.message}`);
-        } 
+        }
     }
 
-    const login = async ( userCredentials ) => {
+    const editUser = async (newData) => {
         try {
-            const res = await fetch(LOGIN_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userCredentials),
-            });
+            const data = Object.fromEntries(Object.entries(newData).filter(value => value[1] !== undefined))
+            const res =  await userEdit(data, userData.authToken)
 
-            if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`);
+            setUserData(prevState => ({
+                ...prevState,
+                ...data,
+            }))
 
-            const response = await res.json()
+            return res
+        } catch (error) {
+            throw new Error(`Error en el registro de usuario ${error.message}`);
+        }
+    }
+
+    const login = async (userCredentials) => {
+        try {
+            const response = await userLogin(userCredentials)
 
             storage({
                 name: "AuthToken",
                 value: response.token,
-              });
+            });
 
-              setAuthToken(response.token)
+            const userNewData = await user(response.token)
+
+            setUserData({
+                ...userNewData,
+                authToken: response.token
+            })
+
+        } catch (error) {
+            throw new Error(`Error en el login de usuario ${error.message}`);
+        }
+    }
+
+    const logout = async () => {
+        try {
+            userLogout(userData.authToken);
+
+            deleteFromStorage('AuthToken')
+
+            setUserData({
+                id: null,
+                authToken: null,
+                username: null,
+                name: null,
+                surname: null,
+                email: null,
+                password: null,
+                birth: null,
+                avatar: null,
+                biography: null
+            })
+
 
         } catch (error) {
             throw new Error(`Error en el login de usuario ${error.message}`);
@@ -54,5 +96,5 @@ export const useAuth = () => {
     }
 
 
-    return { register, login, authToken }
+    return { register, login, logout, editUser, userData }
 }

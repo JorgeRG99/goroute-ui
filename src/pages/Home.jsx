@@ -1,7 +1,7 @@
 import { GetStarted } from "../components/GetStarted";
-import { LoginPopup } from "../components/LoginPopup";
-import { RegisterPopup } from "../components/RegisterPopup";
-import { usePopups } from "../hooks/usePopups";
+import { LoginPopup } from "../components/popups/LoginPopup";
+import { RegisterPopup } from "../components/popups/RegisterPopup";
+import { Popups, usePopups } from "../hooks/usePopups";
 
 export const Home = () => {
   const { popups } = usePopups();
@@ -9,8 +9,8 @@ export const Home = () => {
   return (
     <>
       <GetStarted />
-      {popups.isRegisterPopupOpen && <RegisterPopup />}
-      {popups.isLoginPopupOpen && <LoginPopup />}
+      {popups[Popups.Register] && <RegisterPopup />}
+      {popups[Popups.Login] && <LoginPopup />}
     </>
   );
 };

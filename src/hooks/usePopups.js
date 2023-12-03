@@ -1,22 +1,22 @@
 import { useContext } from "react";
 import { PopupContext } from "../context/popups";
 
+export const Popups = {
+    Login: 'login',
+    Register: 'register',
+    Logout: 'logout',
+    Edit: 'edit user'
+}
+
 export function usePopups() {
     const { popups, setPopups } = useContext(PopupContext)
-
-    const displayLoginPopup = () => {
-        setPopups(prevState => ({
-            ...prevState,
-            isLoginPopupOpen: !popups.isLoginPopupOpen
-        }))
-    };
     
-    const displayRegisterPopup = () => {
+    const togglePopup = (popup) => {
         setPopups(prevState => ({
             ...prevState,
-            isRegisterPopupOpen: !popups.isRegisterPopupOpen
+            [popup]: !popups[popup]
         }))
     };
 
-    return { popups, setPopups, displayLoginPopup, displayRegisterPopup}
+    return { popups, setPopups, togglePopup }
 }

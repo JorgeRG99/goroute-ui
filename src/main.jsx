@@ -2,15 +2,18 @@ import ReactDOM from "react-dom/client";
 import { NextUIProvider } from "@nextui-org/react";
 import App from "./App.jsx";
 import "./index.css";
-import { AuthProvider } from "./context/auth.jsx";
 import { UserProvider } from "./context/user.jsx";
+import { BrowserRouter } from "react-router-dom";
+import { StrictMode } from "react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <NextUIProvider>
-    <AuthProvider>
+  <StrictMode>
+    <NextUIProvider>
       <UserProvider>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </UserProvider>
-    </AuthProvider>
-  </NextUIProvider>
+    </NextUIProvider>
+  </StrictMode>
 );
