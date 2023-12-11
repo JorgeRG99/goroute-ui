@@ -4,13 +4,14 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/dropdown";
-import PropTypes from "prop-types";
 import { User } from "@nextui-org/user";
 import { Link } from "react-router-dom";
-import { Popups, usePopups } from "../../hooks/usePopups";
+import { Popups, usePopups } from "../../../hooks/usePopups";
+import { useAuth } from "../../../hooks/useAuth";
+import { userInitials } from "../../../services/helpers";
 
-export function Logged({ userData }) {
-  const initials = `${userData.name[0]}${userData.surname[0]}`.toUpperCase();
+export function Logged() {
+  const { userData } = useAuth();
   const { togglePopup } = usePopups();
 
   return (
@@ -19,11 +20,11 @@ export function Logged({ userData }) {
         <User
           name={`${userData.name} ${userData.surname}`}
           description={
-            <Link className="text-[#17aa5a]">@{userData.username}</Link>
+            <Link className="text-primary">@{userData.username}</Link>
           }
           avatarProps={{
             src: userData.avatar || undefined,
-            name: initials,
+            name: userInitials(userData.name, userData.surname),
             isBordered: true,
           }}
         />
@@ -48,12 +49,3 @@ export function Logged({ userData }) {
     </Dropdown>
   );
 }
-
-Logged.propTypes = {
-  userData: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    surname: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
-    avatar: PropTypes.string,
-  }).isRequired,
-};

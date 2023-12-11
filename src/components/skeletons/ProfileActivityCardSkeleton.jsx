@@ -1,6 +1,6 @@
 import { Skeleton } from "@nextui-org/react";
 
-export function ActivityCardSkeleton() {
+export function ProfileActivityCardSkeleton() {
   return (
     <div className="rounded-lg w-full h-[270px] flex flex-col justify-between py-[.8em] px-[.6em]">
       <Skeleton className="rounded-2xl w-[20%] h-[8%]">

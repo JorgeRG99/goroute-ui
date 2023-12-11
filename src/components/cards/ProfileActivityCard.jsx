@@ -7,9 +7,9 @@ import {
   Chip,
 } from "@nextui-org/react";
 import PropTypes from "prop-types";
-import { formatAvtivityDate } from "../../services/helpers";
+import { formatActivityDate } from "../../services/helpers";
 
-export function ActivityCard({ activityData }) {
+export function ProfileActivityCard({ activityData }) {
   return (
     <Card
       isFooterBlurred
@@ -30,7 +30,7 @@ export function ActivityCard({ activityData }) {
         <div>
           <p className="text-white text-big">{activityData.description}</p>
           <p className="text-white text-tiny">
-            {formatAvtivityDate(activityData.day)}
+            {formatActivityDate(activityData.day)}
           </p>
         </div>
         <Button
@@ -40,14 +40,14 @@ export function ActivityCard({ activityData }) {
           radius="full"
           size="sm"
         >
-          Info
+          Editar
         </Button>
       </CardFooter>
     </Card>
   );
 }
 
-ActivityCard.propTypes = {
+ProfileActivityCard.propTypes = {
   activityData: PropTypes.shape({
     name: PropTypes.string.isRequired,
     day: PropTypes.string.isRequired,

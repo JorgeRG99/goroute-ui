@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       gridTemplateColumns: {
-      'activities': 'repeat(auto-fit, minmax(200px, 1fr))',
-    }},
+      'user-activities': 'repeat(auto-fit, minmax(250px, 1fr))',
+    },},
   },
   darkMode: "class",
   plugins: [nextui({

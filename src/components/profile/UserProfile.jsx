@@ -2,21 +2,15 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/user";
 import { Button, User } from "@nextui-org/react";
 import { Popups, usePopups } from "../../hooks/usePopups";
-import { getUserCreationDate } from "../../services/helpers";
+import { getUserCreationDate, userInitials } from "../../services/helpers";
 import PropTypes from "prop-types";
 
-export function UserInfo({ userActivities }) {
+export function UserProfile({ userActivities }) {
   const { userData } = useContext(UserContext);
   const [userSince, setUserSince] = useState("");
-  const [initials, setInitials] = useState("");
+  console.log(userData);
 
   const { togglePopup } = usePopups();
-
-  useEffect(() => {
-    if (!userData.avatar && userData.id) {
-      setInitials(`${userData.name[0]}${userData.surname[0]}`.toUpperCase());
-    }
-  }, [userData.avatar, userData.name, userData.surname, userData.id]);
 
   useEffect(() => {
     if (userData.created_at) {
@@ -28,7 +22,7 @@ export function UserInfo({ userActivities }) {
   }, [userData.created_at]);
 
   return (
-    <section className="w-[40%] fixed">
+    <section className="flex-none w-[40%] fixed">
       <header className="flex items-center gap-[30px]">
         <User
           name={`${userData.name} ${userData.surname}`}
@@ -40,7 +34,7 @@ export function UserInfo({ userActivities }) {
           }}
           avatarProps={{
             src: userData.avatar || undefined,
-            name: initials,
+            name: userInitials(userData.name, userData.surname),
             isBordered: true,
             classNames: {
               base: "w-[60px] h-[60px]",
@@ -58,13 +52,13 @@ export function UserInfo({ userActivities }) {
           <p>
             {!userData.followers || !userData.followers.entries
               ? 0
-              : userData.followers.entrie.length}
+              : userData.followers.length}
           </p>
           <p className="font-bold mr-[1em]">Seguidores</p>
           <p>
             {!userData.follows || !userData.follows.entries
               ? 0
-              : userData.follows.entrie.length}
+              : userData.follows.length}
           </p>
           <p className="font-bold">Seguidos</p>
         </span>
@@ -86,6 +80,6 @@ export function UserInfo({ userActivities }) {
     </section>
   );
 }
-UserInfo.propTypes = {
+UserProfile.propTypes = {
   userActivities: PropTypes.array.isRequired,
 };

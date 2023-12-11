@@ -1,11 +1,10 @@
 import { NavbarItem } from "@nextui-org/navbar";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
-import { Popups, usePopups } from "../../hooks/usePopups";
+import { Popups } from "../../../hooks/usePopups";
+import PropTypes from "prop-types";
 
-export function NotLogged() {
-  const { togglePopup } = usePopups();
-
+export function NotLogged({ togglePopup }) {
   return (
     <>
       <NavbarItem className="lg:flex">
@@ -15,7 +14,9 @@ export function NotLogged() {
       </NavbarItem>
       <NavbarItem>
         <Button
-          onPress={() => togglePopup(Popups.Register)}
+          onPress={() => {
+            togglePopup(Popups.Register);
+          }}
           as={Link}
           color="secondary"
           href="#"
@@ -27,5 +28,6 @@ export function NotLogged() {
     </>
   );
 }
-
-export default NotLogged;
+NotLogged.propTypes = {
+  togglePopup: PropTypes.func.isRequired,
+};

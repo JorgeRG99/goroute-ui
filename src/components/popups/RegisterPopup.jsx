@@ -42,8 +42,8 @@ export const RegisterPopup = () => {
       email: emailRef.current,
       password: passwordRef.current,
       confirmPassword: confirmPasswordRef.current,
-      followers: {},
-      follows: {},
+      followers: [],
+      follows: [],
     });
 
     togglePopup(Popups.Register);

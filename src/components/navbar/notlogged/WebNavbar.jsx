@@ -4,16 +4,15 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/navbar";
-import { GoRouteLogo } from "../icons/GoRouteLogo";
 import { Link } from "@nextui-org/link";
+import { GoRouteLogo } from "../../icons/GoRouteLogo";
 import { Link as RouteLink } from "react-router-dom";
-import { Logged } from "./Logged";
 import { NotLogged } from "./NotLogged";
-import { UserContext } from "../../context/user";
-import { useContext } from "react";
+import { usePopups } from "../../../hooks/usePopups";
+import { APP_NAME } from "../../../../config";
 
 export const WebNavbar = () => {
-  const { userData } = useContext(UserContext);
+  const { togglePopup } = usePopups();
 
   return (
     <Navbar classNames={{ wrapper: "sm:max-w-[92%] max-w-full" }}>
@@ -21,13 +20,16 @@ export const WebNavbar = () => {
         <RouteLink to="/">
           <GoRouteLogo />
         </RouteLink>
-        <p className=" text-inherit">GOROUTE</p>
+        <p className=" text-inherit">{APP_NAME}</p>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="#">
+          <RouteLink
+            color="foreground"
+            /* to={userData.authToken ? "/" : togglePopup(Popups.Login)} */
+          >
             Publicaciones
-          </Link>
+          </RouteLink>
         </NavbarItem>
         <NavbarItem isActive>
           <Link href="#" aria-current="page">
@@ -41,7 +43,7 @@ export const WebNavbar = () => {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        {userData.id ? <Logged userData={userData} /> : <NotLogged />}
+        <NotLogged togglePopup={togglePopup} />
       </NavbarContent>
     </Navbar>
   );

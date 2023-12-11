@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { getUserActivities } from "../services/activity"
-import { useAuth } from "./useAuth";
+import { useContext, useEffect, useState } from "react";
+import { getUserActivities, createActivity } from "../services/activity"
+import { UserContext } from "../context/user";
 
 export function useActivity() {
-    const [userActivities, setUserActivities] = useState([]);
-    const { userData } = useAuth();
+    const [userActivities, setUserActivities] = useState(null);
+    const { userData } = useContext(UserContext);
 
     useEffect(() => {
         const getActivities = async () => {
@@ -22,5 +22,13 @@ export function useActivity() {
 
     }, [userData.authToken]);
 
-    return { getUserActivities, userActivities }
+    const addActivity = async (activityData) => {
+        try {
+            return await createActivity(activityData, userData.authToken)
+        } catch (error) {
+            throw new Error(`Error en el registro de usuario ${error.message}`);
+        }
+    }
+
+    return { userActivities, addActivity }
 }
