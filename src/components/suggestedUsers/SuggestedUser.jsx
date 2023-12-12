@@ -1,0 +1,32 @@
+import { User } from "@nextui-org/user";
+import { ToggleFollowButton } from "./ToggleFollowButton";
+import { Link } from "react-router-dom";
+import { userInitials } from "../../services/helpers";
+import PropTypes from "prop-types";
+
+export function SuggestedUser({ id, name, surname, username, avatar }) {
+  return (
+    <li className="w-full flex justify-between items-center" key={id}>
+      <User
+        name={`${name} ${surname}`}
+        description={
+          <Link className="text-primary text-[1.1em]">@{username}</Link>
+        }
+        avatarProps={{
+          src: avatar || undefined,
+          name: userInitials(name, surname),
+          isBordered: true,
+        }}
+      />
+      <ToggleFollowButton id={id} />
+    </li>
+  );
+}
+
+SuggestedUser.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  surname: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  avatar: PropTypes.string,
+};

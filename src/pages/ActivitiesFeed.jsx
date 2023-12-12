@@ -1,10 +1,10 @@
 import { Activities } from "../components/activitiesFeed/Activitites";
-import { SuggestedUsers } from "../components/activitiesFeed/SuggestedUsers";
+import { SuggestedUsersList } from "../components/suggestedUsers/SuggestedUsersList";
 export function ActivitiesFeed() {
   return (
     <>
       <Activities />
-      <SuggestedUsers />
+      <SuggestedUsersList />
     </>
   );
 }

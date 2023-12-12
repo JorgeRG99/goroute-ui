@@ -1,4 +1,4 @@
-import { GetStarted } from "../components/GetStarted";
+import { GetStarted } from "../components/home/GetStarted";
 import { LoginPopup } from "../components/popups/LoginPopup";
 import { RegisterPopup } from "../components/popups/RegisterPopup";
 import { Popups, usePopups } from "../hooks/usePopups";

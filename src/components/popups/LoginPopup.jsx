@@ -107,11 +107,7 @@ export function LoginPopup() {
                   onClose();
                 }}
               >
-                {isLoading ? (
-                  <Spinner color="secondary" size="sm" />
-                ) : (
-                  "Acceder"
-                )}
+                {isLoading ? <Spinner color="white" size="sm" /> : "Acceder"}
               </Button>
             </ModalFooter>
           </>

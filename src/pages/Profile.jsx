@@ -10,7 +10,7 @@ export function Profile() {
   const { userActivities } = useActivity();
 
   return (
-    <main className="flex my-[10vh] w-[90%] m-auto gap-[300px]">
+    <main className="flex my-[4rem] justify-evenly">
       {popups[Popups.Edit] && <EditProfilePopup />}
       {!userActivities ? (
         <UserProfileSkeleton />

@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 export function UserProfile({ userActivities }) {
   const { userData } = useContext(UserContext);
   const [userSince, setUserSince] = useState("");
-  console.log(userData);
 
   const { togglePopup } = usePopups();
 
@@ -22,7 +21,7 @@ export function UserProfile({ userActivities }) {
   }, [userData.created_at]);
 
   return (
-    <section className="flex-none w-[40%] fixed">
+    <section className="flex-none sticky top-[4rem] h-[20em] z-40 px-[1em]">
       <header className="flex items-center gap-[30px]">
         <User
           name={`${userData.name} ${userData.surname}`}

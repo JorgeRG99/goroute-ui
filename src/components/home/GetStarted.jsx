@@ -1,6 +1,6 @@
-import SportImage from "../assets/sport.webp";
+import SportImage from "../../assets/sport.webp";
 import { Button } from "@nextui-org/button";
-import { Popups, usePopups } from "../hooks/usePopups";
+import { Popups, usePopups } from "../../hooks/usePopups";
 
 export const GetStarted = () => {
   const { togglePopup } = usePopups();

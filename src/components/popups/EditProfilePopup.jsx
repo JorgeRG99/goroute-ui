@@ -88,11 +88,7 @@ export function EditProfilePopup() {
                 Cerrar
               </Button>
               <Button color="primary" onPress={handleSubmit}>
-                {isLoading ? (
-                  <Spinner color="secondary" size="sm" />
-                ) : (
-                  "Actualizar"
-                )}
+                {isLoading ? <Spinner color="white" size="sm" /> : "Actualizar"}
               </Button>
             </ModalFooter>
           </>

@@ -7,7 +7,7 @@ export function YourActivities({ userActivities }) {
   return (
     <main className="w-full flex">
       {!userActivities ? (
-        <div className="grid grid-cols-user-activities gap-[1rem] w-[60%]">
+        <div className="grid grid-cols-user-activities gap-[1rem] w-full">
           <ProfileActivityCardSkeleton />
           <ProfileActivityCardSkeleton />
           <ProfileActivityCardSkeleton />
@@ -18,7 +18,7 @@ export function YourActivities({ userActivities }) {
       ) : userActivities.length === 0 ? (
         <NoPublications type={"actividades"} />
       ) : (
-        <ul className="grid grid-cols-user-activities gap-[1rem] w-[60%]">
+        <ul className="grid grid-cols-user-activities gap-[1rem] items-center w-full">
           {userActivities.map((activity) => {
             return (
               <li key={activity.id}>

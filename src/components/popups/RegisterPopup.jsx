@@ -143,11 +143,7 @@ export const RegisterPopup = () => {
                 Cerrar
               </Button>
               <Button color="primary" onPress={handleSubmit}>
-                {isLoading ? (
-                  <Spinner color="secondary" size="sm" />
-                ) : (
-                  "Registrar"
-                )}
+                {isLoading ? <Spinner color="white" size="sm" /> : "Registrar"}
               </Button>
             </ModalFooter>
           </>

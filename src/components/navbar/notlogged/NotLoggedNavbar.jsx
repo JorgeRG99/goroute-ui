@@ -11,7 +11,7 @@ import { NotLogged } from "./NotLogged";
 import { usePopups } from "../../../hooks/usePopups";
 import { APP_NAME } from "../../../../config";
 
-export const WebNavbar = () => {
+export const NotLoggedNavbar = () => {
   const { togglePopup } = usePopups();
 
   return (

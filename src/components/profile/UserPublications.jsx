@@ -4,10 +4,10 @@ import { YourActivities } from "./YourActivities";
 
 export function UserPublications({ userActivities }) {
   return (
-    <div className="flex w-[100%] flex-col items-end">
+    <section className="flex flex-col items-end w-[55%]">
       <Tabs
-        className="w-[55%]"
-        classNames={{ panel: "w-[55%]" }}
+        className="w-full"
+        classNames={{ panel: "w-auto" }}
         aria-label="Options"
       >
         <Tab key="photos" title="Actividades">
@@ -15,7 +15,7 @@ export function UserPublications({ userActivities }) {
         </Tab>
         <Tab key="music" title="Publicaciones"></Tab>
       </Tabs>
-    </div>
+    </section>
   );
 }
 UserPublications.propTypes = {

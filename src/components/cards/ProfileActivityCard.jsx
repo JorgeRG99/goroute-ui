@@ -11,10 +11,7 @@ import { formatActivityDate } from "../../services/helpers";
 
 export function ProfileActivityCard({ activityData }) {
   return (
-    <Card
-      isFooterBlurred
-      className="w-full h-[300px] col-span-12 sm:col-span-5"
-    >
+    <Card isFooterBlurred className="col-span-12 sm:col-span-5">
       <CardHeader className="absolute z-10 top-1 flex-col items-start">
         <Chip variant="solid" color="secondary">
           {activityData.name}

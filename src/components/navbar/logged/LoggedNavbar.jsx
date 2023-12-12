@@ -1,19 +1,29 @@
-import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/navbar";
-import { Tab, Tabs } from "@nextui-org/tabs";
 import { GoRouteLogo } from "../../icons/GoRouteLogo";
 import { Map } from "../../icons/Map";
 import { Create } from "../../icons/Create";
 import { Runner } from "../../icons/Runner";
 import { Posts } from "../../icons/Posts";
-import { Link as RouteLink } from "react-router-dom";
-import { Logged } from "../logged/Logged";
+import { Link, Link as RouteLink, useLocation } from "react-router-dom";
+import { LoggedMenu } from "../logged/LoggedMenu";
 import { APP_NAME, DEFAULT_COLOR, PRIMARY_COLOR } from "../../../../config";
 import { Chat } from "../../icons/Chat";
 import { Notifications } from "../../icons/Notifications";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../../../context/user";
+import {
+  Avatar,
+  Tab,
+  Tabs,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+} from "@nextui-org/react";
+import { userInitials } from "../../../services/helpers";
 
 export function LoggedNavbar() {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState("/");
+  const { pathname } = useLocation();
+  const { userData } = useContext(UserContext);
 
   return (
     <Navbar
@@ -39,35 +49,37 @@ export function LoggedNavbar() {
             tabList: "flex flex-col bg-[transparent]",
             tab: "justify-start",
             cursor: "shadow-custom",
-            tabContent: "group-data-[selected=true]:text-primary",
           }}
-          aria-label="Options"
+          aria-label="Tabs"
           onSelectionChange={(key) => setSelected(key)}
+          selectedKey={pathname}
         >
           <Tab
-            key="activities"
+            id="/"
+            key="/"
+            target="/"
             title={
-              <div className="flex items-center space-x-2">
+              <Link to="/" className="flex items-center space-x-2">
                 <Runner
-                  color={
-                    selected === "activities" ? PRIMARY_COLOR : DEFAULT_COLOR
-                  }
+                  color={selected === "/" ? PRIMARY_COLOR : DEFAULT_COLOR}
                 />
                 <span>Actividades</span>
-              </div>
+              </Link>
             }
-          ></Tab>
+          />
           <Tab
-            key="posts"
+            id="/posts"
+            key="/posts"
+            href="/posts"
             title={
               <div className="flex items-center space-x-2">
                 <Posts
-                  color={selected === "posts" ? PRIMARY_COLOR : DEFAULT_COLOR}
+                  color={selected === "/posts" ? PRIMARY_COLOR : DEFAULT_COLOR}
                 />
                 <span>Publicaciones</span>
               </div>
             }
-          ></Tab>
+          />
           <Tab
             key="map"
             title={
@@ -78,7 +90,7 @@ export function LoggedNavbar() {
                 <span>Mapa</span>
               </div>
             }
-          ></Tab>
+          />
           <Tab
             key="create"
             title={
@@ -89,7 +101,7 @@ export function LoggedNavbar() {
                 <span>Crear</span>
               </div>
             }
-          ></Tab>
+          />
           <Tab
             key="chats"
             title={
@@ -100,7 +112,7 @@ export function LoggedNavbar() {
                 <span>Mensajes</span>
               </div>
             }
-          ></Tab>
+          />
           <Tab
             key="notifications"
             title={
@@ -113,35 +125,25 @@ export function LoggedNavbar() {
                 <span>Notificaciones</span>
               </div>
             }
-          ></Tab>
+          />
+          <Tab
+            id="/profile"
+            key="/profile"
+            title={
+              <Link to="/profile" className="flex items-center space-x-2">
+                <Avatar
+                  src={userData.avatar || undefined}
+                  size="sm"
+                  name={userInitials(userData.name, userData.surname)}
+                />
+                <span>Perfil</span>
+              </Link>
+            }
+          />
         </Tabs>
-        {/*  <NavbarItem>
-          <Link href="#" color="foreground">
-            <Posts />
-            <p className="mt-auto ml-[10px]">Publicaciones</p>
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link href="#" color="foreground">
-            <Runner />
-            <p className="mt-auto ml-[10px]">Actividades</p>
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            <Map />
-            <p className="mt-auto ml-[10px]">Mapa</p>
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            <Create />
-            <p className="my-auto ml-[10px]">Crear</p>
-          </Link>
-        </NavbarItem> */}
       </NavbarContent>
       <NavbarContent justify="none" className="grow-0 h-[10%]">
-        <Logged />
+        <LoggedMenu />
       </NavbarContent>
     </Navbar>
   );
