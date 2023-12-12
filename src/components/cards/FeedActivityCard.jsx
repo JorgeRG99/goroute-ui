@@ -14,6 +14,7 @@ export function FeedActivityCard({ activityData }) {
     <Card
       isFooterBlurred
       className="w-full h-[450px] col-span-12 sm:col-span-5"
+      radius="md"
     >
       <CardHeader className="absolute z-10 top-1 flex-col items-start">
         <Chip variant="solid" color="secondary">

@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { getActivitiesFeed } from "../../services/activity";
-import { useAuth } from "../../hooks/useAuth";
 import { FeedActivityCardSkeleton } from "../skeletons/FeedActivityCardSkeleton";
 import { FeedActivityCard } from "../cards/FeedActivityCard";
+import { UserContext } from "../../context/user";
 
 export function Activities() {
-  const [activitiesFeed, setActivitiesFeed] = useState(null);
-  const { userData } = useAuth();
+  const activitiesFeedRef = useRef();
+  const { userData } = useContext(UserContext);
 
   useEffect(() => {
     const getUserActivitiesFeed = async () => {
       try {
         const activities = await getActivitiesFeed(userData.authToken);
-        setActivitiesFeed(activities);
+        activitiesFeedRef.current = activities;
       } catch (error) {
         console.error("Error fetching activities feed:", error);
       }
@@ -23,14 +23,14 @@ export function Activities() {
 
   return (
     <div className="w-[50em] mt-[3em]">
-      {!activitiesFeed ? (
+      {!activitiesFeedRef.current ? (
         <div>
           <FeedActivityCardSkeleton />
           <FeedActivityCardSkeleton />
         </div>
       ) : (
         <ul className="flex flex-col gap-[2em] w-full items-center">
-          {activitiesFeed.map((activity) => {
+          {activitiesFeedRef.current.map((activity) => {
             return (
               <li className="w-[60%]" key={activity.id}>
                 <FeedActivityCard activityData={activity} />
