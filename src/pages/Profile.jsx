@@ -1,22 +1,31 @@
 import { EditProfilePopup } from "../components/popups/EditProfilePopup";
-import { useActivity } from "../hooks/useActivity";
 import { Popups, usePopups } from "../hooks/usePopups";
 import { UserPublications } from "../components/profile/UserPublications";
-import { UserProfileSkeleton } from "../components/skeletons/UserProfileSkeleton";
 import { UserProfile } from "../components/profile/UserProfile";
+import { useParams } from "react-router-dom";
+import { useActivity } from "../hooks/useActivity";
+import { useEffect, useState } from "react";
 
 export function Profile() {
   const { popups } = usePopups();
-  const { userActivities } = useActivity();
+  const { username } = useParams();
+  const { getActivitiesByUser } = useActivity();
+  const [userActivities, setUserActivities] = useState();
+
+  useEffect(() => {
+    const getUserActivties = async () => {
+      const activities = await getActivitiesByUser(username);
+
+      setUserActivities(activities);
+    };
+
+    getUserActivties();
+  }, [username]);
 
   return (
     <main className="flex my-[4rem] justify-evenly">
       {popups[Popups.Edit] && <EditProfilePopup />}
-      {!userActivities ? (
-        <UserProfileSkeleton />
-      ) : (
-        <UserProfile userActivities={userActivities} />
-      )}
+      <UserProfile userActivities={userActivities} />
       <UserPublications userActivities={userActivities} />
     </main>
   );

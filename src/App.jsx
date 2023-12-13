@@ -45,7 +45,7 @@ function App() {
             element={userData.authToken ? <ActivitiesFeed /> : <Home />}
           />
           <Route
-            path="/profile"
+            path="/:username"
             element={
               userData.authToken ? <Profile /> : <Navigate to="/" replace />
             }

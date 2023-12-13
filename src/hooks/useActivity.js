@@ -1,26 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { getUserActivities, createActivity } from "../services/activity"
 import { UserContext } from "../context/user";
 
 export function useActivity() {
-    const [userActivities, setUserActivities] = useState(null);
     const { userData } = useContext(UserContext);
 
-    useEffect(() => {
-        const getActivities = async () => {
-            if (userData.authToken) {
-                try {
-                    const activities = await getUserActivities(userData.authToken);
-                    setUserActivities(activities);
-                } catch (error) {
-                    console.error('Error fetching activities:', error);
-                }
-            }
-        };
-
-        getActivities()
-
-    }, [userData.authToken]);
+    const getActivitiesByUser = async (username) => {
+        try {
+            const activities = await getUserActivities(userData.authToken, username);
+            return activities;
+        } catch (error) {
+            console.error('Error fetching activities:', error);
+        }
+    };
 
     const addActivity = async (activityData) => {
         try {
@@ -30,5 +22,5 @@ export function useActivity() {
         }
     }
 
-    return { userActivities, addActivity }
+    return { addActivity, getActivitiesByUser }
 }

@@ -1,6 +1,6 @@
 import { Tabs, Tab } from "@nextui-org/react";
 import PropTypes from "prop-types";
-import { YourActivities } from "./YourActivities";
+import { UserActivities } from "./UserActivities";
 
 export function UserPublications({ userActivities }) {
   return (
@@ -11,7 +11,7 @@ export function UserPublications({ userActivities }) {
         aria-label="Options"
       >
         <Tab key="photos" title="Actividades">
-          <YourActivities userActivities={userActivities} />
+          <UserActivities userActivities={userActivities} />
         </Tab>
         <Tab key="music" title="Publicaciones"></Tab>
       </Tabs>

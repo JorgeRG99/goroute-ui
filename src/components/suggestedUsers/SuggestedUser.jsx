@@ -7,17 +7,17 @@ import PropTypes from "prop-types";
 export function SuggestedUser({ id, name, surname, username, avatar }) {
   return (
     <li className="w-full flex justify-between items-center" key={id}>
-      <User
-        name={`${name} ${surname}`}
-        description={
-          <Link className="text-primary text-[1.1em]">@{username}</Link>
-        }
-        avatarProps={{
-          src: avatar || undefined,
-          name: userInitials(name, surname),
-          isBordered: true,
-        }}
-      />
+      <Link to={`/${username}`}>
+        <User
+          name={`${name} ${surname}`}
+          description={<p className="text-primary text-[1.1em]">@{username}</p>}
+          avatarProps={{
+            src: avatar || undefined,
+            name: userInitials(name, surname),
+            isBordered: true,
+          }}
+        />
+      </Link>
       <ToggleFollowButton id={id} />
     </li>
   );

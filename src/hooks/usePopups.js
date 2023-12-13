@@ -6,7 +6,8 @@ export const Popups = {
     Register: 'register',
     Logout: 'logout',
     Edit: 'edit user',
-    AddActivity: 'add activity'
+    AddActivity: 'add activity',
+    Followers: 'followers'
 }
 
 export function usePopups() {

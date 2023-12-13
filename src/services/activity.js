@@ -1,11 +1,11 @@
 import { GET_USER_ACTIVITIES_ENDPOINT, GET_ACTIVITIES_FEED_ENDPOINT, ADD_ACTIVITY_ENDPOINT, SUGGESTED_USERS_BY_ACTIVITY } from "../../config"
 
-export const getUserActivities = async (authToken) => {
+export const getUserActivities = async (authToken, username) => {
     try {
-        const res = await fetch(GET_USER_ACTIVITIES_ENDPOINT, {
+        const res = await fetch(`${GET_USER_ACTIVITIES_ENDPOINT}?username=${username}`, {
             headers: {
                 'Authorization': `Bearer ${authToken}`
-            },
+            }
         });
         if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
 

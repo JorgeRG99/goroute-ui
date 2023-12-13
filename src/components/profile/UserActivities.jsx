@@ -3,7 +3,7 @@ import { ProfileActivityCardSkeleton } from "../skeletons/ProfileActivityCardSke
 import PropTypes from "prop-types";
 import { NoPublications } from "./NoPublications";
 
-export function YourActivities({ userActivities }) {
+export function UserActivities({ userActivities }) {
   return (
     <main className="w-full flex">
       {!userActivities ? (
@@ -31,6 +31,6 @@ export function YourActivities({ userActivities }) {
     </main>
   );
 }
-YourActivities.propTypes = {
+UserActivities.propTypes = {
   userActivities: PropTypes.array,
 };

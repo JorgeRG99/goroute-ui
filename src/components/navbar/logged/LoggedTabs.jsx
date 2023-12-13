@@ -10,11 +10,13 @@ import { Avatar, Tab, Tabs } from "@nextui-org/react";
 import { useContext, useState } from "react";
 import { UserContext } from "../../../context/user";
 import { userInitials } from "../../../services/helpers";
+import { usePopups } from "../../../hooks/usePopups";
 
 export function LoggedTabs() {
   const [selected, setSelected] = useState("/");
   const { pathname } = useLocation();
   const { userData } = useContext(UserContext);
+  const { togglePopup } = usePopups();
 
   return (
     <Tabs
@@ -24,14 +26,12 @@ export function LoggedTabs() {
         tab: "justify-start",
         cursor: "shadow-custom",
       }}
-      aria-label="Tabs"
       onSelectionChange={(key) => setSelected(key)}
       selectedKey={pathname}
     >
       <Tab
         id="/"
         key="/"
-        target="/"
         title={
           <Link to="/" className="flex items-center space-x-2">
             <Runner color={selected === "/" ? PRIMARY_COLOR : DEFAULT_COLOR} />
@@ -42,7 +42,6 @@ export function LoggedTabs() {
       <Tab
         id="/posts"
         key="/posts"
-        href="/posts"
         title={
           <div className="flex items-center space-x-2">
             <Posts
@@ -63,6 +62,8 @@ export function LoggedTabs() {
       />
       <Tab
         key="create"
+        id="create"
+        onSelect={() => togglePopup()}
         title={
           <div className="flex items-center space-x-2">
             <Create
@@ -98,9 +99,12 @@ export function LoggedTabs() {
       />
       <Tab
         id="/profile"
-        key="/profile"
+        key={`/${userData.username}`}
         title={
-          <Link to="/profile" className="flex items-center space-x-2">
+          <Link
+            to={`/${userData.username}`}
+            className="flex items-center space-x-2"
+          >
             <Avatar
               src={userData.avatar || undefined}
               size="sm"

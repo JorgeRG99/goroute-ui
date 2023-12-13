@@ -1,17 +1,17 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { suggestedUsers } from "../../services/activity";
 import { UserContext } from "../../context/user";
 import { SuggestedUser } from "./SuggestedUser";
 
 export function SuggestedUsersList() {
   const { userData } = useContext(UserContext);
-  const usersListRef = useRef();
+  const [usersList, setUserList] = useState(null);
 
   useEffect(() => {
     const getSuggestedUsersByActivity = async () => {
       try {
         const users = await suggestedUsers(userData.authToken);
-        usersListRef.current = users;
+        setUserList(users);
       } catch (error) {
         console.error("Error fetching suggested users:", error);
       }
@@ -24,11 +24,11 @@ export function SuggestedUsersList() {
     <section className="w-[20em] sticky top-[3em] h-[20em] z-40">
       <h2 className={`font-bold text-[1em] mb-[1em]`}>Usuarios activos</h2>
       <div className="w-full flex flex-col items-center">
-        {!usersListRef.current ? (
+        {!usersList ? (
           <p>no hay na</p>
         ) : (
           <ul className="flex flex-col gap-[.5em] w-full items-start">
-            {usersListRef.current.map((user) => {
+            {usersList.map((user) => {
               return (
                 <SuggestedUser
                   key={user.id}
