@@ -4,28 +4,27 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from "@nextui-org/modal";
-import { Mail } from "../icons/Mail";
-import { Spinner } from "@nextui-org/spinner";
+  Button,
+  Checkbox,
+  Input,
+} from "@nextui-org/react";
 import { useRef, useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
-import { Popups, usePopups } from "../../hooks/usePopups";
-import { Button, Checkbox } from "@nextui-org/react";
-import { Input } from "@nextui-org/input";
 import { Link } from "react-router-dom";
-import { EyeFilledSlash } from "../icons/EyeFilledSlash";
-import { EyeFilled } from "../icons/EyeFilled";
+import { Mail } from "../../icons/Mail";
+import { EyeFilledSlash } from "../../icons/EyeFilledSlash";
+import { EyeFilled } from "../../icons/EyeFilled";
+import { useAuth } from "../../../hooks/useAuth";
+import { Popups, usePopups } from "../../../hooks/usePopups";
 
 export function LoginPopup() {
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const { login } = useAuth();
+  const { popups, togglePopup } = usePopups();
   const emailRef = useRef();
   const passwordRef = useRef();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
-
-  const { login } = useAuth();
-  const { popups, togglePopup } = usePopups();
 
   return (
     <Modal
@@ -106,8 +105,9 @@ export function LoginPopup() {
 
                   onClose();
                 }}
+                isLoading={isLoading ? true : false}
               >
-                {isLoading ? <Spinner color="white" size="sm" /> : "Acceder"}
+                Acceder
               </Button>
             </ModalFooter>
           </>

@@ -4,11 +4,11 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from "@nextui-org/modal";
-import { Button } from "@nextui-org/button";
-import { Danger } from "./../icons/Danger";
-import { Popups, usePopups } from "../../hooks/usePopups";
-import { useAuth } from "../../hooks/useAuth";
+  Button,
+} from "@nextui-org/react";
+import { Danger } from "./../../icons/Danger";
+import { Popups, usePopups } from "../../../hooks/usePopups";
+import { useAuth } from "../../../hooks/useAuth";
 
 export function LogoutPopup() {
   const { popups, togglePopup } = usePopups();

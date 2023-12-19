@@ -1,24 +1,24 @@
-import { Spinner } from "@nextui-org/spinner";
 import { useRef, useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
-import { Popups, usePopups } from "../../hooks/usePopups";
+import { useAuth } from "../../../hooks/useAuth";
+import { Popups, usePopups } from "../../../hooks/usePopups";
 import {
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from "@nextui-org/modal";
-import { Input } from "@nextui-org/input";
-import { Mail } from "../icons/Mail";
-import { Button } from "@nextui-org/react";
-import { EyeFilled } from "../icons/EyeFilled";
-import { EyeFilledSlash } from "../icons/EyeFilledSlash";
+  Input,
+  Button,
+} from "@nextui-org/react";
+import { Mail } from "../../icons/Mail";
+import { EyeFilled } from "../../icons/EyeFilled";
+import { EyeFilledSlash } from "../../icons/EyeFilledSlash";
 
 export const RegisterPopup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const { popups, togglePopup } = usePopups();
+
   const nameRef = useRef();
   const surnameRef = useRef();
   const usernameRef = useRef();
@@ -41,9 +41,6 @@ export const RegisterPopup = () => {
       birth: birthRef.current,
       email: emailRef.current,
       password: passwordRef.current,
-      confirmPassword: confirmPasswordRef.current,
-      followers: [],
-      follows: [],
     });
 
     togglePopup(Popups.Register);
@@ -142,8 +139,12 @@ export const RegisterPopup = () => {
               <Button color="danger" variant="flat" onPress={onClose}>
                 Cerrar
               </Button>
-              <Button color="primary" onPress={handleSubmit}>
-                {isLoading ? <Spinner color="white" size="sm" /> : "Registrar"}
+              <Button
+                color="primary"
+                isLoading={isLoading ? true : false}
+                onPress={handleSubmit}
+              >
+                Registrar
               </Button>
             </ModalFooter>
           </>

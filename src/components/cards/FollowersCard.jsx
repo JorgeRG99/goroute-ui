@@ -1,13 +1,20 @@
 import { User } from "@nextui-org/user";
-import { ToggleFollowButton } from "../buttons/ToggleFollowButton";
 import { Link } from "react-router-dom";
 import { userInitials } from "../../services/helpers";
 import PropTypes from "prop-types";
+import { RemoveFollower } from "../buttons/RemoveFollower";
 
-export function SuggestedUser({ id, name, surname, username, avatar }) {
+export function FollowersCard({
+  id,
+  name,
+  surname,
+  username,
+  avatar,
+  onClose,
+}) {
   return (
-    <li className="w-full flex justify-between items-center" key={id}>
-      <Link to={`/${username}`}>
+    <span className="w-full flex justify-between items-center">
+      <Link onClick={onClose} to={`/${username}`}>
         <User
           name={`${name} ${surname}`}
           description={<p className="text-primary text-[1.1em]">@{username}</p>}
@@ -18,15 +25,16 @@ export function SuggestedUser({ id, name, surname, username, avatar }) {
           }}
         />
       </Link>
-      <ToggleFollowButton id={id} />
-    </li>
+      <RemoveFollower id={id} />
+    </span>
   );
 }
 
-SuggestedUser.propTypes = {
+FollowersCard.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   surname: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   avatar: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
 };

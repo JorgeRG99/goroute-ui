@@ -1,6 +1,6 @@
 import { GetStarted } from "../components/home/GetStarted";
-import { LoginPopup } from "../components/popups/LoginPopup";
-import { RegisterPopup } from "../components/popups/RegisterPopup";
+import { LoginPopup } from "../components/popups/authentication/LoginPopup";
+import { RegisterPopup } from "../components/popups/authentication/RegisterPopup";
 import { Popups, usePopups } from "../hooks/usePopups";
 
 export const Home = () => {

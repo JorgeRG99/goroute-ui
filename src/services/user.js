@@ -1,7 +1,20 @@
-import { USER_BY_USERNAME_ENDPOINT ,USER_FOLLOW_ENDPOINT, REGISTER_ENDPOINT, LOGIN_ENDPOINT, USER_ENDPOINT, LOGOUT_ENDPOINT, EDIT_USER_ENDPOINT, USER_UNFOLLOW_ENDPOINT } from '../../config'
+import { 
+    USER_BY_ID_ENDPOINT, 
+    USER_BY_USERNAME_ENDPOINT, 
+    USER_FOLLOW_ENDPOINT,
+    REGISTER_ENDPOINT,
+    LOGIN_ENDPOINT,
+    USER_ENDPOINT,
+    LOGOUT_ENDPOINT,
+    EDIT_USER_ENDPOINT,
+    USER_UNFOLLOW_ENDPOINT,
+    USER_REMOVE_FOLLOWER_ENDPOINT, 
+    USER_FOLLOWS_ENDPOINT,
+    USER_FOLLOWERS_ENDPOINT} from '../../config'
 
 
 export const user = async (authToken) => {
+
     try {
         const res = await fetch(USER_ENDPOINT, {
             headers: {
@@ -21,6 +34,23 @@ export const user = async (authToken) => {
 export const userByUsername = async (authToken, username) => {
     try {
         const res = await fetch(`${USER_BY_USERNAME_ENDPOINT}?username=${username}`, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            },
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response =  await res.json();
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error obteniendo datos del ususario de usuario ${error.message}`);
+    }
+}
+
+export const getUserById = async (authToken, id) => {
+    try {
+        const res = await fetch(`${USER_BY_ID_ENDPOINT}?id=${id}`, {
             headers: {
                 'Authorization': `Bearer ${authToken}`
             },
@@ -110,6 +140,46 @@ export const userEdit = async (newUserData, authToken) => {
     }
 }
 
+export const userFollows = async (authToken) => {
+    try {
+        const res = await fetch(USER_FOLLOWS_ENDPOINT, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            }
+        })
+
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.json}`);
+
+        const response =  await res.json();
+
+        return response;
+
+    } catch (error) {
+        throw new Error(`Error obteniendo datos del usuario ${error.message}`);
+    }
+}
+
+export const userFollowers = async (authToken) => {
+    try {
+        const res = await fetch(USER_FOLLOWERS_ENDPOINT, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            }
+        })
+
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.json}`);
+
+        const response =  await res.json();
+
+        return response;
+
+    } catch (error) {
+        throw new Error(`Error obteniendo datos del usuario ${error.message}`);
+    }
+}
+
 export const userFollow = async (userToFollow, authToken) => {
     try {
         const res = await fetch(USER_FOLLOW_ENDPOINT, {
@@ -140,6 +210,26 @@ export const userUnfollow = async (userToUnfollow, authToken) => {
             },
             body: JSON.stringify({
                 id: userToUnfollow
+            }),
+        })
+
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.json}`);
+
+    } catch (error) {
+        throw new Error(`Error editando los datos del usuario ${error.message}`);
+    }
+}
+
+export const removeFollower = async (userToRemove, authToken) => {
+    try {
+        const res = await fetch(USER_REMOVE_FOLLOWER_ENDPOINT, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: userToRemove
             }),
         })
 

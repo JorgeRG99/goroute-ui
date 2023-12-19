@@ -1,29 +1,33 @@
-import { useContext, useEffect } from 'react';
-import { userLogin, userLogout, userRegister, user, userEdit } from '../services/user'
+import { useContext, useEffect, useState } from 'react';
+import { userLogin, userLogout, userRegister, user, userEdit, userFollows, userFollowers } from '../services/user'
 import { getFromStorage, storage, deleteFromStorage } from '../services/storage';
 import { UserContext } from '../context/user';
 
 export const useAuth = () => {
     const { userData, setUserData } = useContext(UserContext);
-
+    const [isLoading, setIsLoading] = useState(true);
+    const userAuthToken = getFromStorage("AuthToken")
+    
     useEffect(() => {
-        const userAuthToken = getFromStorage("AuthToken")
-
         if (userAuthToken) {
             const updateUserData = async () => {
                 const userNewData = await user(userAuthToken)
+                const follows = await userFollows(userAuthToken)
+                const followers = await userFollowers(userAuthToken)
 
                 setUserData({
                     authToken: userAuthToken,
+                    follows: follows,
+                    followers: followers,
                     ...userNewData,
-                    followers: JSON.parse(userNewData.followers),
-                    follows: JSON.parse(userNewData.follows),
                 });
+
+                setIsLoading(false)
             }
 
             updateUserData();
         }
-    }, [setUserData]);
+    }, [userAuthToken]);
 
     const register = async (userData) => {
         try {
@@ -58,13 +62,6 @@ export const useAuth = () => {
                 value: response.token,
             });
 
-            const userNewData = await user(response.token)
-
-            setUserData({
-                ...userNewData,
-                authToken: response.token
-            })
-
         } catch (error) {
             throw new Error(`Error en el login de usuario ${error.message}`);
         }
@@ -96,5 +93,5 @@ export const useAuth = () => {
     }
 
 
-    return { register, login, logout, editUser, userData }
+    return { register, login, logout, editUser, userData, isLoading, userAuthToken }
 }

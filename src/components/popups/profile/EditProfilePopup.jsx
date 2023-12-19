@@ -7,9 +7,9 @@ import {
 } from "@nextui-org/modal";
 import { Textarea } from "@nextui-org/react";
 import { useRef, useState } from "react";
-import { Popups, usePopups } from "../../hooks/usePopups";
-import { useAuth } from "../../hooks/useAuth";
-import { Button, Input, Spinner } from "@nextui-org/react";
+import { Popups, usePopups } from "../../../hooks/usePopups";
+import { useAuth } from "../../../hooks/useAuth";
+import { Button, Input } from "@nextui-org/react";
 
 export function EditProfilePopup() {
   const [isLoading, setIsLoading] = useState(false);
@@ -87,8 +87,12 @@ export function EditProfilePopup() {
               <Button color="danger" variant="flat" onPress={onClose}>
                 Cerrar
               </Button>
-              <Button color="primary" onPress={handleSubmit}>
-                {isLoading ? <Spinner color="white" size="sm" /> : "Actualizar"}
+              <Button
+                color="primary"
+                isLoading={isLoading ? true : false}
+                onPress={handleSubmit}
+              >
+                Actualizar
               </Button>
             </ModalFooter>
           </>

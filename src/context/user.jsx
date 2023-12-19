@@ -14,8 +14,8 @@ export function UserProvider({ children }) {
     email: null,
     birth: null,
     biography: null,
-    followers: null,
-    followed: null,
+    follows: [],
+    followers: [],
   });
 
   return (

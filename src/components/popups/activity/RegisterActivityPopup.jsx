@@ -9,7 +9,6 @@ import {
   ModalHeader,
   Button,
   Input,
-  Spinner,
   Autocomplete,
   AutocompleteItem,
   Slider,
@@ -34,6 +33,7 @@ export function RegisterActivityPopup({ togglePopup, popups, Popups, sports }) {
 
   const handleSubmit = async () => {
     setIsLoading(true);
+    console.log(typeof durationRef.current);
 
     addActivity({
       name: nameRef.current,
@@ -154,8 +154,12 @@ export function RegisterActivityPopup({ togglePopup, popups, Popups, sports }) {
               <Button color="danger" variant="flat" onPress={onClose}>
                 Cancelar
               </Button>
-              <Button color="primary" onPress={handleSubmit}>
-                {isLoading ? <Spinner color="secondary" size="sm" /> : "Crear"}
+              <Button
+                isLoading={isLoading ? true : false}
+                color="primary"
+                onPress={handleSubmit}
+              >
+                Crear
               </Button>
             </ModalFooter>
           </>

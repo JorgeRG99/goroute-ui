@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { userByUsername } from "../services/user"
+import { userByUsername, userFollowers, userFollows } from "../services/user"
 import { UserContext } from "../context/user"
 import { useParams } from "react-router-dom";
 import { getUserCreationDate } from "../services/helpers";
@@ -13,7 +13,14 @@ export const useUser = () => {
     useEffect(() => {
         const getProfileData = async () => {
             const user = await getUserByUsername(username);
-            setProfileData(user);
+            const follows = await getUserFollows()
+            const followers = await getUserFollowers()
+
+            setProfileData({
+                ...user,
+                follows: follows,
+                followers: followers
+            });
 
             const year = user.created_at.slice(0, 4);
             const month = user.created_at.slice(5, 7);
@@ -22,16 +29,34 @@ export const useUser = () => {
         };
 
         getProfileData();
-    }, [username, userData]);
+    }, [username, userData.follows, userData.followers]);
 
     const getUserByUsername = async (username) => {
         try {
             const user = await userByUsername(userData.authToken, username)
             return user;
         } catch (error) {
-            throw new Error(`Error obteniendo datos del ususario de usuario ${error.message}`);
+            throw new Error(`Error obteniendo datos del ususario ${error.message}`);
         }
     }
 
-    return { getUserByUsername, profileData, userSince }
+    const getUserFollows = async () => {
+        try {
+            const follows = await userFollows(userData.authToken)
+            return follows;
+        } catch (error) {
+            throw new Error(`Error obteniendo datos del ususario ${error.message}`);
+        }
+    }
+
+    const getUserFollowers = async () => {
+        try {
+            const followers = await userFollowers(userData.authToken)
+            return followers;
+        } catch (error) {
+            throw new Error(`Error obteniendo datos del ususario ${error.message}`);
+        }
+    }
+
+    return { getUserByUsername, getUserFollows, profileData, userSince }
 }

@@ -4,7 +4,7 @@ import { UserActivities } from "./UserActivities";
 
 export function UserPublications({ userActivities }) {
   return (
-    <section className="flex flex-col items-end w-[55%]">
+    <section className="flex flex-col w-full">
       <Tabs
         className="w-full"
         classNames={{ panel: "w-auto" }}

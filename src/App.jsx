@@ -1,6 +1,6 @@
 import "./App.css";
 import { Home } from "./pages/Home";
-import { LogoutPopup } from "./components/popups/LogoutPopup";
+import { LogoutPopup } from "./components/popups/authentication/LogoutPopup";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { Profile } from "./pages/Profile";
 import { Error404 } from "./pages/Error404";
@@ -12,9 +12,10 @@ import { LoggedNavbar } from "./components/navbar/logged/LoggedNavbar";
 import { useAuth } from "./hooks/useAuth";
 import { NotLoggedNavbar } from "./components/navbar/notlogged/NotLoggedNavbar";
 import { NextUIProvider } from "@nextui-org/react";
+import { Loader } from "./pages/Loader";
 
 function App() {
-  const { userData } = useAuth();
+  const { userData, isLoading, userAuthToken } = useAuth();
   const { popups, togglePopup } = usePopups();
   const { sports } = useSports();
   const navigate = useNavigate();
@@ -22,7 +23,13 @@ function App() {
   return (
     <NextUIProvider navigate={navigate}>
       <div className={userData.authToken && "flex"}>
-        {userData.authToken ? <LoggedNavbar /> : <NotLoggedNavbar />}
+        {userAuthToken ? (
+          !isLoading ? (
+            <LoggedNavbar />
+          ) : undefined
+        ) : (
+          <NotLoggedNavbar />
+        )}
         {popups[Popups.Logout] && (
           <LogoutPopup
             togglePopup={togglePopup}
@@ -42,12 +49,30 @@ function App() {
           <Route path="*" element={<Error404 />} />
           <Route
             path="/"
-            element={userData.authToken ? <ActivitiesFeed /> : <Home />}
+            element={
+              userAuthToken ? (
+                isLoading ? (
+                  <Loader />
+                ) : (
+                  <ActivitiesFeed />
+                )
+              ) : (
+                <Home />
+              )
+            }
           />
           <Route
             path="/:username"
             element={
-              userData.authToken ? <Profile /> : <Navigate to="/" replace />
+              userAuthToken ? (
+                !isLoading ? (
+                  <Profile />
+                ) : (
+                  <Loader />
+                )
+              ) : (
+                <Navigate to="/" replace />
+              )
             }
           />
         </Routes>

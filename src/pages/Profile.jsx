@@ -1,4 +1,4 @@
-import { EditProfilePopup } from "../components/popups/EditProfilePopup";
+import { EditProfilePopup } from "../components/popups/profile/EditProfilePopup";
 import { Popups, usePopups } from "../hooks/usePopups";
 import { UserPublications } from "../components/profile/UserPublications";
 import { UserProfile } from "../components/profile/UserProfile";
@@ -23,7 +23,7 @@ export function Profile() {
   }, [username]);
 
   return (
-    <main className="flex my-[4rem] justify-evenly">
+    <main className="flex my-[4rem] justify-evenly w-[80%]">
       {popups[Popups.Edit] && <EditProfilePopup />}
       <UserProfile userActivities={userActivities} />
       <UserPublications userActivities={userActivities} />

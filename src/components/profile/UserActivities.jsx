@@ -7,7 +7,7 @@ export function UserActivities({ userActivities }) {
   return (
     <main className="w-full flex">
       {!userActivities ? (
-        <div className="grid grid-cols-user-activities gap-[1rem] w-full">
+        <div className="grid grid-cols-user-activities items-center gap-[1rem] w-full">
           <ProfileActivityCardSkeleton />
           <ProfileActivityCardSkeleton />
           <ProfileActivityCardSkeleton />
