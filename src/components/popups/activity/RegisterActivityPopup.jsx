@@ -33,7 +33,6 @@ export function RegisterActivityPopup({ togglePopup, popups, Popups, sports }) {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    console.log(typeof durationRef.current);
 
     addActivity({
       name: nameRef.current,
@@ -138,7 +137,6 @@ export function RegisterActivityPopup({ togglePopup, popups, Popups, sports }) {
                 getValue={(hours) => `${hours} horas`}
                 showSteps={true}
                 onChange={(value) => {
-                  console.log(value);
                   durationRef.current = value;
                 }}
               />

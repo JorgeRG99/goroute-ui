@@ -13,16 +13,18 @@ import { useAuth } from "./hooks/useAuth";
 import { NotLoggedNavbar } from "./components/navbar/notlogged/NotLoggedNavbar";
 import { NextUIProvider } from "@nextui-org/react";
 import { Loader } from "./pages/Loader";
+import { getFromStorage } from "./services/storage";
 
 function App() {
-  const { userData, isLoading, userAuthToken } = useAuth();
+  const userAuthToken = getFromStorage("AuthToken");
+  const { isLoading } = useAuth();
   const { popups, togglePopup } = usePopups();
   const { sports } = useSports();
   const navigate = useNavigate();
 
   return (
     <NextUIProvider navigate={navigate}>
-      <div className={userData.authToken && "flex"}>
+      <div className={userAuthToken && "flex"}>
         {userAuthToken ? (
           !isLoading ? (
             <LoggedNavbar />

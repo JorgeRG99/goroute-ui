@@ -6,28 +6,36 @@ import PropTypes from "prop-types";
 
 export function ToggleFollowButton({ id }) {
   const { userData, setUserData } = useContext(UserContext);
+  const isFollowing = userData.follows.some((user) => user.id === id);
+
+  const toggleFollowStatus = async () => {
+    let updatedFollows = userData.follows;
+
+    if (isFollowing) {
+      const userUnfollowed = await userUnfollow(id, userData.authToken);
+
+      updatedFollows = userData.follows.filter(
+        (user) => user.id !== userUnfollowed.id
+      );
+    } else {
+      const userFollowed = await userFollow(id, userData.authToken);
+      updatedFollows.push(userFollowed);
+    }
+
+    setUserData((prev) => ({
+      ...prev,
+      follows: updatedFollows,
+    }));
+  };
 
   return (
     <Button
       variant="light"
       size="sm"
       color="secondary"
-      onPress={async () => {
-        if (userData.follows.includes(id)) {
-          await userUnfollow(id, userData.authToken);
-          userData.follows.splice(userData.follows.indexOf(id), 1);
-        } else {
-          await userFollow(id, userData.authToken);
-          userData.follows.push(id);
-        }
-
-        setUserData((prev) => ({
-          ...prev,
-          follows: userData.follows,
-        }));
-      }}
+      onPress={toggleFollowStatus}
     >
-      {userData.follows.includes(id) ? "Seguido" : "Seguir"}
+      {isFollowing ? "Seguido" : "Seguir"}
     </Button>
   );
 }

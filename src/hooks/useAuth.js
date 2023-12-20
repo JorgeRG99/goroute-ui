@@ -1,33 +1,31 @@
 import { useContext, useEffect, useState } from 'react';
-import { userLogin, userLogout, userRegister, user, userEdit, userFollows, userFollowers } from '../services/user'
+import { userLogin, userLogout, userRegister, user, userEdit } from '../services/user'
 import { getFromStorage, storage, deleteFromStorage } from '../services/storage';
 import { UserContext } from '../context/user';
 
 export const useAuth = () => {
     const { userData, setUserData } = useContext(UserContext);
     const [isLoading, setIsLoading] = useState(true);
-    const userAuthToken = getFromStorage("AuthToken")
     
     useEffect(() => {
+        const userAuthToken = getFromStorage("AuthToken")
+
         if (userAuthToken) {
             const updateUserData = async () => {
                 const userNewData = await user(userAuthToken)
-                const follows = await userFollows(userAuthToken)
-                const followers = await userFollowers(userAuthToken)
 
                 setUserData({
                     authToken: userAuthToken,
-                    follows: follows,
-                    followers: followers,
                     ...userNewData,
                 });
-
-                setIsLoading(false)
             }
-
             updateUserData();
         }
-    }, [userAuthToken]);
+    }, []);
+
+    useEffect(() => {
+        if (userData.authToken) setIsLoading(false)
+    }, [userData.authToken])
 
     const register = async (userData) => {
         try {
@@ -40,7 +38,7 @@ export const useAuth = () => {
     const editUser = async (newData) => {
         try {
             const data = Object.fromEntries(Object.entries(newData).filter(value => value[1] !== undefined))
-            const res =  await userEdit(data, userData.authToken)
+            const res = await userEdit(data, userData.authToken)
 
             setUserData(prevState => ({
                 ...prevState,
@@ -57,10 +55,19 @@ export const useAuth = () => {
         try {
             const response = await userLogin(userCredentials)
 
+            const userNewData = await user(response.token)
+
+            setUserData({
+                authToken: response.token,
+                ...userNewData,
+            });
+
             storage({
                 name: "AuthToken",
                 value: response.token,
             });
+
+
 
         } catch (error) {
             throw new Error(`Error en el login de usuario ${error.message}`);
@@ -93,5 +100,5 @@ export const useAuth = () => {
     }
 
 
-    return { register, login, logout, editUser, userData, isLoading, userAuthToken }
+    return { register, login, logout, editUser, userData, isLoading }
 }

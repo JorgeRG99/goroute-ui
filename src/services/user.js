@@ -140,9 +140,9 @@ export const userEdit = async (newUserData, authToken) => {
     }
 }
 
-export const userFollows = async (authToken) => {
+export const userFollows = async (authToken, userId) => {
     try {
-        const res = await fetch(USER_FOLLOWS_ENDPOINT, {
+        const res = await fetch(`${USER_FOLLOWS_ENDPOINT}?id=${userId}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${authToken}`,
@@ -160,9 +160,9 @@ export const userFollows = async (authToken) => {
     }
 }
 
-export const userFollowers = async (authToken) => {
+export const userFollowers = async (authToken, userId) => {
     try {
-        const res = await fetch(USER_FOLLOWERS_ENDPOINT, {
+        const res = await fetch(`${USER_FOLLOWERS_ENDPOINT}?id=${userId}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${authToken}`,
@@ -195,6 +195,10 @@ export const userFollow = async (userToFollow, authToken) => {
 
         if (!res.ok) throw new Error(`Error en la solicitud ${res.json}`);
 
+        const response = await res.json()
+
+        return response.followed
+
     } catch (error) {
         throw new Error(`Error editando los datos del usuario ${error.message}`);
     }
@@ -214,6 +218,10 @@ export const userUnfollow = async (userToUnfollow, authToken) => {
         })
 
         if (!res.ok) throw new Error(`Error en la solicitud ${res.json}`);
+
+        const response = await res.json()
+
+        return response.unfollowed
 
     } catch (error) {
         throw new Error(`Error editando los datos del usuario ${error.message}`);

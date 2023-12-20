@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { userByUsername, userFollowers, userFollows } from "../services/user"
+import { userByUsername } from "../services/user"
 import { UserContext } from "../context/user"
 import { useParams } from "react-router-dom";
 import { getUserCreationDate } from "../services/helpers";
@@ -13,13 +13,9 @@ export const useUser = () => {
     useEffect(() => {
         const getProfileData = async () => {
             const user = await getUserByUsername(username);
-            const follows = await getUserFollows()
-            const followers = await getUserFollowers()
 
             setProfileData({
-                ...user,
-                follows: follows,
-                followers: followers
+                ...user
             });
 
             const year = user.created_at.slice(0, 4);
@@ -29,7 +25,7 @@ export const useUser = () => {
         };
 
         getProfileData();
-    }, [username, userData.follows, userData.followers]);
+    }, [username, userData.follows.length, userData.followers]);
 
     const getUserByUsername = async (username) => {
         try {
@@ -40,23 +36,5 @@ export const useUser = () => {
         }
     }
 
-    const getUserFollows = async () => {
-        try {
-            const follows = await userFollows(userData.authToken)
-            return follows;
-        } catch (error) {
-            throw new Error(`Error obteniendo datos del ususario ${error.message}`);
-        }
-    }
-
-    const getUserFollowers = async () => {
-        try {
-            const followers = await userFollowers(userData.authToken)
-            return followers;
-        } catch (error) {
-            throw new Error(`Error obteniendo datos del ususario ${error.message}`);
-        }
-    }
-
-    return { getUserByUsername, getUserFollows, profileData, userSince }
+    return { getUserByUsername, profileData, userSince }
 }
