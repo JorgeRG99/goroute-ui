@@ -1,4 +1,4 @@
-import { GET_USER_ACTIVITIES_ENDPOINT, GET_ACTIVITIES_FEED_ENDPOINT, ADD_ACTIVITY_ENDPOINT, SUGGESTED_USERS_BY_ACTIVITY } from "../../config"
+import { GET_USER_ACTIVITIES_ENDPOINT, GET_ACTIVITIES_FEED_ENDPOINT, ADD_ACTIVITY_ENDPOINT, SUGGESTED_USERS_BY_ACTIVITY, GET_ACTIVITY_PARTICIPANTS_ENDPOINT, ADD_PARTICIPANT_ENDPOINT, REMOVE_PARTICIPANT_ENDPOINT, GET_ACTIVITY_LIKES_ENDPOINT, LIKE_ACTIVITY_ENDPOINT, UNLIKE_ACTIVITY_ENDPOINT, EDIT_ACTIVITY_ENDPOINT } from "../../config"
 
 export const getUserActivities = async (authToken, username) => {
     try {
@@ -9,7 +9,7 @@ export const getUserActivities = async (authToken, username) => {
         });
         if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
 
-        const response =  await res.json();
+        const response = await res.json();
 
         return response;
     } catch (error) {
@@ -26,7 +26,7 @@ export const getActivitiesFeed = async (authToken) => {
         });
         if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
 
-        const response =  await res.json();
+        const response = await res.json();
 
         return response;
     } catch (error) {
@@ -35,6 +35,7 @@ export const getActivitiesFeed = async (authToken) => {
 }
 
 export const createActivity = async (activityData, authToken) => {
+    console.log(JSON.stringify(activityData),)
     try {
         const res = await fetch(ADD_ACTIVITY_ENDPOINT, {
             method: 'POST',
@@ -46,7 +47,7 @@ export const createActivity = async (activityData, authToken) => {
         });
         if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
 
-        const response =  await res.json();
+        const response = await res.json();
 
         return response;
     } catch (error) {
@@ -63,10 +64,147 @@ export const suggestedUsers = async (authToken) => {
         });
         if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
 
-        const response =  await res.json();
+        const response = await res.json();
 
         return response;
     } catch (error) {
         throw new Error(`Error en el registro de actividad ${error.message}`);
+    }
+}
+
+export const activityLikes = async (authToken, activityId) => {
+    try {
+        const res = await fetch(`${GET_ACTIVITY_LIKES_ENDPOINT}?id=${activityId}`, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res.json();
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error en el registro de actividad ${error.message}`);
+    }
+}
+
+export const likeActivity = async (authToken, activityId) => {
+    try {
+        const res = await fetch(`${LIKE_ACTIVITY_ENDPOINT}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({
+                id: activityId
+            }),
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res;
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error en el registro de actividad ${error.message}`);
+    }
+}
+export const unlikeActivity = async (authToken, activityId) => {
+    try {
+        const res = await fetch(`${UNLIKE_ACTIVITY_ENDPOINT}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({
+                id: activityId
+            }),
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res;
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error en el registro de actividad ${error.message}`);
+    }
+}
+
+export const activityParticipants = async (authToken, activityId) => {
+    try {
+        const res = await fetch(`${GET_ACTIVITY_PARTICIPANTS_ENDPOINT}?id=${activityId}`, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res.json();
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error en el registro de actividad ${error.message}`);
+    }
+}
+
+export const addParticipant = async (authToken, activityId) => {
+    try {
+        const res = await fetch(`${ADD_PARTICIPANT_ENDPOINT}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({
+                id: activityId
+            }),
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res;
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error en el registro de actividad ${error.message}`);
+    }
+}
+
+export const removeParticipant = async (authToken, activityId) => {
+    try {
+        const res = await fetch(`${REMOVE_PARTICIPANT_ENDPOINT}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({
+                id: activityId
+            }),
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res;
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error en el registro de actividad ${error.message}`);
+    }
+}
+
+export const updateActivity = async (authToken, updatedActivityData) => {
+
+    try {
+        const res = await fetch(`${EDIT_ACTIVITY_ENDPOINT}`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+            body: JSON.stringify(updatedActivityData),
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res;
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error actualizando actividad ${error.message}`);
     }
 }

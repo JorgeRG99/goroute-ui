@@ -23,7 +23,7 @@ export function LogoutPopup() {
       onClose={() => togglePopup(Popups.Logout)}
     >
       <ModalContent>
-        {(displayLogoutPopup) => (
+        {(onClose) => (
           <>
             <ModalHeader className=" flex gap-[70px] justify-start">
               <Danger />
@@ -38,16 +38,12 @@ export function LogoutPopup() {
                 variant="flat"
                 onPress={() => {
                   logout();
-                  displayLogoutPopup();
+                  onClose();
                 }}
               >
                 Cerrar Sesión
               </Button>
-              <Button
-                color="primary"
-                variant="flat"
-                onPress={displayLogoutPopup}
-              >
+              <Button color="primary" variant="flat" onPress={onClose}>
                 Continuar
               </Button>
             </ModalFooter>

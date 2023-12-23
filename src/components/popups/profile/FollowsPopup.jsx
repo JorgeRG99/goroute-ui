@@ -6,16 +6,18 @@ import {
   Divider,
 } from "@nextui-org/react";
 import { Popups, usePopups } from "../../../hooks/usePopups";
-import { FollowersCard } from "../../cards/FollowersCard";
+import { FollowActionCard } from "../../cards/FollowActionCard";
 import PropTypes from "prop-types";
-import { CreateActivity } from "../../buttons/CreateActivity";
-export function FollowersPopup({ followersList }) {
+import { useRef } from "react";
+
+export function FollowsPopup({ followsList }) {
   const { popups, togglePopup } = usePopups();
+  const followedListRef = useRef([...followsList]);
 
   return (
     <Modal
-      isOpen={popups[Popups.Followers]}
-      onClose={() => togglePopup(Popups.Followers)}
+      isOpen={popups[Popups.Follows]}
+      onClose={() => togglePopup(Popups.Follows)}
       placement="top-center"
     >
       <ModalContent>
@@ -26,15 +28,15 @@ export function FollowersPopup({ followersList }) {
             </ModalHeader>
             <Divider />
             <ModalBody>
-              {followersList.length !== 0 ? (
-                followersList?.map((user) => {
+              {followedListRef.current.length !== 0 ? (
+                followedListRef.current?.map((user) => {
                   return (
-                    <FollowersCard
+                    <FollowActionCard
                       key={user.id}
+                      id={user.id}
                       name={user.name}
                       surname={user.surname}
                       username={user.username}
-                      id={user.id}
                       avatar={user.avatar}
                       onClose={onClose}
                     />
@@ -42,8 +44,7 @@ export function FollowersPopup({ followersList }) {
                 })
               ) : (
                 <span className="flex flex-col items-center gap-[1em] py-[1em]">
-                  <p>Aun no tienes seguidores, crea una actividad!</p>
-                  <CreateActivity />
+                  <p>Aun no sigues a ningún usuario!</p>
                 </span>
               )}
             </ModalBody>
@@ -53,6 +54,6 @@ export function FollowersPopup({ followersList }) {
     </Modal>
   );
 }
-FollowersPopup.propTypes = {
-  followersList: PropTypes.array,
+FollowsPopup.propTypes = {
+  followsList: PropTypes.array,
 };

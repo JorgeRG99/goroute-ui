@@ -4,29 +4,29 @@ import { UserPublications } from "../components/profile/UserPublications";
 import { UserProfile } from "../components/profile/UserProfile";
 import { useParams } from "react-router-dom";
 import { useActivity } from "../hooks/useActivity";
-import { useEffect, useState } from "react";
+import { RegisterActivityPopup } from "../components/popups/activity/RegisterActivityPopup";
+import { useSports } from "../hooks/useSports";
 
 export function Profile() {
   const { popups } = usePopups();
   const { username } = useParams();
-  const { getActivitiesByUser } = useActivity();
-  const [userActivities, setUserActivities] = useState();
-
-  useEffect(() => {
-    const getUserActivties = async () => {
-      const activities = await getActivitiesByUser(username);
-
-      setUserActivities(activities);
-    };
-
-    getUserActivties();
-  }, [username]);
+  const { userActivities, editActivity } = useActivity(username);
+  const { sports } = useSports();
 
   return (
     <main className="flex my-[4rem] justify-evenly w-[80%]">
-      {popups[Popups.Edit] && <EditProfilePopup />}
+      {popups[Popups.EditUser] && <EditProfilePopup />}
+      {popups[Popups.AddActivity] && (
+        <RegisterActivityPopup
+          sports={sports}
+          userActivities={userActivities}
+        />
+      )}
       <UserProfile userActivities={userActivities} />
-      <UserPublications userActivities={userActivities} />
+      <UserPublications
+        userActivities={userActivities}
+        editActivity={editActivity}
+      />
     </main>
   );
 }

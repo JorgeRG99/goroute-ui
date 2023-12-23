@@ -5,10 +5,14 @@ const MONTH_NAMES = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
 export const ACTIVITY_HOURS = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22"]
 export const ACTIVITY_MINUTES = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"]
 
-export const getUserCreationDate = (year, month) => {
-  const dateObject = new Date(`01/${month}/${year}`)
+export const getUserCreationDate = (date) => {
+  const parts = date.split('-');
+  const dateObject = new Date(parts[0], parts[1] - 1, parts[2])
+  
+  const month = MONTH_NAMES[dateObject.getMonth()];
+  const year = dateObject.getFullYear();
 
-  return `Usuario desde ${MONTH_NAMES[dateObject.getMonth()]} de ${year}`
+  return `Usuario desde ${month} de ${year}`
 }
 
 export const formatActivityDate = (date) => {
@@ -19,7 +23,17 @@ export const formatActivityDate = (date) => {
   const month = MONTH_NAMES[newDate.getMonth()];
   const year = newDate.getFullYear();
 
-  return `${day} de ${month} de ${year}`;
+  return `${day} ${month} ${year}`;
+}
+
+export const formatActivityDuration = (seconds) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60); 
+  
+  if(minutes === 0) return `${hours} horas`
+  if(hours === 0) return `${minutes} minutos`
+
+  return `${hours}h ${minutes}m`;
 }
 
 export const userInitials = (name, surname) => {

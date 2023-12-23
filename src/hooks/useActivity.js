@@ -1,9 +1,20 @@
-import { useContext } from "react";
-import { getUserActivities, createActivity } from "../services/activity"
+import { useContext, useEffect, useState } from "react";
+import { getUserActivities, createActivity, updateActivity } from "../services/activity"
 import { UserContext } from "../context/user";
 
-export function useActivity() {
+export function useActivity(username) {
     const { userData } = useContext(UserContext);
+    const [userActivities, setUserActivities] = useState([]);
+
+    useEffect(() => {
+        const getUserActivties = async () => {
+            const activities = await getActivitiesByUser(username);
+
+            setUserActivities(activities);
+        };
+
+        getUserActivties();
+    }, [username, userActivities.length]);
 
     const getActivitiesByUser = async (username) => {
         try {
@@ -16,11 +27,33 @@ export function useActivity() {
 
     const addActivity = async (activityData) => {
         try {
-            return await createActivity(activityData, userData.authToken)
+            const response = await createActivity(activityData, userData.authToken)
+
+            console.log(userActivities.length)
+            userActivities.push(activityData)
+            console.log(userActivities.length)
+
+            return response
         } catch (error) {
-            throw new Error(`Error en el registro de usuario ${error.message}`);
+            throw new Error(`Error añadiendo actividad ${error.message}`);
         }
     }
 
-    return { addActivity, getActivitiesByUser }
+    const editActivity = async (updatedActivityData) => {
+        try {
+            const response = await updateActivity(userData.authToken, updatedActivityData)
+
+            const udpatedUserActivities = userActivities.map(activity =>
+                activity.id === updatedActivityData.id ? { ...activity, ...updatedActivityData } : activity
+              );
+
+            setUserActivities(udpatedUserActivities)
+
+            return response
+        } catch (error) {
+            throw new Error(`Error añadiendo actividad ${error.message}`);
+        }
+    }
+
+    return { addActivity, getActivitiesByUser, editActivity, userActivities }
 }

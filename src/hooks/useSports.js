@@ -22,6 +22,5 @@ export function useSports () {
 
     }, [userData.authToken]);
 
-
     return { sports }
 }

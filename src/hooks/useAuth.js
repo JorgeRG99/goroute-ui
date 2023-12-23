@@ -40,8 +40,8 @@ export const useAuth = () => {
             const data = Object.fromEntries(Object.entries(newData).filter(value => value[1] !== undefined))
             const res = await userEdit(data, userData.authToken)
 
-            setUserData(prevState => ({
-                ...prevState,
+            setUserData(prev => ({
+                ...prev,
                 ...data,
             }))
 
@@ -100,5 +100,5 @@ export const useAuth = () => {
     }
 
 
-    return { register, login, logout, editUser, userData, isLoading }
+    return { register, login, logout, editUser, setUserData, userData, isLoading }
 }

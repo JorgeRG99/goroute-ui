@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Button, User } from "@nextui-org/react";
+import { User } from "@nextui-org/react";
 import { Popups, usePopups } from "../../hooks/usePopups";
 import { userInitials } from "../../services/helpers";
 import PropTypes from "prop-types";
@@ -13,11 +13,12 @@ import { UserFollowsData } from "./userData/UserFollowsData";
 import { UserActivitiesData } from "./userData/UserActivitiesData";
 import { UserPostsData } from "./userData/UserPostsData";
 import { FollowersPopup } from "../popups/profile/FollowersPopup";
+import { FollowsPopup } from "../popups/profile/FollowsPopup";
+import { EditProfile } from "../buttons/EditProfile";
 
 export function UserProfile({ userActivities }) {
   const { username } = useParams();
   const { userData } = useContext(UserContext);
-  const { togglePopup } = usePopups();
   const { userSince, profileData } = useUser();
   const isCurrentUserProfile = userData.username === username;
   const { popups } = usePopups();
@@ -28,6 +29,9 @@ export function UserProfile({ userActivities }) {
         <>
           {popups[Popups.Followers] && (
             <FollowersPopup followersList={profileData.followers} />
+          )}
+          {popups[Popups.Follows] && (
+            <FollowsPopup followsList={profileData.follows} />
           )}
           <header className="flex items-center gap-[30px]">
             <User
@@ -52,7 +56,7 @@ export function UserProfile({ userActivities }) {
               <ToggleFollowButton id={profileData.id} />
             )}
           </header>
-          <main className="flex flex-col gap-[.5em] py-[2em]">
+          <main className="flex flex-col gap-[1em] py-[2em]">
             <article className="flex gap-[5px] items-end text-[.9em]">
               <UserActivitiesData userActivities={userActivities} />
               <UserPostsData />
@@ -60,7 +64,10 @@ export function UserProfile({ userActivities }) {
                 isCurrentUserProfile={isCurrentUserProfile}
                 followers={profileData.followers}
               />
-              <UserFollowsData follows={profileData.follows} />
+              <UserFollowsData
+                isCurrentUserProfile={isCurrentUserProfile}
+                follows={profileData.follows}
+              />
             </article>
             <article className="ml-[.6em] flex flex-col gap-[8px]">
               <p className="text-[.85em] text-[#8c8c8c]">{userSince}</p>
@@ -69,14 +76,7 @@ export function UserProfile({ userActivities }) {
           </main>
           {isCurrentUserProfile && (
             <footer className="flex items-center">
-              <Button
-                size="sm"
-                onPress={() => togglePopup(Popups.Edit)}
-                color="secondary"
-                variant="flat"
-              >
-                Editar Perfil
-              </Button>
+              <EditProfile />
             </footer>
           )}
         </>

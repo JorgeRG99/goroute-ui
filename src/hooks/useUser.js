@@ -18,14 +18,13 @@ export const useUser = () => {
                 ...user
             });
 
-            const year = user.created_at.slice(0, 4);
-            const month = user.created_at.slice(5, 7);
+            const date = user.created_at.slice(0, 10);
 
-            setUserSince(getUserCreationDate(year, month));
+            setUserSince(getUserCreationDate(date));
         };
 
         getProfileData();
-    }, [username, userData.follows.length, userData.followers]);
+    }, [username, userData.follows.length, userData.followers, userData.biography]);
 
     const getUserByUsername = async (username) => {
         try {

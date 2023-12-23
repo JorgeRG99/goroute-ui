@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { suggestedUsers } from "../../services/activity";
 import { UserContext } from "../../context/user";
-import { SuggestedUser } from "./SuggestedUser";
+import { FollowActionCard } from "../cards/FollowActionCard";
 
 export function SuggestedUsersList() {
   const { userData } = useContext(UserContext);
@@ -30,7 +30,7 @@ export function SuggestedUsersList() {
           <ul className="flex flex-col gap-[.5em] w-full items-start">
             {usersList.map((user) => {
               return (
-                <SuggestedUser
+                <FollowActionCard
                   key={user.id}
                   name={user.name}
                   surname={user.surname}

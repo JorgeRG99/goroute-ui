@@ -5,9 +5,12 @@ export const Popups = {
     Login: 'login',
     Register: 'register',
     Logout: 'logout',
-    Edit: 'edit user',
+    EditUser: 'edit user',
     AddActivity: 'add activity',
-    Followers: 'followers'
+    Followers: 'followers',
+    Follows: 'follows',
+    CreateContent: 'create content',
+    EditActivity: 'edit activity',
 }
 
 export function usePopups() {

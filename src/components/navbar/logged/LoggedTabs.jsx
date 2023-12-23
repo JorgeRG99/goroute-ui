@@ -10,7 +10,7 @@ import { Avatar, Tab, Tabs } from "@nextui-org/react";
 import { useContext, useState } from "react";
 import { UserContext } from "../../../context/user";
 import { userInitials } from "../../../services/helpers";
-import { usePopups } from "../../../hooks/usePopups";
+import { Popups, usePopups } from "../../../hooks/usePopups";
 
 export function LoggedTabs() {
   const [selected, setSelected] = useState("/");
@@ -62,10 +62,11 @@ export function LoggedTabs() {
       />
       <Tab
         key="create"
-        id="create"
-        onSelect={() => togglePopup()}
         title={
-          <div className="flex items-center space-x-2">
+          <div
+            onClick={() => togglePopup(Popups.CreateContent)}
+            className="flex items-center space-x-2"
+          >
             <Create
               color={selected === "create" ? PRIMARY_COLOR : DEFAULT_COLOR}
             />

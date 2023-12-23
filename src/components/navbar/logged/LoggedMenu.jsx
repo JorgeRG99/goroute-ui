@@ -14,7 +14,7 @@ export function LoggedMenu() {
     <>
       <Dropdown>
         <DropdownTrigger>
-          <button className="focus:outline-none">
+          <button aria-label="Session options" className="focus:outline-none">
             <Settings />
           </button>
         </DropdownTrigger>

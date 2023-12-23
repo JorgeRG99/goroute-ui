@@ -31,13 +31,13 @@ export function EditProfilePopup() {
       biography: biographyRef.current,
     });
 
-    togglePopup(Popups.Edit);
+    togglePopup(Popups.EditUser);
   };
 
   return (
     <Modal
-      isOpen={popups[Popups.Edit]}
-      onClose={() => togglePopup(Popups.Edit)}
+      isOpen={popups[Popups.EditUser]}
+      onClose={() => togglePopup(Popups.EditUser)}
       placement="top-center"
     >
       <ModalContent>

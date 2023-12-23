@@ -19,8 +19,8 @@ import { Popups, usePopups } from "../../../hooks/usePopups";
 export function LoginPopup() {
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const { login } = useAuth();
   const { popups, togglePopup } = usePopups();
+  const { login } = useAuth();
   const emailRef = useRef();
   const passwordRef = useRef();
 

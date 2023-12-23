@@ -18,6 +18,8 @@ export const RegisterPopup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const { popups, togglePopup } = usePopups();
+  const { register } = useAuth();
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   const nameRef = useRef();
   const surnameRef = useRef();
@@ -26,10 +28,6 @@ export const RegisterPopup = () => {
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
   const birthRef = useRef();
-
-  const toggleVisibility = () => setIsVisible(!isVisible);
-
-  const { register } = useAuth();
 
   const handleSubmit = async () => {
     setIsLoading(true);
