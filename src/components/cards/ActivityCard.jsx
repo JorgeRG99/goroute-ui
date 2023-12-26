@@ -8,22 +8,13 @@ import {
   Image,
   useDisclosure,
 } from "@nextui-org/react";
-import { formatActivityDate } from "../../services/helpers";
+import { formatActivityDate, getActivitySport } from "../../services/helpers";
 import { JoinActivityPopup } from "../popups/activity/JoinActivityPopup";
 import { createPortal } from "react-dom";
 import { EditActivityPopup } from "../popups/activity/EditActivityPopup";
 import { EditActivity } from "../buttons/EditActivity";
 import PropTypes from "prop-types";
 import { ActivityMembers } from "./ActivityMembers";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../context/user";
-import { activityParticipants } from "../../services/activity";
-
-const getActivitySport = (sportId, sports) => {
-  const sport = sports.find((sport) => sport.id === sportId);
-
-  return sport.name;
-};
 
 export function ActivityCard({
   activityData,
@@ -46,24 +37,6 @@ export function ActivityCard({
   const sport = getActivitySport(activityData.sport_id, sports);
   const date = formatActivityDate(activityData.day);
 
-  const { userData } = useContext(UserContext);
-  const [participants, setParticipants] = useState([]);
-
-  useEffect(() => {
-    const getParticipants = async () => {
-      const participants = await activityParticipants(
-        userData.authToken,
-        activityData.id
-      );
-
-      setParticipants(participants);
-    };
-
-    getParticipants();
-  }, [participants.length]);
-
-  console.log(participants);
-
   return (
     <>
       {isOpenJoinActivityPopup &&
@@ -74,8 +47,8 @@ export function ActivityCard({
             onOpenChange={onOpenChangeJoinActivityPopup}
             sport={sport}
             date={date}
-            participants={participants}
-            setParticipants={setParticipants}
+            participants={activityData.participants}
+            setParticipants={activityData.setParticipants}
           />,
           document.body
         )}
@@ -100,10 +73,10 @@ export function ActivityCard({
           <Chip variant="solid" color="secondary">
             {sport}
           </Chip>
-          {participants.length !== 0 ? (
+          {activityData.participants.length !== 0 ? (
             <ActivityMembers
-              participants={participants}
-              setParticipants={setParticipants}
+              participants={activityData.participants}
+              setParticipants={activityData.setParticipants}
             />
           ) : (
             <Avatar name="0" isBordered />
@@ -143,6 +116,6 @@ export function ActivityCard({
 ActivityCard.propTypes = {
   activityData: PropTypes.object.isRequired,
   sports: PropTypes.array.isRequired,
-  isCurrentUserProfile: PropTypes.bool.isRequired,
-  editActivity: PropTypes.func.isRequired,
+  isCurrentUserProfile: PropTypes.bool,
+  editActivity: PropTypes.func,
 };

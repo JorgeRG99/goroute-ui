@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { userByUsername } from "../services/user"
+import { joinedActivities, userByUsername } from "../services/user"
 import { UserContext } from "../context/user"
 import { useParams } from "react-router-dom";
 import { getUserCreationDate } from "../services/helpers";
@@ -13,9 +13,11 @@ export const useUser = () => {
     useEffect(() => {
         const getProfileData = async () => {
             const user = await getUserByUsername(username);
+            const joinedActivities = await getUserJoinedActivities(user.id)
 
             setProfileData({
-                ...user
+                ...user,
+                joinedActivities: joinedActivities
             });
 
             const date = user.created_at.slice(0, 10);
@@ -35,5 +37,14 @@ export const useUser = () => {
         }
     }
 
-    return { getUserByUsername, profileData, userSince }
+    const getUserJoinedActivities = async (user_id) => {
+        try {
+            const response = await joinedActivities(user_id ,userData.authToken)
+            return response;
+        } catch (error) {
+            throw new Error(`Error obteniendo datos del ususario ${error.message}`);
+        }
+    }
+
+    return { getUserByUsername, getUserJoinedActivities, setProfileData, profileData, userSince }
 }

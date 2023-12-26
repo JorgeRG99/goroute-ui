@@ -19,15 +19,16 @@ export function FollowsPopup({ followsList }) {
       isOpen={popups[Popups.Follows]}
       onClose={() => togglePopup(Popups.Follows)}
       placement="top-center"
+      scrollBehavior="inside"
     >
       <ModalContent>
         {(onClose) => (
           <>
             <ModalHeader className="flex text-center flex-col">
-              Seguidores
+              Seguidos
             </ModalHeader>
             <Divider />
-            <ModalBody>
+            <ModalBody className="py-[1em]">
               {followedListRef.current.length !== 0 ? (
                 followedListRef.current?.map((user) => {
                   return (

@@ -10,7 +10,8 @@ import {
     USER_UNFOLLOW_ENDPOINT,
     USER_REMOVE_FOLLOWER_ENDPOINT, 
     USER_FOLLOWS_ENDPOINT,
-    USER_FOLLOWERS_ENDPOINT} from '../../config'
+    USER_FOLLOWERS_ENDPOINT,
+    USER_JOINED_ACTIVITIES_ENDPOINT} from '../../config'
 
 
 export const user = async (authToken) => {
@@ -242,6 +243,23 @@ export const removeFollower = async (userToRemove, authToken) => {
         })
 
         if (!res.ok) throw new Error(`Error en la solicitud ${res.json}`);
+
+    } catch (error) {
+        throw new Error(`Error editando los datos del usuario ${error.message}`);
+    }
+}
+
+export const joinedActivities = async (user_id ,authToken) => {
+    try {
+        const res = await fetch(`${USER_JOINED_ACTIVITIES_ENDPOINT}?id=${user_id}`, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+        })
+
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.json}`);
+
+        return res.json()
 
     } catch (error) {
         throw new Error(`Error editando los datos del usuario ${error.message}`);

@@ -7,13 +7,11 @@ import { PopupProvider } from "./context/popups";
 import { StrictMode } from "react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <PopupProvider>
-      <UserProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </UserProvider>
-    </PopupProvider>
-  </StrictMode>
+  <PopupProvider>
+    <UserProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </UserProvider>
+  </PopupProvider>
 );

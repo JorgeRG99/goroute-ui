@@ -17,6 +17,7 @@ export function FollowersPopup({ followersList }) {
       isOpen={popups[Popups.Followers]}
       onClose={() => togglePopup(Popups.Followers)}
       placement="top-center"
+      scrollBehavior="inside"
     >
       <ModalContent>
         {(onClose) => (
@@ -25,21 +26,17 @@ export function FollowersPopup({ followersList }) {
               Seguidores
             </ModalHeader>
             <Divider />
-            <ModalBody>
+            <ModalBody className="py-[1em]">
               {followersList.length !== 0 ? (
-                followersList?.map((user) => {
-                  return (
-                    <FollowersCard
-                      key={user.id}
-                      name={user.name}
-                      surname={user.surname}
-                      username={user.username}
-                      id={user.id}
-                      avatar={user.avatar}
-                      onClose={onClose}
-                    />
-                  );
-                })
+                <ul>
+                  {followersList?.map((user) => {
+                    return (
+                      <li key={user.id}>
+                        <FollowersCard user={user} onClose={onClose} />
+                      </li>
+                    );
+                  })}
+                </ul>
               ) : (
                 <span className="flex flex-col items-center gap-[1em] py-[1em]">
                   <p>Aun no tienes seguidores, crea una actividad!</p>

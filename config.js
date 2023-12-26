@@ -22,6 +22,7 @@ export const USER_FOLLOWERS_ENDPOINT = `${API_ORIGIN}/userFollowers`
 export const USER_FOLLOW_ENDPOINT = `${API_ORIGIN}/userFollow`
 export const USER_UNFOLLOW_ENDPOINT = `${API_ORIGIN}/userUnfollow`
 export const USER_REMOVE_FOLLOWER_ENDPOINT = `${API_ORIGIN}/followerRemove`
+export const USER_JOINED_ACTIVITIES_ENDPOINT = `${API_ORIGIN}/userJoinedActivities`
 
 // ACTIVITY ENDPOINTS
 export const GET_USER_ACTIVITIES_ENDPOINT = `${API_ORIGIN}/activitiesByUser`

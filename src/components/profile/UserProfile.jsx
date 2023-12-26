@@ -15,6 +15,7 @@ import { UserPostsData } from "./userData/UserPostsData";
 import { FollowersPopup } from "../popups/profile/FollowersPopup";
 import { FollowsPopup } from "../popups/profile/FollowsPopup";
 import { EditProfile } from "../buttons/EditProfile";
+import { UserActivitiesHistory } from "./userData/UserActivitiesHistory";
 
 export function UserProfile({ userActivities }) {
   const { username } = useParams();
@@ -56,7 +57,7 @@ export function UserProfile({ userActivities }) {
               <ToggleFollowButton id={profileData.id} />
             )}
           </header>
-          <main className="flex flex-col gap-[1em] py-[2em]">
+          <main className="flex flex-col gap-[1em] py-[2em] w-full items-start">
             <article className="flex gap-[5px] items-end text-[.9em]">
               <UserActivitiesData userActivities={userActivities} />
               <UserPostsData />
@@ -69,10 +70,13 @@ export function UserProfile({ userActivities }) {
                 follows={profileData.follows}
               />
             </article>
-            <article className="ml-[.6em] flex flex-col gap-[8px]">
+            <article className="flex flex-col gap-[8px] w-[70%]">
               <p className="text-[.85em] text-[#8c8c8c]">{userSince}</p>
-              <p className="text-[.95em]">{profileData.biography}</p>
+              <p className="text-[.95em] w-full">{profileData.biography}</p>
             </article>
+            <UserActivitiesHistory
+              activitiesHistory={profileData.joinedActivities}
+            />
           </main>
           {isCurrentUserProfile && (
             <footer className="flex items-center">

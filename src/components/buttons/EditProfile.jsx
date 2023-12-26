@@ -7,7 +7,7 @@ export function EditProfile() {
   return (
     <Button
       size="sm"
-      onPress={() => togglePopup(Popups.Edit)}
+      onPress={() => togglePopup(Popups.EditUser)}
       color="secondary"
       variant="flat"
     >

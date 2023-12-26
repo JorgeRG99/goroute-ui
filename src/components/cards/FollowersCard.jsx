@@ -4,14 +4,9 @@ import { userInitials } from "../../services/helpers";
 import PropTypes from "prop-types";
 import { RemoveFollower } from "../buttons/RemoveFollower";
 
-export function FollowersCard({
-  id,
-  name,
-  surname,
-  username,
-  avatar,
-  onClose,
-}) {
+export function FollowersCard({ user, onClose }) {
+  const { id, name, surname, username, avatar } = user;
+
   return (
     <span className="w-full flex justify-between items-center">
       <Link onClick={onClose} to={`/${username}`}>
@@ -31,10 +26,6 @@ export function FollowersCard({
 }
 
 FollowersCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  surname: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  avatar: PropTypes.string,
+  user: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
 };

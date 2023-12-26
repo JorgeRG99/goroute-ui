@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import { ToggleJoin } from "../../buttons/ToggleJoin";
 import { JoinActivityPopupHeader } from "./joinActivityPopup/JoinActivityPopupHeader";
 import { JoinActivityPopupBody } from "./joinActivityPopup/JoinActivityPopupBody";
+import { useState } from "react";
 
 export function JoinActivityPopup({
   activityData,
@@ -16,11 +17,8 @@ export function JoinActivityPopup({
   onOpenChange,
   sport,
   date,
-  participants,
-  setParticipants,
 }) {
   const {
-    id,
     name,
     description,
     hour,
@@ -28,7 +26,11 @@ export function JoinActivityPopup({
     max_participants,
     location,
     user_id,
+    participants,
   } = activityData;
+
+  const [activityParticipants, setActivityParticipants] =
+    useState(participants);
 
   return (
     <Modal
@@ -61,19 +63,15 @@ export function JoinActivityPopup({
                 hour={hour}
                 max_participants={max_participants}
                 user_id={user_id}
-                participants={participants}
+                participants={activityParticipants}
                 date={date}
               />
-              {/* <span className="flex justify-between text-[.9em]">
-                <p>Reservas</p>
-                <p className="font-extralight">de {max_reserves} reservas</p>
-              </span> */}
             </ModalBody>
             <ModalFooter className="flex justify-evenly">
               <ToggleJoin
-                activityId={id}
-                participants={participants}
-                setParticipants={setParticipants}
+                activityId={activityData.id}
+                participants={activityParticipants}
+                setParticipants={setActivityParticipants}
               />
             </ModalFooter>
           </>
@@ -90,5 +88,4 @@ JoinActivityPopup.propTypes = {
   sport: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   participants: PropTypes.array.isRequired,
-  setParticipants: PropTypes.func.isRequired,
 };
