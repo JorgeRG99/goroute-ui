@@ -8,28 +8,34 @@ import {
 import { Textarea } from "@nextui-org/react";
 import { useRef, useState } from "react";
 import { Popups, usePopups } from "../../../hooks/usePopups";
-import { useAuth } from "../../../hooks/useAuth";
 import { Button, Input } from "@nextui-org/react";
+import { useUserSessionStore } from "../../../store/userSession";
+import { userEdit } from "../../../services/user";
 
-export function EditProfilePopup() {
+export default function EditProfilePopup() {
   const [isLoading, setIsLoading] = useState(false);
+  const userData = useUserSessionStore((state) => state.userData);
+  const authToken = useUserSessionStore((state) => state.authToken);
+  const updateUserData = useUserSessionStore((state) => state.updateUserData);
   const { popups, togglePopup } = usePopups();
   const nameRef = useRef();
   const surnameRef = useRef();
   const usernameRef = useRef();
   const biographyRef = useRef();
 
-  const { userData, editUser } = useAuth();
-
   const handleSubmit = async () => {
     setIsLoading(true);
 
-    await editUser({
+    const updatedUserData = {
       username: usernameRef.current,
       name: nameRef.current,
       surname: surnameRef.current,
       biography: biographyRef.current,
-    });
+    };
+
+    await userEdit(updatedUserData, authToken);
+
+    updateUserData(updatedUserData);
 
     togglePopup(Popups.EditUser);
   };

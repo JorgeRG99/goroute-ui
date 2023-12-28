@@ -13,9 +13,7 @@ import {
     USER_FOLLOWERS_ENDPOINT,
     USER_JOINED_ACTIVITIES_ENDPOINT} from '../../config'
 
-
 export const user = async (authToken) => {
-
     try {
         const res = await fetch(USER_ENDPOINT, {
             headers: {

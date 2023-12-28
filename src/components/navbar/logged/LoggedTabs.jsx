@@ -7,15 +7,15 @@ import { Notifications } from "../../icons/Notifications";
 import { DEFAULT_COLOR, PRIMARY_COLOR } from "../../../../config";
 import { Link, useLocation } from "react-router-dom";
 import { Avatar, Tab, Tabs } from "@nextui-org/react";
-import { useContext, useState } from "react";
-import { UserContext } from "../../../context/user";
 import { userInitials } from "../../../services/helpers";
 import { Popups, usePopups } from "../../../hooks/usePopups";
+import { useState } from "react";
+import { useUserSessionStore } from "../../../store/userSession";
 
 export function LoggedTabs() {
   const [selected, setSelected] = useState("/");
   const { pathname } = useLocation();
-  const { userData } = useContext(UserContext);
+  const userData = useUserSessionStore((state) => state.userData);
   const { togglePopup } = usePopups();
 
   return (
@@ -100,12 +100,9 @@ export function LoggedTabs() {
       />
       <Tab
         id="/profile"
-        key={`/${userData.username}`}
+        key={`/profile`}
         title={
-          <Link
-            to={`/${userData.username}`}
-            className="flex items-center space-x-2"
-          >
+          <Link to={`/profile`} className="flex items-center space-x-2">
             <Avatar
               src={userData.avatar || undefined}
               size="sm"

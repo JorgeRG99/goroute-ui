@@ -1,16 +1,28 @@
+import { Suspense, lazy } from "react";
 import { Popups, usePopups } from "../../hooks/usePopups";
-import { useSports } from "../../hooks/useSports";
-import LogoutPopup from "./authentication/LogoutPopup";
-import { CreateContentPopup } from "./createContent/CreateContentPopup";
+import { useSportsStore } from "../../store/sports";
 
-export function GlobalPopups() {
+const LogoutPopup = lazy(() => import("./authentication/LogoutPopup"));
+const CreateContentPopup = lazy(() =>
+  import("./createContent/CreateContentPopup")
+);
+
+export default function GlobalPopups() {
+  const sports = useSportsStore((state) => state.sports);
   const { popups } = usePopups();
-  const { sports } = useSports();
 
   return (
     <>
-      {popups[Popups.Logout] && <LogoutPopup />}
-      {popups[Popups.CreateContent] && <CreateContentPopup sports={sports} />}
+      {popups[Popups.Logout] && (
+        <Suspense fallback={<h1>...</h1>}>
+          <LogoutPopup />
+        </Suspense>
+      )}
+      {popups[Popups.CreateContent] && (
+        <Suspense fallback={<h1>...</h1>}>
+          <CreateContentPopup sports={sports} />
+        </Suspense>
+      )}
     </>
   );
 }

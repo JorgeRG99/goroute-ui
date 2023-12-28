@@ -1,19 +1,19 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getActivitiesFeed } from "../../services/activity";
 import { FeedActivityCardSkeleton } from "../skeletons/FeedActivityCardSkeleton";
-import { UserContext } from "../../context/user";
 import { ActivityCard } from "../cards/ActivityCard";
-import { useSports } from "../../hooks/useSports";
+import { useUserSessionStore } from "../../store/userSession";
+import { useSportsStore } from "../../store/sports";
 
 export function Activities() {
   const [activitiesFeed, setActtivitiesFeed] = useState(null);
-  const { userData } = useContext(UserContext);
-  const { sports } = useSports();
+  const authToken = useUserSessionStore((state) => state.authToken);
+  const sports = useSportsStore((state) => state.sports);
 
   useEffect(() => {
     const getUserActivitiesFeed = async () => {
       try {
-        const activities = await getActivitiesFeed(userData.authToken);
+        const activities = await getActivitiesFeed(authToken);
         setActtivitiesFeed(activities);
       } catch (error) {
         console.error("Error fetching activities feed:", error);

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { userInitials } from "../../services/helpers";
 import PropTypes from "prop-types";
 
-export function UserSmallCard({ user }) {
+export default function UserSmallCard({ user }) {
   const { username, name, surname, avatar } = user;
   return (
     <Link to={`/${username}`}>

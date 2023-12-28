@@ -10,7 +10,7 @@ import { FollowActionCard } from "../../cards/FollowActionCard";
 import PropTypes from "prop-types";
 import { useRef } from "react";
 
-export function FollowsPopup({ followsList }) {
+export default function FollowsPopup({ followsList }) {
   const { popups, togglePopup } = usePopups();
   const followedListRef = useRef([...followsList]);
 

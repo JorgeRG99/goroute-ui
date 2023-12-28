@@ -11,7 +11,7 @@ import { JoinActivityPopupHeader } from "./joinActivityPopup/JoinActivityPopupHe
 import { JoinActivityPopupBody } from "./joinActivityPopup/JoinActivityPopupBody";
 import { useState } from "react";
 
-export function JoinActivityPopup({
+export default function JoinActivityPopup({
   activityData,
   isOpen,
   onOpenChange,
@@ -28,6 +28,8 @@ export function JoinActivityPopup({
     user_id,
     participants,
   } = activityData;
+
+  console.log(activityData);
 
   const [activityParticipants, setActivityParticipants] =
     useState(participants);
@@ -52,7 +54,7 @@ export function JoinActivityPopup({
               <JoinActivityPopupHeader
                 duration={duration}
                 location={location}
-                activityId={activityData.id}
+                activityData={activityData}
               />
             </ModalHeader>
             <ModalBody className="text-left py-[.75rem]">

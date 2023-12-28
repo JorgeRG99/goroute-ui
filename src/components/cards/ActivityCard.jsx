@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Card,
   CardFooter,
@@ -9,12 +8,18 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { formatActivityDate, getActivitySport } from "../../services/helpers";
-import { JoinActivityPopup } from "../popups/activity/JoinActivityPopup";
 import { createPortal } from "react-dom";
-import { EditActivityPopup } from "../popups/activity/EditActivityPopup";
 import { EditActivity } from "../buttons/EditActivity";
 import PropTypes from "prop-types";
 import { ActivityMembers } from "./ActivityMembers";
+import { Suspense, lazy } from "react";
+
+const JoinActivityPopup = lazy(() =>
+  import("../popups/activity/JoinActivityPopup")
+);
+const EditActivityPopup = lazy(() =>
+  import("../popups/activity/EditActivityPopup")
+);
 
 export function ActivityCard({
   activityData,
@@ -39,31 +44,37 @@ export function ActivityCard({
 
   return (
     <>
-      {isOpenJoinActivityPopup &&
-        createPortal(
-          <JoinActivityPopup
-            activityData={activityData}
-            isOpen={isOpenJoinActivityPopup}
-            onOpenChange={onOpenChangeJoinActivityPopup}
-            sport={sport}
-            date={date}
-            participants={activityData.participants}
-            setParticipants={activityData.setParticipants}
-          />,
-          document.body
-        )}
-      {isOpenEditActivityPopup &&
-        createPortal(
-          <EditActivityPopup
-            isOpen={isOpenEditActivityPopup}
-            onOpenChange={onOpenChangeEditActivityPopup}
-            activityData={activityData}
-            editActivity={editActivity}
-            sports={sports}
-            sport={sport}
-          />,
-          document.body
-        )}
+      {isOpenJoinActivityPopup && (
+        <Suspense>
+          {createPortal(
+            <JoinActivityPopup
+              activityData={activityData}
+              isOpen={isOpenJoinActivityPopup}
+              onOpenChange={onOpenChangeJoinActivityPopup}
+              sport={sport}
+              date={date}
+              participants={activityData.participants}
+              setParticipants={activityData.setParticipants}
+            />,
+            document.body
+          )}
+        </Suspense>
+      )}
+      {isOpenEditActivityPopup && (
+        <Suspense>
+          {createPortal(
+            <EditActivityPopup
+              isOpen={isOpenEditActivityPopup}
+              onOpenChange={onOpenChangeEditActivityPopup}
+              activityData={activityData}
+              editActivity={editActivity}
+              sports={sports}
+              sport={sport}
+            />,
+            document.body
+          )}
+        </Suspense>
+      )}
       <Card
         isFooterBlurred
         className="w-full h-[450px] col-span-12 sm:col-span-5"
@@ -79,7 +90,9 @@ export function ActivityCard({
               setParticipants={activityData.setParticipants}
             />
           ) : (
-            <Avatar name="0" isBordered />
+            <Chip className="bg-tertiary-blurred text-white">
+              Sin participantes
+            </Chip>
           )}
         </CardHeader>
         <Image

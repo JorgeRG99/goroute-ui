@@ -1,38 +1,32 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/user";
-import { activityLikes, likeActivity, unlikeActivity } from "../services/activity";
+import { useEffect, useState } from "react";
+import { likeActivity, unlikeActivity } from "../services/activity";
+import { useUserSessionStore } from "../store/userSession";
 
-export function useActivityLikes(activityId) {
-    const [activityLikesList, setActivityLikes] = useState([]);
+export function useActivityLikes(activity) {
+    const [activityLikesList, setActivityLikes] = useState(activity.likes);
     const [isLiked, setIsLiked] = useState(false);
-    const { userData } = useContext(UserContext);
+    const userData = useUserSessionStore((state) => state.userData);
+    const authToken = useUserSessionStore((state) => state.authToken);
   
     useEffect(() => {
-      const getActivityLikes = async () => {
-        const likes = await activityLikes(userData.authToken, activityId);
-  
-        setActivityLikes(likes);
-  
         const likeCheck = activityLikesList.some(
           (user) => user.id === userData.id
         );
   
         setIsLiked(likeCheck);
-      };
-  
-      getActivityLikes();
+
     }, [activityLikesList.length]);
   
     const handleLikeStatus = async () => {
       if (!isLiked) {
-        await likeActivity(userData.authToken, activityId);
+        await likeActivity(authToken, activity.id);
   
         const updatedLikesList = [...activityLikesList];
         updatedLikesList.push(userData);
   
         setActivityLikes(updatedLikesList);
       } else {
-        await unlikeActivity(userData.authToken, activityId);
+        await unlikeActivity(authToken, activity.id);
   
         const updatedLikesList = activityLikesList.filter(
           (user) => user.id !== userData.id

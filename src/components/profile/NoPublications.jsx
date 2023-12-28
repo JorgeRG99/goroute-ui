@@ -1,7 +1,11 @@
 import PropTypes from "prop-types";
 import { CreateActivity } from "../buttons/CreateActivity";
 
-export function NoPublications({ type, isCurrentUserProfile, username }) {
+export default function NoPublications({
+  type,
+  isCurrentUserProfile,
+  username,
+}) {
   return (
     <>
       {isCurrentUserProfile ? (
@@ -22,5 +26,5 @@ export function NoPublications({ type, isCurrentUserProfile, username }) {
 NoPublications.propTypes = {
   type: PropTypes.string.isRequired,
   isCurrentUserProfile: PropTypes.bool.isRequired,
-  username: PropTypes.string.isRequired,
+  username: PropTypes.string,
 };

@@ -1,8 +1,10 @@
 import { User } from "@nextui-org/user";
-import { ToggleFollowButton } from "../buttons/ToggleFollowButton";
 import { userInitials } from "../../services/helpers";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Suspense, lazy } from "react";
+
+const ToggleFollowButton = lazy(() => import("../buttons/ToggleFollowButton"));
 
 export function FollowActionCard({ id, name, surname, username, avatar }) {
   return (
@@ -19,7 +21,9 @@ export function FollowActionCard({ id, name, surname, username, avatar }) {
           }}
         />
       </Link>
-      <ToggleFollowButton id={id} />
+      <Suspense>
+        <ToggleFollowButton id={id} />
+      </Suspense>
     </li>
   );
 }

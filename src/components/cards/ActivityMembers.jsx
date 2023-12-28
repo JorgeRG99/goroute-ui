@@ -7,18 +7,16 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import PropTypes from "prop-types";
-import { userInitials } from "../../services/helpers";
-import { UserSmallCard } from "./UserSmallCard";
+import { Suspense, lazy } from "react";
+
+const UserSmallCard = lazy(() => import("./UserSmallCard"));
 
 export function ActivityMembers({ participants }) {
   return (
     <Dropdown shouldBlockScroll={false} placement="bottom-end">
       <DropdownTrigger className="cursor-pointer">
         <AvatarGroup max={1} total={participants.length} isBordered>
-          <Avatar
-            name={userInitials(participants[0].name, participants[0].surname)}
-            src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-          />
+          <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
         </AvatarGroup>
       </DropdownTrigger>
       <DropdownMenu
@@ -35,7 +33,9 @@ export function ActivityMembers({ participants }) {
               key={user.username}
               className="h-14 gap-2 p-0"
             >
-              <UserSmallCard user={user} />
+              <Suspense fallback={<div>...</div>}>
+                <UserSmallCard user={user} />
+              </Suspense>
             </DropdownItem>
           );
         })}

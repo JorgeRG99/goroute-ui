@@ -13,14 +13,14 @@ import { Link } from "react-router-dom";
 import { Mail } from "../../icons/Mail";
 import { EyeFilledSlash } from "../../icons/EyeFilledSlash";
 import { EyeFilled } from "../../icons/EyeFilled";
-import { useAuth } from "../../../hooks/useAuth";
 import { Popups, usePopups } from "../../../hooks/usePopups";
+import { useUserSessionStore } from "../../../store/userSession";
 
-export function LoginPopup() {
+export default function LoginPopup() {
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const login = useUserSessionStore((state) => state.login);
   const { popups, togglePopup } = usePopups();
-  const { login } = useAuth();
   const emailRef = useRef();
   const passwordRef = useRef();
 

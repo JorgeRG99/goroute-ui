@@ -1,3 +1,3 @@
-export function Loader() {
+export default function Loader() {
   return <div>Loader</div>;
 }

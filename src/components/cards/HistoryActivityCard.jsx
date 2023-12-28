@@ -9,13 +9,16 @@ import Unlike from "../icons/Unlike";
 import { Like } from "../icons/Like";
 import { useActivityLikes } from "../../hooks/useActivityLikes";
 import { createPortal } from "react-dom";
-import { JoinActivityPopup } from "../popups/activity/JoinActivityPopup";
+import { Suspense, lazy } from "react";
+
+const JoinActivityPopup = lazy(() =>
+  import("../popups/activity/JoinActivityPopup")
+);
 
 export function HistoryActivityCard({ activity, sports }) {
   const activitySport = getActivitySport(activity.sport_id, sports);
-  const { activityLikesList, isLiked, handleLikeStatus } = useActivityLikes(
-    activity.id
-  );
+  const { activityLikesList, isLiked, handleLikeStatus } =
+    useActivityLikes(activity);
   const {
     isOpen: isOpenJoinActivityPopup,
     onOpen: onOpenJoinActivityPopup,
@@ -24,17 +27,20 @@ export function HistoryActivityCard({ activity, sports }) {
 
   return (
     <>
-      {isOpenJoinActivityPopup &&
-        createPortal(
-          <JoinActivityPopup
-            activityData={activity}
-            isOpen={isOpenJoinActivityPopup}
-            onOpenChange={onOpenChangeJoinActivityPopup}
-            sport={activitySport}
-            date={formatActivityDate(activity.day)}
-          />,
-          document.body
-        )}
+      {isOpenJoinActivityPopup && (
+        <Suspense fallback={<div>...</div>}>
+          {createPortal(
+            <JoinActivityPopup
+              activityData={activity}
+              isOpen={isOpenJoinActivityPopup}
+              onOpenChange={onOpenChangeJoinActivityPopup}
+              sport={activitySport}
+              date={formatActivityDate(activity.day)}
+            />,
+            document.body
+          )}
+        </Suspense>
+      )}
       <Card
         isBlurred
         className="border-none bg-background/60 dark:bg-default-100/50 h-[6.5em]"

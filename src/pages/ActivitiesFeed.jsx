@@ -1,6 +1,7 @@
 import { Activities } from "../components/activitiesFeed/Activitites";
 import { SuggestedUsersList } from "../components/suggestedUsers/SuggestedUsersList";
-export function ActivitiesFeed() {
+
+export default function ActivitiesFeed() {
   return (
     <>
       <Activities />

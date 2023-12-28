@@ -5,7 +5,7 @@ import { APP_NAME } from "../../../../config";
 import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
 import { LoggedTabs } from "./LoggedTabs";
 
-export function LoggedNavbar() {
+export default function LoggedNavbar() {
   return (
     <Navbar
       className="w-[16rem] py-[2em] h-[100vh]"

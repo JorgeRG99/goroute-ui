@@ -6,10 +6,10 @@ import { Location } from "../../../icons/Location";
 import { formatActivityDuration } from "../../../../services/helpers";
 import { useActivityLikes } from "../../../../hooks/useActivityLikes";
 
-export function JoinActivityPopupHeader({ duration, location, activityId }) {
+export function JoinActivityPopupHeader({ duration, location, activityData }) {
   const formattedDuration = formatActivityDuration(duration);
   const { activityLikesList, isLiked, handleLikeStatus } =
-    useActivityLikes(activityId);
+    useActivityLikes(activityData);
 
   return (
     <>
@@ -41,7 +41,7 @@ export function JoinActivityPopupHeader({ duration, location, activityId }) {
 }
 
 JoinActivityPopupHeader.propTypes = {
-  activityId: PropTypes.string.isRequired,
+  activityData: PropTypes.object.isRequired,
   duration: PropTypes.number.isRequired,
   location: PropTypes.string.isRequired,
 };

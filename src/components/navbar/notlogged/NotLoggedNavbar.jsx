@@ -11,7 +11,7 @@ import { NotLogged } from "./NotLogged";
 import { usePopups } from "../../../hooks/usePopups";
 import { APP_NAME } from "../../../../config";
 
-export const NotLoggedNavbar = () => {
+export default function NotLoggedNavbar() {
   const { togglePopup } = usePopups();
 
   return (
@@ -47,4 +47,4 @@ export const NotLoggedNavbar = () => {
       </NavbarContent>
     </Navbar>
   );
-};
+}

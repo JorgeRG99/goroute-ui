@@ -1,16 +1,30 @@
 import { GetStarted } from "../components/home/GetStarted";
-import { LoginPopup } from "../components/popups/authentication/LoginPopup";
-import { RegisterPopup } from "../components/popups/authentication/RegisterPopup";
 import { Popups, usePopups } from "../hooks/usePopups";
+import { lazy, Suspense } from "react";
 
-export const Home = () => {
+const LoginPopup = lazy(() =>
+  import("../components/popups/authentication/LoginPopup")
+);
+const RegisterPopup = lazy(() =>
+  import("../components/popups/authentication/RegisterPopup")
+);
+
+export default function Home() {
   const { popups } = usePopups();
 
   return (
     <>
       <GetStarted />
-      {popups[Popups.Register] && <RegisterPopup />}
-      {popups[Popups.Login] && <LoginPopup />}
+      {popups[Popups.Register] && (
+        <Suspense fallback={<h1>...</h1>}>
+          <RegisterPopup />
+        </Suspense>
+      )}
+      {popups[Popups.Login] && (
+        <Suspense fallback={<h1>...</h1>}>
+          <LoginPopup />
+        </Suspense>
+      )}
     </>
   );
-};
+}

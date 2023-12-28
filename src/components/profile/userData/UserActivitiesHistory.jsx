@@ -7,12 +7,12 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import PropTypes from "prop-types";
-import { useSports } from "../../../hooks/useSports";
 import { HistoryActivityCard } from "../../cards/HistoryActivityCard";
 import { Link } from "react-router-dom";
+import { useSportsStore } from "../../../store/sports";
 
 export function UserActivitiesHistory({ activitiesHistory }) {
-  const { sports } = useSports();
+  const sports = useSportsStore((state) => state.sports);
 
   return (
     <Table

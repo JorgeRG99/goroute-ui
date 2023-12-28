@@ -1,10 +1,11 @@
 import { Divider } from "@nextui-org/react";
 import { Clock } from "../../../icons/Clock";
-import { useContext, useEffect, useState } from "react";
 import { getUserById } from "../../../../services/user";
-import { UserContext } from "../../../../context/user";
-import { UserSmallCard } from "../../../cards/UserSmallCard";
 import PropTypes from "prop-types";
+import { useUserSessionStore } from "../../../../store/userSession";
+import { Suspense, lazy, useEffect, useState } from "react";
+
+const UserSmallCard = lazy(() => import("../../../cards/UserSmallCard"));
 
 export function JoinActivityPopupBody({
   sport,
@@ -17,11 +18,11 @@ export function JoinActivityPopupBody({
   user_id,
 }) {
   const [profileData, setProfileData] = useState(null);
-  const { userData } = useContext(UserContext);
+  const authToken = useUserSessionStore((state) => state.authToken);
 
   useEffect(() => {
     const getProfileData = async () => {
-      const data = await getUserById(userData.authToken, user_id);
+      const data = await getUserById(authToken, user_id);
 
       setProfileData(data);
     };
@@ -56,7 +57,11 @@ export function JoinActivityPopupBody({
             participantes
           </p>
         </span>
-        {profileData && <UserSmallCard user={profileData} />}
+        {profileData && (
+          <Suspense>
+            <UserSmallCard user={profileData} />
+          </Suspense>
+        )}
       </div>
     </>
   );

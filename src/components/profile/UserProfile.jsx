@@ -1,27 +1,23 @@
-import { useContext } from "react";
 import { User } from "@nextui-org/react";
 import { Popups, usePopups } from "../../hooks/usePopups";
 import { userInitials } from "../../services/helpers";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import { UserProfileSkeleton } from "../skeletons/UserProfileSkeleton";
-import { UserContext } from "../../context/user";
-import { ToggleFollowButton } from "../buttons/ToggleFollowButton";
 import { UserFollowersData } from "./userData/UserFollowersData";
 import { UserFollowsData } from "./userData/UserFollowsData";
 import { UserActivitiesData } from "./userData/UserActivitiesData";
 import { UserPostsData } from "./userData/UserPostsData";
-import { FollowersPopup } from "../popups/profile/FollowersPopup";
-import { FollowsPopup } from "../popups/profile/FollowsPopup";
 import { EditProfile } from "../buttons/EditProfile";
 import { UserActivitiesHistory } from "./userData/UserActivitiesHistory";
+import { Suspense, lazy } from "react";
 
-export function UserProfile({ userActivities }) {
-  const { username } = useParams();
-  const { userData } = useContext(UserContext);
-  const { userSince, profileData } = useUser();
-  const isCurrentUserProfile = userData.username === username;
+const FollowersPopup = lazy(() => import("../popups/profile/FollowersPopup"));
+const FollowsPopup = lazy(() => import("../popups/profile/FollowsPopup"));
+const ToggleFollowButton = lazy(() => import("../buttons/ToggleFollowButton"));
+
+export function UserProfile({ userActivities, pathUsername }) {
+  const { userSince, profileData } = useUser(pathUsername);
   const { popups } = usePopups();
 
   return (
@@ -29,10 +25,14 @@ export function UserProfile({ userActivities }) {
       {profileData ? (
         <>
           {popups[Popups.Followers] && (
-            <FollowersPopup followersList={profileData.followers} />
+            <Suspense>
+              <FollowersPopup followersList={profileData.followers} />
+            </Suspense>
           )}
           {popups[Popups.Follows] && (
-            <FollowsPopup followsList={profileData.follows} />
+            <Suspense>
+              <FollowsPopup followsList={profileData.follows} />
+            </Suspense>
           )}
           <header className="flex items-center gap-[30px]">
             <User
@@ -53,8 +53,10 @@ export function UserProfile({ userActivities }) {
                 },
               }}
             />
-            {!isCurrentUserProfile && (
-              <ToggleFollowButton id={profileData.id} />
+            {pathUsername && (
+              <Suspense>
+                <ToggleFollowButton id={profileData.id} />
+              </Suspense>
             )}
           </header>
           <main className="flex flex-col gap-[1em] py-[2em] w-full items-start">
@@ -62,11 +64,11 @@ export function UserProfile({ userActivities }) {
               <UserActivitiesData userActivities={userActivities} />
               <UserPostsData />
               <UserFollowersData
-                isCurrentUserProfile={isCurrentUserProfile}
+                pathUsername={pathUsername}
                 followers={profileData.followers}
               />
               <UserFollowsData
-                isCurrentUserProfile={isCurrentUserProfile}
+                pathUsername={pathUsername}
                 follows={profileData.follows}
               />
             </article>
@@ -78,7 +80,7 @@ export function UserProfile({ userActivities }) {
               activitiesHistory={profileData.joinedActivities}
             />
           </main>
-          {isCurrentUserProfile && (
+          {!pathUsername && (
             <footer className="flex items-center">
               <EditProfile />
             </footer>
@@ -92,4 +94,5 @@ export function UserProfile({ userActivities }) {
 }
 UserProfile.propTypes = {
   userActivities: PropTypes.array,
+  pathUsername: PropTypes.string,
 };

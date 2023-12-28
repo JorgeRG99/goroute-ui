@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { CreateActivityForm } from "./CreateActivityForm";
 import { Popups, usePopups } from "../../../hooks/usePopups";
 
-export function RegisterActivityPopup({ sports, userActivities }) {
+export default function RegisterActivityPopup({ sports, userActivities }) {
   const { popups, togglePopup } = usePopups();
 
   return (

@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { useAuth } from "../../../hooks/useAuth";
 import { Popups, usePopups } from "../../../hooks/usePopups";
 import {
   Modal,
@@ -13,12 +12,13 @@ import {
 import { Mail } from "../../icons/Mail";
 import { EyeFilled } from "../../icons/EyeFilled";
 import { EyeFilledSlash } from "../../icons/EyeFilledSlash";
+import { useUserSessionStore } from "../../../store/userSession";
 
-export const RegisterPopup = () => {
+export default function RegisterPopup() {
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const { popups, togglePopup } = usePopups();
-  const { register } = useAuth();
+  const register = useUserSessionStore((state) => state.register);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const nameRef = useRef();
@@ -150,4 +150,4 @@ export const RegisterPopup = () => {
       </ModalContent>
     </Modal>
   );
-};
+}

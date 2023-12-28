@@ -9,7 +9,7 @@ import { Popups, usePopups } from "../../../hooks/usePopups";
 import { FollowersCard } from "../../cards/FollowersCard";
 import PropTypes from "prop-types";
 import { CreateActivity } from "../../buttons/CreateActivity";
-export function FollowersPopup({ followersList }) {
+export default function FollowersPopup({ followersList }) {
   const { popups, togglePopup } = usePopups();
 
   return (
@@ -26,12 +26,12 @@ export function FollowersPopup({ followersList }) {
               Seguidores
             </ModalHeader>
             <Divider />
-            <ModalBody className="py-[1em]">
+            <ModalBody className="py-[.5em]">
               {followersList.length !== 0 ? (
                 <ul>
                   {followersList?.map((user) => {
                     return (
-                      <li key={user.id}>
+                      <li key={user.id} className="py-[.5em]">
                         <FollowersCard user={user} onClose={onClose} />
                       </li>
                     );

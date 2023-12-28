@@ -1,27 +1,30 @@
 import { ProfileActivityCardSkeleton } from "../skeletons/ProfileActivityCardSkeleton";
 import PropTypes from "prop-types";
-import { NoPublications } from "./NoPublications";
 import { ActivityCard } from "../cards/ActivityCard";
-import { useSports } from "../../hooks/useSports";
 import { useParams } from "react-router-dom";
-import { useContext } from "react";
-import { UserContext } from "../../context/user";
+import { useUserSessionStore } from "../../store/userSession";
+import { useSportsStore } from "../../store/sports";
+import { Suspense, lazy } from "react";
+
+const NoPublications = lazy(() => import("./NoPublications"));
 
 export function UserActivities({ userActivities, editActivity }) {
-  const { sports } = useSports();
+  const sports = useSportsStore((state) => state.sports);
   const { username } = useParams();
-  const { userData } = useContext(UserContext);
+  const userData = useUserSessionStore((state) => state.userData);
   const isCurrentUserProfile = userData.username === username;
 
   return (
     <main className="w-full flex">
       {userActivities && sports ? (
         userActivities.length === 0 ? (
-          <NoPublications
-            type={"actividades"}
-            isCurrentUserProfile={isCurrentUserProfile}
-            username={username}
-          />
+          <Suspense fallback={<div>...</div>}>
+            <NoPublications
+              type={"actividades"}
+              isCurrentUserProfile={isCurrentUserProfile}
+              username={username}
+            />
+          </Suspense>
         ) : (
           <ul className="grid grid-cols-user-activities gap-[1rem] items-center w-full">
             {userActivities.map((activity) => {

@@ -1,10 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getUserActivities, createActivity, updateActivity } from "../services/activity"
-import { UserContext } from "../context/user";
+import { useUserSessionStore } from "../store/userSession";
 
-export function useActivity(username) {
-    const { userData } = useContext(UserContext);
+export function useActivity(pathUsername) {
+    const authToken = useUserSessionStore(state => state.authToken);
+    const userData = useUserSessionStore(state => state.userData);
     const [userActivities, setUserActivities] = useState([]);
+    const username = pathUsername ? pathUsername : userData.username
 
     useEffect(() => {
         const getUserActivties = async () => {
@@ -18,7 +20,7 @@ export function useActivity(username) {
 
     const getActivitiesByUser = async (username) => {
         try {
-            const activities = await getUserActivities(userData.authToken, username);
+            const activities = await getUserActivities(authToken, username);
             return activities;
         } catch (error) {
             console.error('Error fetching activities:', error);
@@ -27,11 +29,9 @@ export function useActivity(username) {
 
     const addActivity = async (activityData) => {
         try {
-            const response = await createActivity(activityData, userData.authToken)
+            const response = await createActivity(activityData, authToken)
 
-            console.log(userActivities.length)
             userActivities.push(activityData)
-            console.log(userActivities.length)
 
             return response
         } catch (error) {
@@ -41,7 +41,7 @@ export function useActivity(username) {
 
     const editActivity = async (updatedActivityData) => {
         try {
-            const response = await updateActivity(userData.authToken, updatedActivityData)
+            const response = await updateActivity(authToken, updatedActivityData)
 
             const udpatedUserActivities = userActivities.map(activity =>
                 activity.id === updatedActivityData.id ? { ...activity, ...updatedActivityData } : activity

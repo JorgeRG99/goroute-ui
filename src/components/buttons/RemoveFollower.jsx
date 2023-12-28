@@ -1,12 +1,14 @@
 import { Button } from "@nextui-org/react";
 import { removeFollower } from "../../services/user";
 import PropTypes from "prop-types";
-import { useContext, useState } from "react";
-import { UserContext } from "../../context/user";
+import { useState } from "react";
+import { useUserSessionStore } from "../../store/userSession";
 
 export function RemoveFollower({ id }) {
   const [isRemoved, setIsRemoved] = useState(false);
-  const { userData, setUserData } = useContext(UserContext);
+  const userData = useUserSessionStore((state) => state.userData);
+  const authToken = useUserSessionStore((state) => state.authToken);
+  const updateUserData = useUserSessionStore((state) => state.updateUserData);
 
   return (
     <>
@@ -17,14 +19,13 @@ export function RemoveFollower({ id }) {
       ) : (
         <Button
           onPress={() => {
-            removeFollower(id, userData.authToken);
+            removeFollower(id, authToken);
 
             const updatedFollowers = userData.followers.filter(
               (follower) => follower !== id
             );
 
-            setUserData({
-              ...userData,
+            updateUserData({
               followers: updatedFollowers,
             });
 

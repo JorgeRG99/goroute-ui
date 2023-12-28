@@ -1,16 +1,16 @@
-import { useContext, useEffect, useState } from "react";
 import { suggestedUsers } from "../../services/activity";
-import { UserContext } from "../../context/user";
 import { FollowActionCard } from "../cards/FollowActionCard";
+import { useUserSessionStore } from "../../store/userSession";
+import { useEffect, useState } from "react";
 
 export function SuggestedUsersList() {
-  const { userData } = useContext(UserContext);
+  const authToken = useUserSessionStore((state) => state.authToken);
   const [usersList, setUserList] = useState(null);
 
   useEffect(() => {
     const getSuggestedUsersByActivity = async () => {
       try {
-        const users = await suggestedUsers(userData.authToken);
+        const users = await suggestedUsers(authToken);
         setUserList(users);
       } catch (error) {
         console.error("Error fetching suggested users:", error);

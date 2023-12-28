@@ -12,13 +12,13 @@ import {
 } from "@nextui-org/react";
 import PropTypes from "prop-types";
 import { ACTIVITY_HOURS, ACTIVITY_MINUTES } from "../../../services/helpers";
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useActivity } from "../../../hooks/useActivity";
-import { UserContext } from "../../../context/user";
+import { useUserSessionStore } from "../../../store/userSession";
 
 export function CreateActivityForm({ sports, userActivities, onClose }) {
   const [isLoading, setIsLoading] = useState(false);
-  const { userData } = useContext(UserContext);
+  const userData = useUserSessionStore((state) => state.userData);
   const { addActivity } = useActivity(userData.username);
 
   const userInputData = {

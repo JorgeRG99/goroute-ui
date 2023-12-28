@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
 import { ACTIVITY_HOURS, ACTIVITY_MINUTES } from "../../../services/helpers";
 import { useRef, useState } from "react";
 
-export function EditActivityPopup({
+export default function EditActivityPopup({
   activityData,
   sports,
   isOpen,

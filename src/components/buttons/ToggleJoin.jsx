@@ -1,23 +1,23 @@
 import { Button } from "@nextui-org/react";
 import PropTypes from "prop-types";
-import { useContext } from "react";
-import { UserContext } from "../../context/user";
 import { addParticipant, removeParticipant } from "../../services/activity";
+import { useUserSessionStore } from "../../store/userSession";
 
 export function ToggleJoin({ activityId, participants, setParticipants }) {
-  const { userData } = useContext(UserContext);
+  const userData = useUserSessionStore((state) => state.userData);
+  const authToken = useUserSessionStore((state) => state.authToken);
   const isJoined = participants.some((user) => user.id === userData.id);
 
   const handleJoinStatus = async () => {
     if (!isJoined) {
-      await addParticipant(userData.authToken, activityId);
+      await addParticipant(authToken, activityId);
 
       const updatedParticipants = [...participants];
       updatedParticipants.push(userData);
 
       setParticipants(updatedParticipants);
     } else {
-      await removeParticipant(userData.authToken, activityId);
+      await removeParticipant(authToken, activityId);
 
       const updatedParticipants = participants.filter(
         (user) => user.id !== userData.id

@@ -1,57 +1,105 @@
 import "./App.css";
-import { Home } from "./pages/Home";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import { Profile } from "./pages/Profile";
-import { Error404 } from "./pages/Error404";
-import { ActivitiesFeed } from "./pages/ActivitiesFeed";
-import { LoggedNavbar } from "./components/navbar/logged/LoggedNavbar";
-import { useAuth } from "./hooks/useAuth";
-import { NotLoggedNavbar } from "./components/navbar/notlogged/NotLoggedNavbar";
 import { NextUIProvider } from "@nextui-org/react";
-import { Loader } from "./pages/Loader";
-import { getFromStorage } from "./services/storage";
-import { GlobalPopups } from "./components/popups/GlobalPopups";
+import { useUserSessionStore } from "./store/userSession";
+import { Suspense, lazy } from "react";
+
+const Profile = lazy(() => import("./pages/Profile"));
+const Home = lazy(() => import("./pages/Home"));
+const ActivitiesFeed = lazy(() => import("./pages/ActivitiesFeed"));
+const Error404 = lazy(() => import("./pages/Error404"));
+const NotLoggedNavbar = lazy(() =>
+  import("./components/navbar/notlogged/NotLoggedNavbar")
+);
+const LoggedNavbar = lazy(() =>
+  import("./components/navbar/logged/LoggedNavbar")
+);
+const Loader = lazy(() => import("./pages/Loader"));
+const GlobalPopups = lazy(() => import("./components/popups/GlobalPopups"));
 
 function App() {
-  const userAuthToken = getFromStorage("AuthToken");
-  const { isLoading } = useAuth();
+  const isAuthenticated = useUserSessionStore((state) => state.isAuthenticated);
+  const isLoading = useUserSessionStore((state) => state.isLoading);
   const navigate = useNavigate();
 
   return (
     <NextUIProvider navigate={navigate}>
-      <div className={userAuthToken && "flex"}>
-        <GlobalPopups />
-        {userAuthToken ? (
+      <div className={isAuthenticated && "flex"}>
+        {isAuthenticated ? (
           !isLoading ? (
-            <LoggedNavbar />
+            <>
+              <Suspense fallback={<h1>...</h1>}>
+                <GlobalPopups />
+              </Suspense>
+              <Suspense fallback={<h1>...</h1>}>
+                <LoggedNavbar />
+              </Suspense>
+            </>
           ) : undefined
         ) : (
-          <NotLoggedNavbar />
+          <Suspense fallback={<h1>...</h1>}>
+            <NotLoggedNavbar />
+          </Suspense>
         )}
         <Routes>
-          <Route path="*" element={<Error404 />} />
+          <Route
+            path="*"
+            element={
+              <Suspense fallback={<h1>...</h1>}>
+                <Error404 />
+              </Suspense>
+            }
+          />
           <Route
             path="/"
             element={
-              userAuthToken ? (
+              isAuthenticated ? (
                 isLoading ? (
-                  <Loader />
+                  <Suspense fallback={<h1>...</h1>}>
+                    <Loader />
+                  </Suspense>
                 ) : (
-                  <ActivitiesFeed />
+                  <Suspense fallback={<h1>...</h1>}>
+                    <ActivitiesFeed />
+                  </Suspense>
                 )
               ) : (
-                <Home />
+                <Suspense fallback={<h1>...</h1>}>
+                  <Home />
+                </Suspense>
               )
             }
           />
           <Route
             path="/:username"
             element={
-              userAuthToken ? (
-                !isLoading ? (
-                  <Profile />
+              isAuthenticated ? (
+                isLoading ? (
+                  <Suspense fallback={<h1>...</h1>}>
+                    <Loader />
+                  </Suspense>
                 ) : (
-                  <Loader />
+                  <Suspense fallback={<h1>...</h1>}>
+                    <Profile />
+                  </Suspense>
+                )
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              isAuthenticated ? (
+                isLoading ? (
+                  <Suspense fallback={<h1>...</h1>}>
+                    <Loader />
+                  </Suspense>
+                ) : (
+                  <Suspense fallback={<h1>...</h1>}>
+                    <Profile />
+                  </Suspense>
                 )
               ) : (
                 <Navigate to="/" replace />

@@ -1,14 +1,14 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { joinedActivities, userByUsername } from "../services/user"
-import { UserContext } from "../context/user"
-import { useParams } from "react-router-dom";
 import { getUserCreationDate } from "../services/helpers";
+import { useUserSessionStore } from "../store/userSession";
 
-export const useUser = () => {
-    const { userData } = useContext(UserContext);
+export const useUser = (pathUsername) => {
+    const userData = useUserSessionStore((state) => state.userData);
+    const authToken = useUserSessionStore((state) => state.authToken);
     const [userSince, setUserSince] = useState("");
     const [profileData, setProfileData] = useState(null);
-    const { username } = useParams();
+    const username = pathUsername ? pathUsername : userData.username
 
     useEffect(() => {
         const getProfileData = async () => {
@@ -30,7 +30,7 @@ export const useUser = () => {
 
     const getUserByUsername = async (username) => {
         try {
-            const user = await userByUsername(userData.authToken, username)
+            const user = await userByUsername(authToken, username)
             return user;
         } catch (error) {
             throw new Error(`Error obteniendo datos del ususario ${error.message}`);
@@ -39,7 +39,7 @@ export const useUser = () => {
 
     const getUserJoinedActivities = async (user_id) => {
         try {
-            const response = await joinedActivities(user_id ,userData.authToken)
+            const response = await joinedActivities(user_id ,authToken)
             return response;
         } catch (error) {
             throw new Error(`Error obteniendo datos del ususario ${error.message}`);

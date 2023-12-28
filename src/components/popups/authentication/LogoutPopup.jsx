@@ -8,11 +8,11 @@ import {
 } from "@nextui-org/react";
 import { Danger } from "./../../icons/Danger";
 import { Popups, usePopups } from "../../../hooks/usePopups";
-import { useAuth } from "../../../hooks/useAuth";
+import { useUserSessionStore } from "../../../store/userSession";
 
-export function LogoutPopup() {
+export default function LogoutPopup() {
   const { popups, togglePopup } = usePopups();
-  const { logout } = useAuth();
+  const logout = useUserSessionStore((state) => state.logout);
 
   return (
     <Modal
@@ -53,5 +53,3 @@ export function LogoutPopup() {
     </Modal>
   );
 }
-
-export default LogoutPopup;
