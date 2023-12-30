@@ -15,11 +15,15 @@ import { EyeFilledSlash } from "../../icons/EyeFilledSlash";
 import { EyeFilled } from "../../icons/EyeFilled";
 import { Popups, usePopups } from "../../../hooks/usePopups";
 import { useUserSessionStore } from "../../../store/userSession";
+import { useUserActivitiesStore } from "../../../store/userActivities";
 
 export default function LoginPopup() {
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const login = useUserSessionStore((state) => state.login);
+  const setUserActivities = useUserActivitiesStore(
+    (state) => state.setUserActivities
+  );
   const { popups, togglePopup } = usePopups();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -102,6 +106,8 @@ export default function LoginPopup() {
                     email: emailRef.current,
                     password: passwordRef.current,
                   });
+
+                  setUserActivities();
 
                   onClose();
                 }}

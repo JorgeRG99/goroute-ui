@@ -10,6 +10,7 @@ import { Like } from "../icons/Like";
 import { useActivityLikes } from "../../hooks/useActivityLikes";
 import { createPortal } from "react-dom";
 import { Suspense, lazy } from "react";
+import { useActivityParticipants } from "../../hooks/useActivityParticipants";
 
 const JoinActivityPopup = lazy(() =>
   import("../popups/activity/JoinActivityPopup")
@@ -24,11 +25,13 @@ export function HistoryActivityCard({ activity, sports }) {
     onOpen: onOpenJoinActivityPopup,
     onOpenChange: onOpenChangeJoinActivityPopup,
   } = useDisclosure();
+  const { isJoined, setActivityParticipants, activityParticipants } =
+    useActivityParticipants(activity.participants);
 
   return (
     <>
       {isOpenJoinActivityPopup && (
-        <Suspense fallback={<div>...</div>}>
+        <Suspense>
           {createPortal(
             <JoinActivityPopup
               activityData={activity}
@@ -36,6 +39,12 @@ export function HistoryActivityCard({ activity, sports }) {
               onOpenChange={onOpenChangeJoinActivityPopup}
               sport={activitySport}
               date={formatActivityDate(activity.day)}
+              participants={activityParticipants}
+              setParticipants={setActivityParticipants}
+              isJoined={isJoined}
+              likes={activityLikesList.length}
+              isLiked={isLiked}
+              handleLikeStatus={handleLikeStatus}
             />,
             document.body
           )}

@@ -10,9 +10,11 @@ import PropTypes from "prop-types";
 import { HistoryActivityCard } from "../../cards/HistoryActivityCard";
 import { Link } from "react-router-dom";
 import { useSportsStore } from "../../../store/sports";
+import { useUserJoinedActivities } from "../../../hooks/useUserJoinedActivities";
 
-export function UserActivitiesHistory({ activitiesHistory }) {
+export function YourActivitiesHistory({ userId }) {
   const sports = useSportsStore((state) => state.sports);
+  const { joinedActivities } = useUserJoinedActivities(userId);
 
   return (
     <Table
@@ -30,7 +32,7 @@ export function UserActivitiesHistory({ activitiesHistory }) {
         </TableColumn>
       </TableHeader>
       <TableBody>
-        {activitiesHistory.length === 0 ? (
+        {joinedActivities.length === 0 ? (
           <TableRow key={"Any activities joined"}>
             <TableCell className="flex flex-col items-center gap-[2em] py-[2em]">
               <h1>Aún no has participado en ninguna actividad</h1>
@@ -45,8 +47,7 @@ export function UserActivitiesHistory({ activitiesHistory }) {
             </TableCell>
           </TableRow>
         ) : (
-          sports &&
-          activitiesHistory?.map((activity) => {
+          joinedActivities?.map((activity) => {
             return (
               <TableRow key={activity.id}>
                 <TableCell>
@@ -61,6 +62,6 @@ export function UserActivitiesHistory({ activitiesHistory }) {
   );
 }
 
-UserActivitiesHistory.propTypes = {
-  activitiesHistory: PropTypes.array,
+YourActivitiesHistory.propTypes = {
+  userId: PropTypes.string.isRequired,
 };

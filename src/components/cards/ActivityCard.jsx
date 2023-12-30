@@ -9,10 +9,11 @@ import {
 } from "@nextui-org/react";
 import { formatActivityDate, getActivitySport } from "../../services/helpers";
 import { createPortal } from "react-dom";
-import { EditActivity } from "../buttons/EditActivity";
 import PropTypes from "prop-types";
 import { ActivityMembers } from "./ActivityMembers";
 import { Suspense, lazy } from "react";
+import { useActivityParticipants } from "../../hooks/useActivityParticipants";
+import { useActivityLikes } from "../../hooks/useActivityLikes";
 
 const JoinActivityPopup = lazy(() =>
   import("../popups/activity/JoinActivityPopup")
@@ -20,13 +21,13 @@ const JoinActivityPopup = lazy(() =>
 const EditActivityPopup = lazy(() =>
   import("../popups/activity/EditActivityPopup")
 );
+const CancelActivityPopup = lazy(() =>
+  import("../Popups/Activity/CancelActivityPopup")
+);
+const EditActivity = lazy(() => import("../buttons/EditActivity"));
+const DeleteActivity = lazy(() => import("../Buttons/DeleteActivity"));
 
-export function ActivityCard({
-  activityData,
-  sports,
-  isCurrentUserProfile,
-  editActivity,
-}) {
+export function ActivityCard({ activityData, sports, isCurrentUserProfile }) {
   const {
     isOpen: isOpenJoinActivityPopup,
     onOpen: onOpenJoinActivityPopup,
@@ -39,8 +40,19 @@ export function ActivityCard({
     onOpenChange: onOpenChangeEditActivityPopup,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenCancelActivityPopup,
+    onOpen: onOpenCancelActivityPopup,
+    onOpenChange: onOpenChangeCancelActivityPopup,
+  } = useDisclosure();
+
   const sport = getActivitySport(activityData.sport_id, sports);
   const date = formatActivityDate(activityData.day);
+
+  const { isJoined, setActivityParticipants, activityParticipants } =
+    useActivityParticipants(activityData.participants);
+  const { activityLikesList, isLiked, handleLikeStatus } =
+    useActivityLikes(activityData);
 
   return (
     <>
@@ -53,8 +65,12 @@ export function ActivityCard({
               onOpenChange={onOpenChangeJoinActivityPopup}
               sport={sport}
               date={date}
-              participants={activityData.participants}
-              setParticipants={activityData.setParticipants}
+              participants={activityParticipants}
+              setParticipants={setActivityParticipants}
+              isJoined={isJoined}
+              likes={activityLikesList.length}
+              isLiked={isLiked}
+              handleLikeStatus={handleLikeStatus}
             />,
             document.body
           )}
@@ -67,9 +83,20 @@ export function ActivityCard({
               isOpen={isOpenEditActivityPopup}
               onOpenChange={onOpenChangeEditActivityPopup}
               activityData={activityData}
-              editActivity={editActivity}
               sports={sports}
               sport={sport}
+            />,
+            document.body
+          )}
+        </Suspense>
+      )}
+      {isOpenCancelActivityPopup && (
+        <Suspense>
+          {createPortal(
+            <CancelActivityPopup
+              isOpen={isOpenCancelActivityPopup}
+              onOpenChange={onOpenChangeCancelActivityPopup}
+              activityId={activityData.id}
             />,
             document.body
           )}
@@ -107,14 +134,18 @@ export function ActivityCard({
             <p className="text-white text-tiny">{date}</p>
           </div>
           {isCurrentUserProfile ? (
-            <EditActivity onOpen={onOpenEditActivityPopup} />
+            <Suspense>
+              <span className="flex gap-3 items-center">
+                <EditActivity onOpen={onOpenEditActivityPopup} />
+                <DeleteActivity onOpen={onOpenCancelActivityPopup} />
+              </span>
+            </Suspense>
           ) : (
             <Button
               onPress={onOpenJoinActivityPopup}
               className="text-tiny"
               color="primary"
               variant="shadow"
-              radius="full"
               size="sm"
             >
               Únete
@@ -130,5 +161,4 @@ ActivityCard.propTypes = {
   activityData: PropTypes.object.isRequired,
   sports: PropTypes.array.isRequired,
   isCurrentUserProfile: PropTypes.bool,
-  editActivity: PropTypes.func,
 };

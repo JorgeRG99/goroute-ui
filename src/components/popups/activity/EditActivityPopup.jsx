@@ -16,15 +16,16 @@ import {
 import PropTypes from "prop-types";
 import { ACTIVITY_HOURS, ACTIVITY_MINUTES } from "../../../services/helpers";
 import { useRef, useState } from "react";
+import { useUserActivitiesStore } from "../../../store/userActivities";
 
 export default function EditActivityPopup({
   activityData,
   sports,
   isOpen,
   onOpenChange,
-  editActivity,
 }) {
   const [isLoading, setIsLoading] = useState(false);
+  const editActivity = useUserActivitiesStore((state) => state.editActivity);
 
   const activityNewData = {
     nameRef: useRef(),
@@ -182,7 +183,12 @@ export default function EditActivityPopup({
               />
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="flat" onPress={onOpenChange}>
+              <Button
+                color="danger"
+                variant="flat"
+                onPress={onOpenChange}
+                isDisabled={isLoading ? true : false}
+              >
                 Cerrar
               </Button>
               <Button
@@ -206,5 +212,4 @@ EditActivityPopup.propTypes = {
   sport: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onOpenChange: PropTypes.func.isRequired,
-  editActivity: PropTypes.func,
 };

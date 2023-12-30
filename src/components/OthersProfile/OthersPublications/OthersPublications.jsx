@@ -1,7 +1,8 @@
 import { Tabs, Tab } from "@nextui-org/react";
+import { OthersActivities } from "./OthersActivities";
 import PropTypes from "prop-types";
-import { UserActivities } from "./UserActivities";
-export function UserPublications({ userActivities, editActivity }) {
+
+export function OthersPublications({ userActivities }) {
   return (
     <section className="flex flex-col w-full">
       <Tabs
@@ -10,17 +11,14 @@ export function UserPublications({ userActivities, editActivity }) {
         aria-label="Options"
       >
         <Tab key="photos" title="Actividades">
-          <UserActivities
-            userActivities={userActivities}
-            editActivity={editActivity}
-          />
+          <OthersActivities userActivities={userActivities} />
         </Tab>
         <Tab key="music" title="Publicaciones"></Tab>
       </Tabs>
     </section>
   );
 }
-UserPublications.propTypes = {
+OthersPublications.propTypes = {
   userActivities: PropTypes.array,
   editActivity: PropTypes.func,
 };

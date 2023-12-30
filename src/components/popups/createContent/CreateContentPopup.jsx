@@ -1,9 +1,8 @@
 import { Modal, ModalContent, ModalHeader, Tab, Tabs } from "@nextui-org/react";
 import { Popups, usePopups } from "../../../hooks/usePopups";
 import { CreateActivityForm } from "../activity/CreateActivityForm";
-import PropTypes from "prop-types";
 
-export default function CreateContentPopup({ sports }) {
+export default function CreateContentPopup() {
   const { popups, togglePopup } = usePopups();
 
   return (
@@ -29,7 +28,7 @@ export default function CreateContentPopup({ sports }) {
               aria-label="Options"
             >
               <Tab key="activity" title="Crear actividad">
-                <CreateActivityForm sports={sports} onClose={onClose} />
+                <CreateActivityForm onClose={onClose} />
               </Tab>
               <Tab key="post" title="Crear publicacion"></Tab>
             </Tabs>
@@ -39,7 +38,3 @@ export default function CreateContentPopup({ sports }) {
     </Modal>
   );
 }
-
-CreateContentPopup.propTypes = {
-  sports: PropTypes.array.isRequired,
-};

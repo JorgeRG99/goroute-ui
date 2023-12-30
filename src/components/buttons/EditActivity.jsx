@@ -1,14 +1,13 @@
 import { Button } from "@nextui-org/react";
 import PropTypes from "prop-types";
 
-export function EditActivity({ onOpen }) {
+export default function EditActivity({ onOpen }) {
   return (
     <Button
       onPress={onOpen}
       className="text-tiny"
       color="primary"
       variant="shadow"
-      radius="full"
       size="sm"
     >
       Editar

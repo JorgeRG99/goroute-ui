@@ -247,7 +247,7 @@ export const removeFollower = async (userToRemove, authToken) => {
     }
 }
 
-export const joinedActivities = async (user_id ,authToken) => {
+export const getJoinedActivities = async (user_id ,authToken) => {
     try {
         const res = await fetch(`${USER_JOINED_ACTIVITIES_ENDPOINT}?id=${user_id}`, {
             headers: {

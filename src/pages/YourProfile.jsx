@@ -1,10 +1,9 @@
 import { Popups, usePopups } from "../hooks/usePopups";
-import { UserPublications } from "../components/profile/UserPublications";
-import { UserProfile } from "../components/profile/UserProfile";
-import { useParams } from "react-router-dom";
-import { useActivity } from "../hooks/useActivity";
 import { useSportsStore } from "../store/sports";
 import { Suspense, lazy } from "react";
+import { useUserActivitiesStore } from "../store/userActivities";
+import { YourProfileInfo } from "../components/YourProfile/YourProfileData/YourProfileInfo";
+import { YourPublications } from "../components/YourProfile/YourPublications";
 
 const EditProfilePopup = lazy(() =>
   import("../components/popups/profile/EditProfilePopup")
@@ -13,11 +12,12 @@ const RegisterActivityPopup = lazy(() =>
   import("../components/popups/activity/RegisterActivityPopup")
 );
 
-export default function Profile() {
+export default function YourProfile() {
   const { popups } = usePopups();
-  const { username } = useParams();
-  const { userActivities, editActivity } = useActivity(username);
   const sports = useSportsStore((state) => state.sports);
+  const yourActivities = useUserActivitiesStore(
+    (state) => state.yourActivities
+  );
 
   return (
     <main className="flex my-[4rem] justify-evenly w-[80%]">
@@ -30,15 +30,12 @@ export default function Profile() {
         <Suspense>
           <RegisterActivityPopup
             sports={sports}
-            userActivities={userActivities}
+            userActivities={yourActivities}
           />
         </Suspense>
       )}
-      <UserProfile userActivities={userActivities} />
-      <UserPublications
-        userActivities={userActivities}
-        editActivity={editActivity}
-      />
+      <YourProfileInfo userActivities={yourActivities} />
+      <YourPublications userActivities={yourActivities} />
     </main>
   );
 }

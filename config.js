@@ -25,6 +25,7 @@ export const USER_REMOVE_FOLLOWER_ENDPOINT = `${API_ORIGIN}/followerRemove`
 export const USER_JOINED_ACTIVITIES_ENDPOINT = `${API_ORIGIN}/userJoinedActivities`
 
 // ACTIVITY ENDPOINTS
+export const GET_YOUR_ACTIVITIES_ENDPOINT = `${API_ORIGIN}/yourActivities`
 export const GET_USER_ACTIVITIES_ENDPOINT = `${API_ORIGIN}/activitiesByUser`
 export const GET_ACTIVITIES_FEED_ENDPOINT = `${API_ORIGIN}/activities`
 export const GET_ACTIVITY_LIKES_ENDPOINT = `${API_ORIGIN}/activityLikes`
@@ -36,6 +37,7 @@ export const REMOVE_PARTICIPANT_ENDPOINT = `${API_ORIGIN}/participantRemove`
 export const ADD_ACTIVITY_ENDPOINT = `${API_ORIGIN}/activityRegister`
 export const SUGGESTED_USERS_BY_ACTIVITY = `${API_ORIGIN}/suggestedUsersByActivity`
 export const EDIT_ACTIVITY_ENDPOINT = `${API_ORIGIN}/activityUpdate`
+export const DELETE_ACTIVITY_ENDPOINT = `${API_ORIGIN}/activityDelete`
 
 // SPORTS ENDPOINTS
 export const GET_SPORTS_ENDPOINT = `${API_ORIGIN}/sports`

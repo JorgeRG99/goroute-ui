@@ -14,12 +14,12 @@ export default function GlobalPopups() {
   return (
     <>
       {popups[Popups.Logout] && (
-        <Suspense fallback={<h1>...</h1>}>
+        <Suspense>
           <LogoutPopup />
         </Suspense>
       )}
       {popups[Popups.CreateContent] && (
-        <Suspense fallback={<h1>...</h1>}>
+        <Suspense>
           <CreateContentPopup sports={sports} />
         </Suspense>
       )}

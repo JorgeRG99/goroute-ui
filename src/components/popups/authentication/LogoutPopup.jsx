@@ -9,10 +9,14 @@ import {
 import { Danger } from "./../../icons/Danger";
 import { Popups, usePopups } from "../../../hooks/usePopups";
 import { useUserSessionStore } from "../../../store/userSession";
+import { useUserActivitiesStore } from "../../../store/userActivities";
 
 export default function LogoutPopup() {
   const { popups, togglePopup } = usePopups();
   const logout = useUserSessionStore((state) => state.logout);
+  const cleanActivities = useUserActivitiesStore(
+    (state) => state.cleanActivities
+  );
 
   return (
     <Modal
@@ -38,6 +42,7 @@ export default function LogoutPopup() {
                 variant="flat"
                 onPress={() => {
                   logout();
+                  cleanActivities();
                   onClose();
                 }}
               >

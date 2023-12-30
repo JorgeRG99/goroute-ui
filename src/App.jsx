@@ -4,7 +4,8 @@ import { NextUIProvider } from "@nextui-org/react";
 import { useUserSessionStore } from "./store/userSession";
 import { Suspense, lazy } from "react";
 
-const Profile = lazy(() => import("./pages/Profile"));
+const YourProfile = lazy(() => import("./pages/YourProfile"));
+const OtherUserProfile = lazy(() => import("./pages/OtherUserProfile"));
 const Home = lazy(() => import("./pages/Home"));
 const ActivitiesFeed = lazy(() => import("./pages/ActivitiesFeed"));
 const Error404 = lazy(() => import("./pages/Error404"));
@@ -20,11 +21,12 @@ const GlobalPopups = lazy(() => import("./components/popups/GlobalPopups"));
 function App() {
   const isAuthenticated = useUserSessionStore((state) => state.isAuthenticated);
   const isLoading = useUserSessionStore((state) => state.isLoading);
+  const appOrientation = isAuthenticated ? "flex" : "block";
   const navigate = useNavigate();
 
   return (
     <NextUIProvider navigate={navigate}>
-      <div className={isAuthenticated && "flex"}>
+      <div className={appOrientation}>
         {isAuthenticated ? (
           !isLoading ? (
             <>
@@ -80,7 +82,7 @@ function App() {
                   </Suspense>
                 ) : (
                   <Suspense fallback={<h1>...</h1>}>
-                    <Profile />
+                    <OtherUserProfile />
                   </Suspense>
                 )
               ) : (
@@ -98,7 +100,7 @@ function App() {
                   </Suspense>
                 ) : (
                   <Suspense fallback={<h1>...</h1>}>
-                    <Profile />
+                    <YourProfile />
                   </Suspense>
                 )
               ) : (

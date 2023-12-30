@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { deleteFromStorage, getFromStorage, storage } from "../services/storage";
-import { user, userLogin, userLogout, userRegister } from "../services/user";
+import { user, userLogin, userLogout, userRegister} from "../services/user";
+import { getUserCreationDate } from "../services/helpers";
 
 export const useUserSessionStore = create((set, get) => {
     //TODO: DO BETTER PRACTICES SHIT!!!!!
@@ -10,7 +11,9 @@ export const useUserSessionStore = create((set, get) => {
         if (authToken) {
             try {
                 const userData = await user(authToken);
-                set({ userData: userData, isLoading: false });
+                const userSince = getUserCreationDate(userData.created_at.slice(0, 10))
+                
+                set({ userData: userData, isLoading: false, userSince: userSince });
             } catch (error) {
                 console.error(`Error obteniendo datos del usuario ${error.message}`);
             }
@@ -24,6 +27,7 @@ export const useUserSessionStore = create((set, get) => {
         isAuthenticated: getFromStorage('AuthToken') ? true : false,
         isLoading: true,
         userData: null,
+        userSince: null,
 
         register: async (userData) => {
             try {
@@ -56,7 +60,7 @@ export const useUserSessionStore = create((set, get) => {
                 const { authToken } = get()
                 userLogout(authToken);
 
-                set({ authToken: null, isAuthenticated: false })
+                set({ authToken: null, isAuthenticated: false, userData: null, isLoading:true })
 
                 deleteFromStorage('AuthToken')
             } catch (error) {
@@ -68,6 +72,7 @@ export const useUserSessionStore = create((set, get) => {
             try {
                 const { authToken } = get()
                 const userData = await user(authToken)
+
                 set({ userData: userData, isLoading: false })
             } catch (error) {
                 throw new Error(`Error obteniendo datos del ususario ${error.message}`);

@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 import { Popups, usePopups } from "../../../hooks/usePopups";
 
-export function UserFollowsData({ follows, pathUsername }) {
+export function YourFollowsData({ follows }) {
   const { togglePopup } = usePopups();
 
   return (
     <span
-      className={`flex gap-[5px] ${!pathUsername && "cursor-pointer"}`}
-      onClick={!pathUsername ? () => togglePopup(Popups.Follows) : undefined}
+      className={`flex gap-[5px] cursor-pointer`}
+      onClick={() => togglePopup(Popups.Follows)}
     >
       <p>{!follows ? 0 : follows.length}</p>
       <p className="font-bold mr-[1em]">Seguidos</p>
@@ -15,7 +15,7 @@ export function UserFollowsData({ follows, pathUsername }) {
   );
 }
 
-UserFollowsData.propTypes = {
+YourFollowsData.propTypes = {
   follows: PropTypes.array,
   pathUsername: PropTypes.string,
 };

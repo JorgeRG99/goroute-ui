@@ -21,13 +21,13 @@ export function SuggestedUsersList() {
   }, []);
 
   return (
-    <section className="w-[20em] sticky top-[3em] h-[20em] z-40">
-      <h2 className={`font-bold text-[1em] mb-[1em]`}>Usuarios activos</h2>
+    <section className="w-[20em] sticky top-[8em] h-[20em] z-40">
+      <h2 className={`font-bold text-[1.2em] mb-[1em]`}>Usuarios activos</h2>
       <div className="w-full flex flex-col items-center">
         {!usersList ? (
           <p>no hay na</p>
         ) : (
-          <ul className="flex flex-col gap-[.5em] w-full items-start">
+          <ul className="flex flex-col gap-[1em] w-full items-start">
             {usersList.map((user) => {
               return (
                 <FollowActionCard

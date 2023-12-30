@@ -3,7 +3,7 @@ import { likeActivity, unlikeActivity } from "../services/activity";
 import { useUserSessionStore } from "../store/userSession";
 
 export function useActivityLikes(activity) {
-    const [activityLikesList, setActivityLikes] = useState(activity.likes);
+    const [activityLikesList, setActivityLikesList] = useState(activity.likes);
     const [isLiked, setIsLiked] = useState(false);
     const userData = useUserSessionStore((state) => state.userData);
     const authToken = useUserSessionStore((state) => state.authToken);
@@ -24,15 +24,15 @@ export function useActivityLikes(activity) {
         const updatedLikesList = [...activityLikesList];
         updatedLikesList.push(userData);
   
-        setActivityLikes(updatedLikesList);
+        setActivityLikesList(updatedLikesList);
       } else {
         await unlikeActivity(authToken, activity.id);
   
         const updatedLikesList = activityLikesList.filter(
           (user) => user.id !== userData.id
         );
-  
-        setActivityLikes(updatedLikesList);
+        
+        setActivityLikesList(updatedLikesList);
       }
     };
 

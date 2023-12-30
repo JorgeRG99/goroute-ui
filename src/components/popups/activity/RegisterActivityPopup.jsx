@@ -1,9 +1,8 @@
 import { Modal, ModalContent, ModalHeader } from "@nextui-org/react";
-import PropTypes from "prop-types";
 import { CreateActivityForm } from "./CreateActivityForm";
 import { Popups, usePopups } from "../../../hooks/usePopups";
 
-export default function RegisterActivityPopup({ sports, userActivities }) {
+export default function RegisterActivityPopup() {
   const { popups, togglePopup } = usePopups();
 
   return (
@@ -18,19 +17,10 @@ export default function RegisterActivityPopup({ sports, userActivities }) {
             <ModalHeader className="flex flex-col gap-1 text-center">
               Publica una actividad
             </ModalHeader>
-            <CreateActivityForm
-              sports={sports}
-              userActivities={userActivities}
-              onClose={onClose}
-            />
+            <CreateActivityForm onClose={onClose} />
           </>
         )}
       </ModalContent>
     </Modal>
   );
 }
-
-RegisterActivityPopup.propTypes = {
-  sports: PropTypes.array,
-  userActivities: PropTypes.array,
-};

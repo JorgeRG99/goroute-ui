@@ -13,13 +13,15 @@ import {
 import PropTypes from "prop-types";
 import { ACTIVITY_HOURS, ACTIVITY_MINUTES } from "../../../services/helpers";
 import { useRef, useState } from "react";
-import { useActivity } from "../../../hooks/useActivity";
 import { useUserSessionStore } from "../../../store/userSession";
+import { useUserActivitiesStore } from "../../../store/userActivities";
+import { useSportsStore } from "../../../store/sports";
 
-export function CreateActivityForm({ sports, userActivities, onClose }) {
+export function CreateActivityForm({ onClose }) {
   const [isLoading, setIsLoading] = useState(false);
-  const userData = useUserSessionStore((state) => state.userData);
-  const { addActivity } = useActivity(userData.username);
+  const authToken = useUserSessionStore((state) => state.authToken);
+  const addActivity = useUserActivitiesStore((state) => state.addActivity);
+  const sports = useSportsStore((state) => state.sports);
 
   const userInputData = {
     nameRef: useRef(),
@@ -31,34 +33,23 @@ export function CreateActivityForm({ sports, userActivities, onClose }) {
     durationRef: useRef(0.5),
     locationRef: useRef(),
     participantsRef: useRef(),
-    reservesRef: useRef(),
   };
   const handleAddActivity = async () => {
     setIsLoading(true);
 
-    await addActivity({
-      name: userInputData.nameRef.current,
-      location: userInputData.locationRef.current,
-      sport_id: userInputData.sportRef.current,
-      day: userInputData.dayRef.current,
-      hour: `${userInputData.hourRef.current}:${userInputData.minutesRef.current}:00`,
-      duration: userInputData.durationRef.current * 3600,
-      description: userInputData.descriptionRef.current,
-      max_participants: parseInt(userInputData.participantsRef.current),
-      max_reserves: parseInt(userInputData.reservesRef.current),
-    });
-
-    userActivities.push({
-      name: userInputData.nameRef.current,
-      location: userInputData.locationRef.current,
-      sport_id: userInputData.sportRef.current,
-      day: userInputData.dayRef.current,
-      hour: `${userInputData.hourRef.current}:${userInputData.minutesRef.current}:00`,
-      duration: userInputData.durationRef.current * 3600,
-      description: userInputData.descriptionRef.current,
-      max_participants: parseInt(userInputData.participantsRef.current),
-      max_reserves: parseInt(userInputData.reservesRef.current),
-    });
+    await addActivity(
+      {
+        name: userInputData.nameRef.current,
+        location: userInputData.locationRef.current,
+        sport_id: userInputData.sportRef.current,
+        day: userInputData.dayRef.current,
+        hour: `${userInputData.hourRef.current}:${userInputData.minutesRef.current}:00`,
+        duration: userInputData.durationRef.current * 3600,
+        description: userInputData.descriptionRef.current,
+        max_participants: parseInt(userInputData.participantsRef.current),
+      },
+      authToken
+    );
 
     onClose();
   };
@@ -99,7 +90,7 @@ export function CreateActivityForm({ sports, userActivities, onClose }) {
           <Input
             size="sm"
             type="date"
-            classNames={{ base: "w-[40%]" }}
+            classNames={{ base: "max-w-[49%]" }}
             variant="bordered"
             onValueChange={(value) => {
               userInputData.dayRef.current = value;
@@ -107,22 +98,12 @@ export function CreateActivityForm({ sports, userActivities, onClose }) {
           />
           <Input
             size="sm"
-            classNames={{ base: "w-[30%]" }}
+            classNames={{ base: "max-w-[49%]" }}
             type="text"
             label="Participantes"
             variant="bordered"
             onValueChange={(value) => {
               userInputData.participantsRef.current = value;
-            }}
-          />
-          <Input
-            size="sm"
-            classNames={{ base: "w-[25%]" }}
-            type="text"
-            label="Reservas"
-            variant="bordered"
-            onValueChange={(value) => {
-              userInputData.reservesRef.current = value;
             }}
           />
         </span>
@@ -193,7 +174,5 @@ export function CreateActivityForm({ sports, userActivities, onClose }) {
   );
 }
 CreateActivityForm.propTypes = {
-  sports: PropTypes.array.isRequired,
-  userActivities: PropTypes.array.isRequired,
   onClose: PropTypes.func.isRequired,
 };
