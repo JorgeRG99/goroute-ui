@@ -1,70 +1,73 @@
 import { useEffect, useState } from "react";
-import { getActivitiesFeed } from "../../services/activity";
-import { FeedActivityCardSkeleton } from "../skeletons/FeedActivityCardSkeleton";
-import { ActivityCard } from "../cards/ActivityCard";
+import { PostCard } from "../Cards/PostCard";
+import { FeedPostCardSkeleton } from "../Skeletons/FeedPostCardSkeleton";
 import { useUserSessionStore } from "../../store/userSession";
-import { useSportsStore } from "../../store/sports";
+import { getPostsFeed } from "../../services/post";
 import { Link } from "react-router-dom";
 
-export function Activities() {
-  const [activitiesFeed, setActivitiesFeed] = useState(null);
+export function Posts() {
+  const [postsFeed, setPostsFeed] = useState(null);
   const authToken = useUserSessionStore((state) => state.authToken);
-  const sports = useSportsStore((state) => state.sports);
 
   useEffect(() => {
-    const getUserActivitiesFeed = async () => {
+    const getUserPostsFeed = async () => {
       try {
-        const activities = await getActivitiesFeed(authToken);
-        setActivitiesFeed(activities);
+        const activities = await getPostsFeed(authToken);
+        setPostsFeed(activities);
       } catch (error) {
         console.error("Error fetching activities feed:", error);
       }
     };
 
-    getUserActivitiesFeed();
+    getUserPostsFeed();
   }, []);
 
   return (
     <div className="w-[50em] my-[3em]">
-      {activitiesFeed && sports ? (
-        activitiesFeed > 0 ? (
+      {postsFeed ? (
+        postsFeed.length > 0 ? (
           <ul className="flex flex-col gap-[2em] w-full items-center">
-            {activitiesFeed.map((activity) => {
+            {postsFeed.map((post) => {
               return (
-                <li className="w-[60%]" key={activity.id}>
-                  <ActivityCard activityData={activity} sports={sports} />
+                <li
+                  className="w-full flex items-center justify-center"
+                  key={post.id}
+                >
+                  <PostCard postData={post} />
                 </li>
               );
             })}
           </ul>
         ) : (
           <div className="mt-[5em] mx-auto text-[1.1em] flex flex-col gap-[2em] w-[80%]">
-            <p>Lo sentimos, no hay actividades por el momento</p>
+            <p>Lo sentimos, no hay publicaciones por el momento</p>
             <p>
-              Lamentamos informarte que actualmente no hay actividades
+              Lamentamos informarte que actualmente no hay publicaciones
               disponibles en nuestro muro. Estamos trabajando activamente para
               resolver este inconveniente.
             </p>
             <p>
-              Te invitamos a explorar nuestra sección de Publicacioness donde
+              Te invitamos a explorar nuestra sección de Actividades donde
               podrás encontrar una variedad de opciones interesantes y
               divertidas para ti.
             </p>
-            <Link className="mx-auto mt-[2em]" to="/posts">
+
+            <Link className="mx-auto mt-[2em]" to="/">
               <span
                 className="text-[.9em] text-[#735293] bg-tertiary-blurred py-[.7em] px-[.8em] rounded-lg hover:opacity-75 transition duration-300 ease-in-out"
                 size="sm"
               >
-                Ver publicaciones
+                Ver activades
               </span>
             </Link>
           </div>
         )
       ) : (
-        <>
-          <FeedActivityCardSkeleton />
-          <FeedActivityCardSkeleton />
-        </>
+        <div className="flex flex-col gap-[2em] w-full items-center">
+          <FeedPostCardSkeleton />
+          <FeedPostCardSkeleton />
+          <FeedPostCardSkeleton />
+        </div>
       )}
     </div>
   );

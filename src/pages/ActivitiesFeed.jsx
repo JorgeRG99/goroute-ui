@@ -5,7 +5,7 @@ export default function ActivitiesFeed() {
   return (
     <>
       <Activities />
-      <SuggestedUsersList />
+      <SuggestedUsersList type="Activity" />
     </>
   );
 }

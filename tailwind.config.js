@@ -32,9 +32,12 @@ export default {
           },
           tertiary: {
             foreground: "#FFFFFF",
-            DEFAULT: "#7828C8",
+            DEFAULT: "#735293",
             blurred: "#7828C85C"
           },
+          default: {
+            light: "#bfbfc1"
+          }
         },
       },
       dark: {

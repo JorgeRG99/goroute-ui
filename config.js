@@ -5,6 +5,7 @@ export const COPYRIGHT = "© 2023 GoRoute from GoRoute-Group"
 export const DEFAULT_COLOR = '#5F706D'
 export const PRIMARY_COLOR = '#17aa5a'
 export const SECONDARY_COLOR = '#CC780A'
+export const TERTIARY_COLOR = '#735293'
 
 // NAME
 export const APP_NAME = 'GOROUTE'
@@ -26,6 +27,7 @@ export const USER_FOLLOW_ENDPOINT = `${API_ORIGIN}/userFollow`
 export const USER_UNFOLLOW_ENDPOINT = `${API_ORIGIN}/userUnfollow`
 export const USER_REMOVE_FOLLOWER_ENDPOINT = `${API_ORIGIN}/followerRemove`
 export const USER_JOINED_ACTIVITIES_ENDPOINT = `${API_ORIGIN}/userJoinedActivities`
+export const SUGGESTED_USERS_ENDPOINT = `${API_ORIGIN}/suggestedUsersBy`
 
 // ACTIVITY ENDPOINTS
 export const GET_YOUR_ACTIVITIES_ENDPOINT = `${API_ORIGIN}/yourActivities`
@@ -38,9 +40,14 @@ export const GET_ACTIVITY_PARTICIPANTS_ENDPOINT = `${API_ORIGIN}/participants`
 export const ADD_PARTICIPANT_ENDPOINT = `${API_ORIGIN}/participantAdd`
 export const REMOVE_PARTICIPANT_ENDPOINT = `${API_ORIGIN}/participantRemove`
 export const ADD_ACTIVITY_ENDPOINT = `${API_ORIGIN}/activityRegister`
-export const SUGGESTED_USERS_BY_ACTIVITY = `${API_ORIGIN}/suggestedUsersByActivity`
 export const EDIT_ACTIVITY_ENDPOINT = `${API_ORIGIN}/activityUpdate`
 export const DELETE_ACTIVITY_ENDPOINT = `${API_ORIGIN}/activityDelete`
 
 // SPORTS ENDPOINTS
 export const GET_SPORTS_ENDPOINT = `${API_ORIGIN}/sports`
+
+// POSTS ENDPOINTS
+export const GET_YOUR_POSTS_ENDPOINT = `${API_ORIGIN}/yourPosts`
+export const GET_POSTS_FEED_ENDPOINT = `${API_ORIGIN}/posts`
+export const ADD_POST_ENDPOINT = `${API_ORIGIN}/postRegister`
+export const SUGGESTED_USERS_BY_POSTS = `${API_ORIGIN}/suggestedUsersByPosts`

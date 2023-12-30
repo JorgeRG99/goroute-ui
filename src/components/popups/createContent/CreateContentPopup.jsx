@@ -1,6 +1,7 @@
 import { Modal, ModalContent, ModalHeader, Tab, Tabs } from "@nextui-org/react";
 import { Popups, usePopups } from "../../../hooks/usePopups";
 import { CreateActivityForm } from "../activity/CreateActivityForm";
+import { CreatePostForm } from "../Post/CreatePostForm";
 
 export default function CreateContentPopup() {
   const { popups, togglePopup } = usePopups();
@@ -30,7 +31,9 @@ export default function CreateContentPopup() {
               <Tab key="activity" title="Crear actividad">
                 <CreateActivityForm onClose={onClose} />
               </Tab>
-              <Tab key="post" title="Crear publicacion"></Tab>
+              <Tab key="post" title="Crear publicación">
+                <CreatePostForm onClose={onClose} />
+              </Tab>
             </Tabs>
           </>
         )}

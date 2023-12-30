@@ -1,4 +1,4 @@
-import { GET_USER_ACTIVITIES_ENDPOINT, GET_ACTIVITIES_FEED_ENDPOINT, ADD_ACTIVITY_ENDPOINT, SUGGESTED_USERS_BY_ACTIVITY, GET_ACTIVITY_PARTICIPANTS_ENDPOINT, ADD_PARTICIPANT_ENDPOINT, REMOVE_PARTICIPANT_ENDPOINT, GET_ACTIVITY_LIKES_ENDPOINT, LIKE_ACTIVITY_ENDPOINT, UNLIKE_ACTIVITY_ENDPOINT, EDIT_ACTIVITY_ENDPOINT, GET_YOUR_ACTIVITIES_ENDPOINT, DELETE_ACTIVITY_ENDPOINT } from "../../config"
+import { GET_USER_ACTIVITIES_ENDPOINT, GET_ACTIVITIES_FEED_ENDPOINT, ADD_ACTIVITY_ENDPOINT, GET_ACTIVITY_PARTICIPANTS_ENDPOINT, ADD_PARTICIPANT_ENDPOINT, REMOVE_PARTICIPANT_ENDPOINT, GET_ACTIVITY_LIKES_ENDPOINT, LIKE_ACTIVITY_ENDPOINT, UNLIKE_ACTIVITY_ENDPOINT, EDIT_ACTIVITY_ENDPOINT, GET_YOUR_ACTIVITIES_ENDPOINT, DELETE_ACTIVITY_ENDPOINT, SUGGESTED_USERS_ENDPOINT } from "../../config"
 
 export const getYourActivities = async (authToken) => {
     try {
@@ -13,7 +13,7 @@ export const getYourActivities = async (authToken) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error leyendo las actividades del usuario ${error.message}`);
+        throw new Error(`Error obteniendo las actividades del usuario ${error.message}`);
     }
 }
 
@@ -30,7 +30,7 @@ export const getUserActivities = async (authToken, username) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error en el registro de usuario ${error.message}`);
+        throw new Error(`Error obteniendo las actividades del usuario ${error.message}`);
     }
 }
 
@@ -47,7 +47,7 @@ export const getActivitiesFeed = async (authToken) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error en el registro de usuario ${error.message}`);
+        throw new Error(`Error obteniendo el feed de actividades ${error.message}`);
     }
 }
 
@@ -70,9 +70,9 @@ export const createActivity = async (activityData, authToken) => {
         throw new Error(`Error en el registro de actividad ${error.message}`);
     }
 }
-export const suggestedUsers = async (authToken) => {
+export const suggestedUsers = async (authToken, type) => {
     try {
-        const res = await fetch(SUGGESTED_USERS_BY_ACTIVITY, {
+        const res = await fetch(`${SUGGESTED_USERS_ENDPOINT}${type}`, {
             headers: {
                 'Authorization': `Bearer ${authToken}`,
                 'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export const suggestedUsers = async (authToken) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error en el registro de actividad ${error.message}`);
+        throw new Error(`Error obteniendo usuarios sugeridos ${error.message}`);
     }
 }
 
@@ -101,7 +101,7 @@ export const activityLikes = async (authToken, activityId) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error en el registro de actividad ${error.message}`);
+        throw new Error(`Error obteniendo likes de actividad ${error.message}`);
     }
 }
 
@@ -122,7 +122,7 @@ export const likeActivity = async (authToken, activityId) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error en el registro de actividad ${error.message}`);
+        throw new Error(`Error actualizando likes de actividad ${error.message}`);
     }
 }
 export const unlikeActivity = async (authToken, activityId) => {
@@ -142,7 +142,7 @@ export const unlikeActivity = async (authToken, activityId) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error en el registro de actividad ${error.message}`);
+        throw new Error(`Error actualizando likes de actividad ${error.message}`);
     }
 }
 
@@ -159,7 +159,7 @@ export const activityParticipants = async (authToken, activityId) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error en el registro de actividad ${error.message}`);
+        throw new Error(`Error obteniendo los participantes de la actividad ${error.message}`);
     }
 }
 
@@ -180,7 +180,7 @@ export const addParticipant = async (authToken, activityId) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error en el registro de actividad ${error.message}`);
+        throw new Error(`Error actualizando los participantes de la actividad ${error.message}`);
     }
 }
 
@@ -202,7 +202,7 @@ export const removeParticipant = async (authToken, activityId, userId) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error en el registro de actividad ${error.message}`);
+        throw new Error(`Error actualizando los participantes de la actividad ${error.message}`);
     }
 }
 
@@ -240,6 +240,6 @@ export const deleteActivity = async (authToken, activityId) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error actualizando actividad ${error.message}`);
+        throw new Error(`Error eliminando actividad ${error.message}`);
     }
 }

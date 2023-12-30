@@ -4,22 +4,23 @@ import { useUserSessionStore } from "../../store/userSession";
 import { useEffect, useState } from "react";
 import { Divider } from "@nextui-org/react";
 import { COPYRIGHT } from "../../../config";
+import PropTypes from "prop-types";
 
-export function SuggestedUsersList() {
+export function SuggestedUsersList({ type }) {
   const authToken = useUserSessionStore((state) => state.authToken);
   const [usersList, setUserList] = useState(null);
 
   useEffect(() => {
-    const getSuggestedUsersByActivity = async () => {
+    const getSuggestedUsers = async () => {
       try {
-        const users = await suggestedUsers(authToken);
+        const users = await suggestedUsers(authToken, type);
         setUserList(users);
       } catch (error) {
         console.error("Error fetching suggested users:", error);
       }
     };
 
-    getSuggestedUsersByActivity();
+    getSuggestedUsers();
   }, []);
 
   return (
@@ -28,8 +29,8 @@ export function SuggestedUsersList() {
         Ultimos usuarios publicando
       </h2>
       <div className="w-full flex flex-col items-center">
-        {!usersList ? (
-          <p>no hay na</p>
+        {!usersList || usersList.length === 0 ? (
+          <p>{"Sin usuarios sugeridos :("}</p>
         ) : (
           <ul className="flex flex-col gap-[1em] w-full items-start">
             {usersList.map((user) => {
@@ -48,9 +49,13 @@ export function SuggestedUsersList() {
         )}
       </div>
       <Divider className="my-[.9em] mx-auto w-[90%]" />
-      <span className="text-[.8em] text-center w-full block text-default">
+      <span className="text-[.8em] text-center w-full block text-default-light">
         {COPYRIGHT}
       </span>
     </section>
   );
 }
+
+SuggestedUsersList.propTypes = {
+  type: PropTypes.string.isRequired,
+};

@@ -159,7 +159,12 @@ export function CreateActivityForm({ onClose }) {
         />
       </ModalBody>
       <ModalFooter>
-        <Button color="danger" variant="flat" onPress={onClose}>
+        <Button
+          color="danger"
+          isDisabled={isLoading ? true : false}
+          variant="flat"
+          onPress={onClose}
+        >
           Cancelar
         </Button>
         <Button

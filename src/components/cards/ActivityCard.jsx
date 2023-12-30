@@ -77,18 +77,19 @@ export function ActivityCard({ activityData, sports, isCurrentUserProfile }) {
         </Suspense>
       )}
       <Suspense>
-        {createPortal(
-          <EditActivityPopup
-            isOpen={isOpenEditActivityPopup}
-            onOpenChange={onOpenChangeEditActivityPopup}
-            activityData={activityData}
-            sports={sports}
-            sport={sport}
-            participants={activityParticipants}
-            setParticipants={setActivityParticipants}
-          />,
-          document.body
-        )}
+        {isOpenCancelActivityPopup &&
+          createPortal(
+            <EditActivityPopup
+              isOpen={isOpenEditActivityPopup}
+              onOpenChange={onOpenChangeEditActivityPopup}
+              activityData={activityData}
+              sports={sports}
+              sport={sport}
+              participants={activityParticipants}
+              setParticipants={setActivityParticipants}
+            />,
+            document.body
+          )}
       </Suspense>
       {isOpenCancelActivityPopup && (
         <Suspense>

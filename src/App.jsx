@@ -8,6 +8,7 @@ const YourProfile = lazy(() => import("./pages/YourProfile"));
 const OtherUserProfile = lazy(() => import("./pages/OtherUserProfile"));
 const Home = lazy(() => import("./pages/Home"));
 const ActivitiesFeed = lazy(() => import("./pages/ActivitiesFeed"));
+const PostsFeed = lazy(() => import("./pages/PostsFeed"));
 const Error404 = lazy(() => import("./pages/Error404"));
 const NotLoggedNavbar = lazy(() =>
   import("./components/navbar/notlogged/NotLoggedNavbar")
@@ -63,6 +64,26 @@ function App() {
                 ) : (
                   <Suspense fallback={<h1>...</h1>}>
                     <ActivitiesFeed />
+                  </Suspense>
+                )
+              ) : (
+                <Suspense fallback={<h1>...</h1>}>
+                  <Home />
+                </Suspense>
+              )
+            }
+          />
+          <Route
+            path="/posts"
+            element={
+              isAuthenticated ? (
+                isLoading ? (
+                  <Suspense fallback={<h1>...</h1>}>
+                    <Loader />
+                  </Suspense>
+                ) : (
+                  <Suspense fallback={<h1>...</h1>}>
+                    <PostsFeed />
                   </Suspense>
                 )
               ) : (

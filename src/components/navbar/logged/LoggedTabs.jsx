@@ -13,8 +13,8 @@ import { useState } from "react";
 import { useUserSessionStore } from "../../../store/userSession";
 
 export function LoggedTabs() {
-  const [selected, setSelected] = useState("/");
   const { pathname } = useLocation();
+  const [selected, setSelected] = useState(pathname);
   const userData = useUserSessionStore((state) => state.userData);
   const { togglePopup } = usePopups();
 
@@ -43,12 +43,12 @@ export function LoggedTabs() {
         id="/posts"
         key="/posts"
         title={
-          <div className="flex items-center space-x-2">
+          <Link to="/posts" className="flex items-center space-x-2">
             <Posts
               color={selected === "/posts" ? PRIMARY_COLOR : DEFAULT_COLOR}
             />
             <span>Publicaciones</span>
-          </div>
+          </Link>
         }
       />
       <Tab
