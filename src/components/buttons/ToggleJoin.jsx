@@ -8,6 +8,7 @@ export function ToggleJoin({
   setParticipants,
   isJoined,
   activityId,
+  isComplete,
 }) {
   const userData = useUserSessionStore((state) => state.userData);
   const authToken = useUserSessionStore((state) => state.authToken);
@@ -22,7 +23,7 @@ export function ToggleJoin({
 
       setParticipants(updatedActivityParticipants);
     } else {
-      await removeParticipant(authToken, activityId);
+      await removeParticipant(authToken, activityId, userData.id);
 
       const updatedParticipants = participants.filter(
         (user) => user.id !== userData.id
@@ -34,11 +35,12 @@ export function ToggleJoin({
 
   return (
     <Button
-      color={!isJoined ? "primary" : "danger"}
+      color={!isJoined ? (isComplete ? "warning" : "primary") : "danger"}
       onPress={handleJoinStatus}
-      variant="flat"
+      variant={isJoined ? "flat" : isComplete ? "solid" : "flat"}
+      isDisabled={isComplete && !isJoined ? true : false}
     >
-      {!isJoined ? "Únete!" : "Abandonar"}
+      {!isJoined ? (isComplete ? "Completa" : "Únete!") : "Abandonar"}
     </Button>
   );
 }
@@ -48,4 +50,5 @@ ToggleJoin.propTypes = {
   participants: PropTypes.array.isRequired,
   setParticipants: PropTypes.func.isRequired,
   isJoined: PropTypes.bool.isRequired,
+  isComplete: PropTypes.bool.isRequired,
 };

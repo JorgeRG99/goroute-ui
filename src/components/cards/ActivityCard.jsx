@@ -76,20 +76,20 @@ export function ActivityCard({ activityData, sports, isCurrentUserProfile }) {
           )}
         </Suspense>
       )}
-      {isOpenEditActivityPopup && (
-        <Suspense>
-          {createPortal(
-            <EditActivityPopup
-              isOpen={isOpenEditActivityPopup}
-              onOpenChange={onOpenChangeEditActivityPopup}
-              activityData={activityData}
-              sports={sports}
-              sport={sport}
-            />,
-            document.body
-          )}
-        </Suspense>
-      )}
+      <Suspense>
+        {createPortal(
+          <EditActivityPopup
+            isOpen={isOpenEditActivityPopup}
+            onOpenChange={onOpenChangeEditActivityPopup}
+            activityData={activityData}
+            sports={sports}
+            sport={sport}
+            participants={activityParticipants}
+            setParticipants={setActivityParticipants}
+          />,
+          document.body
+        )}
+      </Suspense>
       {isOpenCancelActivityPopup && (
         <Suspense>
           {createPortal(
@@ -112,10 +112,7 @@ export function ActivityCard({ activityData, sports, isCurrentUserProfile }) {
             {sport}
           </Chip>
           {activityData.participants.length !== 0 ? (
-            <ActivityMembers
-              participants={activityData.participants}
-              setParticipants={activityData.setParticipants}
-            />
+            <ActivityMembers participants={activityParticipants} />
           ) : (
             <Chip className="bg-tertiary-blurred text-white">
               Sin participantes

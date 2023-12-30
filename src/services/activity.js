@@ -184,7 +184,7 @@ export const addParticipant = async (authToken, activityId) => {
     }
 }
 
-export const removeParticipant = async (authToken, activityId) => {
+export const removeParticipant = async (authToken, activityId, userId) => {
     try {
         const res = await fetch(REMOVE_PARTICIPANT_ENDPOINT, {
             method: 'POST',
@@ -192,7 +192,8 @@ export const removeParticipant = async (authToken, activityId) => {
                 'Authorization': `Bearer ${authToken}`,
             },
             body: JSON.stringify({
-                id: activityId
+                activity_id: activityId,
+                user_id: userId
             }),
         });
         if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
@@ -206,7 +207,6 @@ export const removeParticipant = async (authToken, activityId) => {
 }
 
 export const updateActivity = async (authToken, updatedActivityData) => {
-
     try {
         const res = await fetch(EDIT_ACTIVITY_ENDPOINT, {
             method: 'PATCH',

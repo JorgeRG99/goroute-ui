@@ -33,6 +33,7 @@ export const useUserActivitiesStore = create((set, get) => {
                 const response = await createActivity(activityData, authToken)
 
                 activityData.participants = []
+                activityData.likes = []
                 const udpatedUserActivities = [...yourActivities]
                 udpatedUserActivities.push(activityData)
 

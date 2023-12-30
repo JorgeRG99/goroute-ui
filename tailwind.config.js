@@ -18,6 +18,10 @@ export default {
     themes: {
       light: {
         colors: {
+          success: {
+            foreground: "#FFFFFF",
+            DEFAULT: "#09f",
+          },
           primary: {
             foreground: "#FFFFFF",
             DEFAULT: "#17aa5a",

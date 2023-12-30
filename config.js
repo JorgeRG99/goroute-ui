@@ -1,3 +1,6 @@
+//COPYRIGHT
+export const COPYRIGHT = "© 2023 GoRoute from GoRoute-Group"
+
 // COLORS
 export const DEFAULT_COLOR = '#5F706D'
 export const PRIMARY_COLOR = '#17aa5a'

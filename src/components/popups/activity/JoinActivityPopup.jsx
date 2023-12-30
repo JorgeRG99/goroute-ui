@@ -34,6 +34,8 @@ export default function JoinActivityPopup({
     user_id,
   } = activityData;
 
+  const isComplete = max_participants === participants.length ? true : false;
+
   return (
     <Modal
       backdrop="blur"
@@ -77,6 +79,7 @@ export default function JoinActivityPopup({
                 participants={participants}
                 setParticipants={setParticipants}
                 isJoined={isJoined}
+                isComplete={isComplete}
               />
             </ModalFooter>
           </>
