@@ -11,8 +11,6 @@ export const useUserById = (userId) => {
         const getProfileData = async () => {
             const user = await getUserById(authToken, userId);
 
-            console.log(user)
-
             setProfileData(user);
         };
 

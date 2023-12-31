@@ -1,20 +1,21 @@
 import { Button } from "@nextui-org/react";
 import PropTypes from "prop-types";
+import { Edit } from "../Icons/Edit";
 
-export default function EditActivity({ onOpen }) {
+export default function OpenEditPostPopup({ onOpen }) {
   return (
     <Button
       onPress={onOpen}
-      className="text-tiny"
-      color="primary"
+      color="success"
+      isIconOnly
       variant="shadow"
       size="sm"
     >
-      Editar
+      <Edit />
     </Button>
   );
 }
 
-EditActivity.propTypes = {
+OpenEditPostPopup.propTypes = {
   onOpen: PropTypes.func.isRequired,
 };

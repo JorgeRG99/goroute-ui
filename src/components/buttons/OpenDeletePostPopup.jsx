@@ -2,14 +2,20 @@ import { Button } from "@nextui-org/react";
 import { Delete } from "../Icons/Delete";
 import PropTypes from "prop-types";
 
-export default function DeleteActivity({ onOpen }) {
+export default function OpenDeletePostPopup({ onOpen }) {
   return (
-    <Button color="danger" size="sm" isIconOnly onPress={onOpen}>
+    <Button
+      color="danger"
+      variant="shadow"
+      size="sm"
+      isIconOnly
+      onPress={onOpen}
+    >
       <Delete />
     </Button>
   );
 }
 
-DeleteActivity.propTypes = {
+OpenDeletePostPopup.propTypes = {
   onOpen: PropTypes.func.isRequired,
 };

@@ -49,8 +49,12 @@ export const GET_SPORTS_ENDPOINT = `${API_ORIGIN}/sports`
 // POSTS ENDPOINTS
 export const GET_YOUR_POSTS_ENDPOINT = `${API_ORIGIN}/yourPosts`
 export const GET_POSTS_FEED_ENDPOINT = `${API_ORIGIN}/posts`
+export const GET_USER_POSTS_ENDPOINT = `${API_ORIGIN}/postsByUser`
 export const ADD_POST_ENDPOINT = `${API_ORIGIN}/postRegister`
 export const SUGGESTED_USERS_BY_POSTS = `${API_ORIGIN}/suggestedUsersByPosts`
 export const GET_POST_LIKES_ENDPOINT = `${API_ORIGIN}/postLikes`
 export const LIKE_POST_ENDPOINT = `${API_ORIGIN}/postLike`
 export const UNLIKE_POST_ENDPOINT = `${API_ORIGIN}/postUnlike`
+export const EDIT_POST_ENDPOINT = `${API_ORIGIN}/postUpdate`
+export const DELETE_POST_ENDPOINT = `${API_ORIGIN}/postDelete`
+

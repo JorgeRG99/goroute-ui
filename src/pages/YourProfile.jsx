@@ -10,6 +10,9 @@ const EditProfilePopup = lazy(() =>
 const RegisterActivityPopup = lazy(() =>
   import("../components/popups/activity/RegisterActivityPopup")
 );
+const RegisterPostPopup = lazy(() =>
+  import("../components/popups/post/RegisterPostPopup")
+);
 
 export default function YourProfile() {
   const { popups } = usePopups();
@@ -25,6 +28,11 @@ export default function YourProfile() {
       {popups[Popups.AddActivity] && (
         <Suspense>
           <RegisterActivityPopup sports={sports} />
+        </Suspense>
+      )}
+      {popups[Popups.AddPost] && (
+        <Suspense>
+          <RegisterPostPopup sports={sports} />
         </Suspense>
       )}
       <YourProfileInfo />

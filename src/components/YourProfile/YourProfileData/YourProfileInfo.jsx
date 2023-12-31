@@ -10,6 +10,7 @@ import { YourActivitiesHistory } from "./YourActivitiesHistory";
 import { YourFollowsData } from "./YourFollowsData";
 import { YourFollowersData } from "./YourFollowersData";
 import { useUserActivitiesStore } from "../../../store/userActivities";
+import { useUserPostsStore } from "../../../store/userPosts";
 
 const FollowersPopup = lazy(() =>
   import("../../popups/profile/FollowersPopup")
@@ -22,6 +23,7 @@ export function YourProfileInfo() {
   const yourActivities = useUserActivitiesStore(
     (state) => state.yourActivities
   );
+  const yourPosts = useUserPostsStore((state) => state.yourPosts);
   const { popups } = usePopups();
 
   return (
@@ -62,7 +64,7 @@ export function YourProfileInfo() {
             <article className="flex gap-[5px] items-end text-[.9em]">
               <p>{!yourActivities ? 0 : yourActivities.length}</p>
               <p className="font-bold mr-[1em]">Actividades</p>
-              <p>0</p>
+              <p>{!yourPosts ? 0 : yourPosts.length}</p>
               <p className="font-bold mr-[1em]">Publicaciones</p>
               <YourFollowersData followers={userData.followers} />
               <YourFollowsData follows={userData.follows} />

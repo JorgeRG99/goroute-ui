@@ -34,7 +34,7 @@ export default {
           tertiary: {
             foreground: "#FFFFFF",
             DEFAULT: "#9b4ae8",
-            blurred: "#7828C85C",
+            blurred: "#dbc1f4",
             dark: "#765793"
           },
           default: {

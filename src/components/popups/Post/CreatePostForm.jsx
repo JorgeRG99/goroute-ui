@@ -53,7 +53,7 @@ export function CreatePostForm({ onClose }) {
         />
         <Textarea
           size="md"
-          label="Descripción"
+          label="Contenido"
           variant="bordered"
           placeholder="Comparte tus rutinas, consejos o experiencias deportivas aquí..."
           onValueChange={(value) => {

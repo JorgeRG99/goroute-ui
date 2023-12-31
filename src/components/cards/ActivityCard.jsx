@@ -24,8 +24,12 @@ const EditActivityPopup = lazy(() =>
 const CancelActivityPopup = lazy(() =>
   import("../Popups/Activity/CancelActivityPopup")
 );
-const EditActivity = lazy(() => import("../buttons/EditActivity"));
-const DeleteActivity = lazy(() => import("../Buttons/DeleteActivity"));
+const OpenEditActivityPopup = lazy(() =>
+  import("../Buttons/OpenEditActivityPopup")
+);
+const OpenDeleteActivityPopup = lazy(() =>
+  import("../Buttons/OpenDeleteActivityPopup")
+);
 
 export default function ActivityCard({
   activityData,
@@ -80,9 +84,9 @@ export default function ActivityCard({
           )}
         </Suspense>
       )}
-      <Suspense>
-        {isOpenCancelActivityPopup &&
-          createPortal(
+      {isOpenEditActivityPopup && (
+        <Suspense>
+          {createPortal(
             <EditActivityPopup
               isOpen={isOpenEditActivityPopup}
               onOpenChange={onOpenChangeEditActivityPopup}
@@ -94,7 +98,8 @@ export default function ActivityCard({
             />,
             document.body
           )}
-      </Suspense>
+        </Suspense>
+      )}
       {isOpenCancelActivityPopup && (
         <Suspense>
           {createPortal(
@@ -119,9 +124,7 @@ export default function ActivityCard({
           {activityData.participants.length !== 0 ? (
             <ActivityMembers participants={activityParticipants} />
           ) : (
-            <Chip className="bg-tertiary-blurred text-white">
-              Sin participantes
-            </Chip>
+            <Chip className="bg-tertiary text-white">Sin participantes</Chip>
           )}
         </CardHeader>
         <Image
@@ -138,8 +141,8 @@ export default function ActivityCard({
           {isCurrentUserProfile ? (
             <Suspense>
               <span className="flex gap-3 items-center">
-                <EditActivity onOpen={onOpenEditActivityPopup} />
-                <DeleteActivity onOpen={onOpenCancelActivityPopup} />
+                <OpenEditActivityPopup onOpen={onOpenEditActivityPopup} />
+                <OpenDeleteActivityPopup onOpen={onOpenCancelActivityPopup} />
               </span>
             </Suspense>
           ) : (

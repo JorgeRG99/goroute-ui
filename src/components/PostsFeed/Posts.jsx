@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { PostCard } from "../Cards/PostCard";
+import { lazy, useEffect, useState } from "react";
 import { FeedPostCardSkeleton } from "../Skeletons/FeedPostCardSkeleton";
 import { useUserSessionStore } from "../../store/userSession";
 import { getPostsFeed } from "../../services/post";
 import { Link } from "react-router-dom";
+
+const PostCard = lazy(() => import("../Cards/PostCard"));
 
 export function Posts() {
   const [postsFeed, setPostsFeed] = useState(null);

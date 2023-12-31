@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { getFromStorage } from "../services/storage";
 import { createActivity, deleteActivity, getYourActivities, updateActivity } from "../services/activity";
 
-export const useUserActivitiesStore = create((set, get) => {
+export const useUserActivitiesStore = create((set) => {
 
     const authToken = getFromStorage('AuthToken') || null;
 
@@ -19,25 +19,12 @@ export const useUserActivitiesStore = create((set, get) => {
     return {
         yourActivities: null,
 
-        setUserActivities: async () => {
-            const authToken = getFromStorage('AuthToken') || null;
-            const fetchedActivities = await getYourActivities(authToken)
-
-            set({ yourActivities: fetchedActivities })
-        },
-
         addActivity: async (activityData, authToken) => {
-            const { yourActivities } = get()
 
             try {
                 const response = await createActivity(activityData, authToken)
 
-                activityData.participants = []
-                activityData.likes = []
-                const udpatedUserActivities = [...yourActivities]
-                udpatedUserActivities.push(activityData)
-
-                set({ yourActivities: udpatedUserActivities })
+                setYourActivities()
 
                 return response
             } catch (error) {
@@ -46,16 +33,10 @@ export const useUserActivitiesStore = create((set, get) => {
         },
 
         editActivity: async (updatedActivityData) => {
-            const { yourActivities } = get()
-
             try {
                 const response = await updateActivity(authToken, updatedActivityData)
 
-                const udpatedUserActivities = yourActivities.map(activity =>
-                    activity.id === updatedActivityData.id ? { ...activity, ...updatedActivityData } : activity
-                );
-
-                set({ yourActivities: udpatedUserActivities })
+                setYourActivities()
 
                 return response
             } catch (error) {
@@ -64,16 +45,10 @@ export const useUserActivitiesStore = create((set, get) => {
         },
 
         deleteActivity: async (activityId) => {
-            const { yourActivities } = get()
-
             try {
                 const response = await deleteActivity(authToken, activityId)
 
-                const udpatedUserActivities = yourActivities.filter(activity =>
-                    activity.id !== activityId 
-                );
-
-                set({ yourActivities: udpatedUserActivities })
+                setYourActivities()
 
                 return response
             } catch (error) {

@@ -3,7 +3,7 @@ import { useSportsStore } from "../../../store/sports";
 import { Suspense, lazy } from "react";
 import { useUserActivitiesStore } from "../../../store/userActivities";
 
-const NoPublications = lazy(() => import("./NoPublications"));
+const YourNoPublications = lazy(() => import("./YourNoPublications"));
 const ActivityCard = lazy(() => import("../../cards/ActivityCard"));
 
 export function YourActivities() {
@@ -17,7 +17,7 @@ export function YourActivities() {
       {yourActivities && sports ? (
         yourActivities.length === 0 ? (
           <Suspense>
-            <NoPublications type={"actividades"} />
+            <YourNoPublications type={"actividades"} />
           </Suspense>
         ) : (
           <ul className="grid grid-cols-user-activities gap-[1rem] items-center w-full">

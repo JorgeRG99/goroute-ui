@@ -11,6 +11,7 @@ export const Popups = {
     Follows: 'follows',
     CreateContent: 'create content',
     EditActivity: 'edit activity',
+    AddPost: 'add post',
 }
 
 export function usePopups() {

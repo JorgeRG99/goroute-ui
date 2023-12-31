@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { getFromStorage } from "../services/storage";
-import { createPost, getYourPosts } from "../services/post";
+import { createPost, deletePost, getYourPosts, updatePost } from "../services/post";
 
-export const useUserPostsStore = create((set, get) => {
+export const useUserPostsStore = create((set) => {
 
     const authToken = getFromStorage('AuthToken') || null;
 
@@ -20,20 +20,38 @@ export const useUserPostsStore = create((set, get) => {
         yourPosts: null,
 
         addPost: async (postData) => {
-            const { yourPosts } = get()
-
             try {
                 const response = await createPost(postData, authToken)
 
-                postData.likes = []
-                const udpatedUserPosts = [...yourPosts]
-                udpatedUserPosts.push(postData)
-
-                set({ yourPosts: udpatedUserPosts })
+                setYourPosts()
 
                 return response
             } catch (error) {
                 throw new Error(`Error añadiendo publicacion ${error.message}`);
+            }
+        },
+
+        editPost: async (updatedPostData) => {
+            try {
+                const response = await updatePost(authToken, updatedPostData)
+
+                setYourPosts()
+
+                return response
+            } catch (error) {
+                throw new Error(`Error añadiendo actividad ${error.message}`);
+            }
+        },
+
+        deletePost: async (postId) => {
+            try {
+                const response = await deletePost(authToken, postId)
+
+                setYourPosts()
+
+                return response
+            } catch (error) {
+                throw new Error(`Error añadiendo actividad ${error.message}`);
             }
         },
 

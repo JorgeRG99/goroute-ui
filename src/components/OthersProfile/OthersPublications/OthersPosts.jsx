@@ -4,30 +4,28 @@ import { useSportsStore } from "../../../store/sports";
 import { Suspense, lazy } from "react";
 
 const OthersNoPublications = lazy(() => import("./OthersNoPublications"));
-const ActivityCard = lazy(() => import("../../cards/ActivityCard"));
+const PostCard = lazy(() => import("../../cards/PostCard"));
 
-export function OthersActivities({ userActivities }) {
+export function OthersPosts({ userPosts }) {
   const sports = useSportsStore((state) => state.sports);
 
   return (
     <main className="w-full flex">
-      {userActivities && sports ? (
-        userActivities.length === 0 ? (
+      {userPosts && sports ? (
+        userPosts.length === 0 ? (
           <Suspense fallback={<div>...</div>}>
-            <OthersNoPublications type={"actividades"} />
+            <OthersNoPublications type={"publicaciones"} />
           </Suspense>
         ) : (
-          <ul className="grid grid-cols-user-activities gap-[1rem] items-center w-full">
-            {userActivities.map((activity) => {
+          <ul className="flex flex-col gap-[1rem] items-center w-full">
+            {userPosts?.map((post) => {
               return (
-                <li key={activity.id}>
-                  <Suspense>
-                    <ActivityCard
-                      isCurrentUserProfile={false}
-                      activityData={activity}
-                      sports={sports}
-                    />
-                  </Suspense>
+                <li key={post.id}>
+                  <PostCard
+                    isCurrentUserProfile={false}
+                    isForProfile={true}
+                    postData={post}
+                  />
                 </li>
               );
             })}
@@ -46,6 +44,6 @@ export function OthersActivities({ userActivities }) {
     </main>
   );
 }
-OthersActivities.propTypes = {
-  userActivities: PropTypes.array.isRequired,
+OthersPosts.propTypes = {
+  userPosts: PropTypes.array.isRequired,
 };

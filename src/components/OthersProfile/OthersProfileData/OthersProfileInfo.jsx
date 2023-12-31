@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { useUserProfile } from "../../../hooks/useUserProfile";
 import ToggleFollowButton from "../../buttons/ToggleFollowButton";
 
-export function OthersProfileInfo({ userActivities, username }) {
+export function OthersProfileInfo({ userPosts, userActivities, username }) {
   const { profileData, userSince } = useUserProfile(username);
 
   return (
@@ -39,7 +39,7 @@ export function OthersProfileInfo({ userActivities, username }) {
               <p>{!userActivities ? 0 : userActivities.length}</p>
               <p className="font-bold mr-[1em]">Actividades</p>
 
-              <p>0</p>
+              <p>{!userPosts ? 0 : userPosts.length}</p>
               <p className="font-bold mr-[1em]">Publicaciones</p>
 
               <p>{!profileData.followers ? 0 : profileData.followers.length}</p>
@@ -63,5 +63,6 @@ export function OthersProfileInfo({ userActivities, username }) {
 }
 OthersProfileInfo.propTypes = {
   userActivities: PropTypes.array,
+  userPosts: PropTypes.array,
   username: PropTypes.string.isRequired,
 };

@@ -1,7 +1,7 @@
 import { Button } from "@nextui-org/react";
 import { Popups, usePopups } from "../../hooks/usePopups";
 
-export function CreateActivity() {
+export function OpenCreateActivityPopup() {
   const { togglePopup } = usePopups();
 
   return (
