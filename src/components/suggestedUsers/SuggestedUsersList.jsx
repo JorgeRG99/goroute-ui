@@ -35,14 +35,12 @@ export function SuggestedUsersList({ type }) {
           <ul className="flex flex-col gap-[1em] w-full items-start">
             {usersList.map((user) => {
               return (
-                <FollowActionCard
+                <li
+                  className="w-full flex justify-between items-center"
                   key={user.id}
-                  name={user.name}
-                  surname={user.surname}
-                  username={user.username}
-                  id={user.id}
-                  avatar={user.avatar}
-                />
+                >
+                  <FollowActionCard user={user} />;
+                </li>
               );
             })}
           </ul>

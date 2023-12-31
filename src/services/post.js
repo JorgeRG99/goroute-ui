@@ -1,4 +1,4 @@
-import { ADD_POST_ENDPOINT, GET_POSTS_FEED_ENDPOINT, GET_YOUR_POSTS_ENDPOINT } from "../../config";
+import { ADD_POST_ENDPOINT, GET_POSTS_FEED_ENDPOINT, GET_POST_LIKES_ENDPOINT, GET_YOUR_POSTS_ENDPOINT, LIKE_POST_ENDPOINT, UNLIKE_POST_ENDPOINT } from "../../config";
 
 export const getPostsFeed = async (authToken) => {
     try {
@@ -51,5 +51,63 @@ export const createPost = async (postData, authToken) => {
         return response;
     } catch (error) {
         throw new Error(`Error en el registro de actividad ${error.message}`);
+    }
+}
+
+export const postLikes = async (authToken, postId) => {
+    try {
+        const res = await fetch(`${GET_POST_LIKES_ENDPOINT}?id=${postId}`, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res.json();
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error obteniendo likes de actividad ${error.message}`);
+    }
+}
+
+export const likePost = async (authToken, postId) => {
+    try {
+        const res = await fetch(LIKE_POST_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({
+                id: postId
+            }),
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res;
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error actualizando likes de actividad ${error.message}`);
+    }
+}
+export const unlikePost = async (authToken, postId) => {
+    try {
+        const res = await fetch(UNLIKE_POST_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({
+                id: postId
+            }),
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res;
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error actualizando likes de actividad ${error.message}`);
     }
 }

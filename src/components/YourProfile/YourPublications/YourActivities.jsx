@@ -1,31 +1,36 @@
-import { ProfileActivityCardSkeleton } from "../skeletons/ProfileActivityCardSkeleton";
-import PropTypes from "prop-types";
-import { ActivityCard } from "../cards/ActivityCard";
-import { useSportsStore } from "../../store/sports";
+import { ProfileActivityCardSkeleton } from "../../skeletons/ProfileActivityCardSkeleton";
+import { useSportsStore } from "../../../store/sports";
 import { Suspense, lazy } from "react";
+import { useUserActivitiesStore } from "../../../store/userActivities";
 
 const NoPublications = lazy(() => import("./NoPublications"));
+const ActivityCard = lazy(() => import("../../cards/ActivityCard"));
 
-export function YourActivities({ userActivities }) {
+export function YourActivities() {
   const sports = useSportsStore((state) => state.sports);
+  const yourActivities = useUserActivitiesStore(
+    (state) => state.yourActivities
+  );
 
   return (
     <main className="w-full flex">
-      {userActivities && sports ? (
-        userActivities.length === 0 ? (
-          <Suspense fallback={<div>...</div>}>
+      {yourActivities && sports ? (
+        yourActivities.length === 0 ? (
+          <Suspense>
             <NoPublications type={"actividades"} />
           </Suspense>
         ) : (
           <ul className="grid grid-cols-user-activities gap-[1rem] items-center w-full">
-            {userActivities?.map((activity) => {
+            {yourActivities?.map((activity) => {
               return (
                 <li key={activity.id}>
-                  <ActivityCard
-                    isCurrentUserProfile={true}
-                    activityData={activity}
-                    sports={sports}
-                  />
+                  <Suspense fallback={<div>...</div>}>
+                    <ActivityCard
+                      isCurrentUserProfile={true}
+                      activityData={activity}
+                      sports={sports}
+                    />
+                  </Suspense>
                 </li>
               );
             })}
@@ -44,6 +49,3 @@ export function YourActivities({ userActivities }) {
     </main>
   );
 }
-YourActivities.propTypes = {
-  userActivities: PropTypes.array,
-};

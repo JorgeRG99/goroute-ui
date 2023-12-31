@@ -3,7 +3,7 @@ import { userByUsername } from "../services/user"
 import { getUserCreationDate } from "../services/helpers";
 import { useUserSessionStore } from "../store/userSession";
 
-export const useUser = (username) => {
+export const useUserProfile = (username) => {
     const userData = useUserSessionStore((state) => state.userData);
     const authToken = useUserSessionStore((state) => state.authToken);
     const [userSince, setUserSince] = useState("");
@@ -32,8 +32,6 @@ export const useUser = (username) => {
             throw new Error(`Error obteniendo datos del ususario ${error.message}`);
         }
     }
-
-    
 
     return { getUserByUsername, setProfileData, profileData, userSince }
 }

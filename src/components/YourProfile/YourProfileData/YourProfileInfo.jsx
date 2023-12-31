@@ -9,15 +9,19 @@ import { useUserSessionStore } from "../../../store/userSession";
 import { YourActivitiesHistory } from "./YourActivitiesHistory";
 import { YourFollowsData } from "./YourFollowsData";
 import { YourFollowersData } from "./YourFollowersData";
+import { useUserActivitiesStore } from "../../../store/userActivities";
 
 const FollowersPopup = lazy(() =>
   import("../../popups/profile/FollowersPopup")
 );
 const FollowsPopup = lazy(() => import("../../popups/profile/FollowsPopup"));
 
-export function YourProfileInfo({ userActivities }) {
+export function YourProfileInfo() {
   const userData = useUserSessionStore((state) => state.userData);
   const userSince = useUserSessionStore((state) => state.userSince);
+  const yourActivities = useUserActivitiesStore(
+    (state) => state.yourActivities
+  );
   const { popups } = usePopups();
 
   return (
@@ -56,7 +60,7 @@ export function YourProfileInfo({ userActivities }) {
           </header>
           <main className="flex flex-col gap-[1em] py-[2em] w-full items-start">
             <article className="flex gap-[5px] items-end text-[.9em]">
-              <p>{!userActivities ? 0 : userActivities.length}</p>
+              <p>{!yourActivities ? 0 : yourActivities.length}</p>
               <p className="font-bold mr-[1em]">Actividades</p>
               <p>0</p>
               <p className="font-bold mr-[1em]">Publicaciones</p>

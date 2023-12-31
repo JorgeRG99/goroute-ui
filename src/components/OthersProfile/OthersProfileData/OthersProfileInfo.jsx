@@ -3,11 +3,11 @@ import { userInitials } from "../../../services/helpers";
 import { UserProfileSkeleton } from "../../skeletons/UserProfileSkeleton";
 import { OthersActivitiesHistory } from "./OthersActivityHistory";
 import PropTypes from "prop-types";
-import { useUser } from "../../../hooks/useUser";
+import { useUserProfile } from "../../../hooks/useUserProfile";
 import ToggleFollowButton from "../../buttons/ToggleFollowButton";
 
 export function OthersProfileInfo({ userActivities, username }) {
-  const { profileData, userSince } = useUser(username);
+  const { profileData, userSince } = useUserProfile(username);
 
   return (
     <section className="flex-none sticky top-[4rem] h-[20em] z-40 w-[55%] px-[1em]">

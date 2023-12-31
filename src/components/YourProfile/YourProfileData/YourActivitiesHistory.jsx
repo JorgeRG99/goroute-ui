@@ -38,7 +38,7 @@ export function YourActivitiesHistory({ userId }) {
               <h1>Aún no has participado en ninguna actividad</h1>
               <Link to="/">
                 <span
-                  className="text-[.9em] text-tertiary bg-tertiary-blurred py-[.7em] px-[.8em] rounded-lg hover:opacity-75 transition duration-300 ease-in-out"
+                  className="text-[.9em] bg-tertiary-blurred text-tertiary-dark py-[.7em] px-[.8em] rounded-lg hover:opacity-75 transition duration-300 ease-in-out"
                   size="sm"
                 >
                   Ver activades

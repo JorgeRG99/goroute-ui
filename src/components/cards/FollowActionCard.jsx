@@ -6,9 +6,10 @@ import { Suspense, lazy } from "react";
 
 const ToggleFollowButton = lazy(() => import("../buttons/ToggleFollowButton"));
 
-export function FollowActionCard({ id, name, surname, username, avatar }) {
+export function FollowActionCard({ user }) {
+  const { id, name, surname, username, avatar } = user;
   return (
-    <li className="w-full flex justify-between items-center" key={id}>
+    <>
       <Link to={`/${username}`}>
         <User
           classNames={{ name: "capitalize" }}
@@ -24,14 +25,10 @@ export function FollowActionCard({ id, name, surname, username, avatar }) {
       <Suspense>
         <ToggleFollowButton id={id} />
       </Suspense>
-    </li>
+    </>
   );
 }
 
 FollowActionCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  surname: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  avatar: PropTypes.string,
+  user: PropTypes.object.isRequired,
 };

@@ -47,17 +47,18 @@ export function Posts() {
               resolver este inconveniente.
             </p>
             <p>
-              Te invitamos a explorar nuestra sección de Actividades donde
-              podrás encontrar una variedad de opciones interesantes y
-              divertidas para ti.
+              Te invitamos a explorar nuestra sección de{" "}
+              <span className="text-tertiary">Actividades</span> donde podrás
+              encontrar una variedad de opciones interesantes y divertidas para
+              ti.
             </p>
 
             <Link className="mx-auto mt-[2em]" to="/">
               <span
-                className="text-[.9em] text-[#735293] bg-tertiary-blurred py-[.7em] px-[.8em] rounded-lg hover:opacity-75 transition duration-300 ease-in-out"
+                className="text-[.9em] text-tertiary-dark bg-tertiary-blurred py-[.7em] px-[.8em] rounded-lg hover:opacity-75 transition duration-300 ease-in-out"
                 size="sm"
               >
-                Ver activades
+                Ver actividades
               </span>
             </Link>
           </div>

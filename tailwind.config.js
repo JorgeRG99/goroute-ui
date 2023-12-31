@@ -29,11 +29,13 @@ export default {
           secondary: {
             foreground: "#FFFFFF",
             DEFAULT: "#CC780A",
+            blurred: "#f2b76f",
           },
           tertiary: {
             foreground: "#FFFFFF",
-            DEFAULT: "#735293",
-            blurred: "#7828C85C"
+            DEFAULT: "#9b4ae8",
+            blurred: "#7828C85C",
+            dark: "#765793"
           },
           default: {
             light: "#bfbfc1"

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { CreateActivity } from "../buttons/CreateActivity";
+import { CreateActivity } from "../../buttons/CreateActivity";
 
 export default function NoPublications({ type }) {
   return (

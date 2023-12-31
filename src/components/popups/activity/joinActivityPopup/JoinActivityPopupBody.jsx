@@ -1,9 +1,8 @@
 import { Divider } from "@nextui-org/react";
 import { Clock } from "../../../icons/Clock";
-import { getUserById } from "../../../../services/user";
 import PropTypes from "prop-types";
-import { useUserSessionStore } from "../../../../store/userSession";
-import { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy } from "react";
+import { useUserById } from "../../../../hooks/useUserById";
 
 const UserSmallCard = lazy(() => import("../../../cards/UserSmallCard"));
 
@@ -17,18 +16,7 @@ export function JoinActivityPopupBody({
   name,
   user_id,
 }) {
-  const [profileData, setProfileData] = useState(null);
-  const authToken = useUserSessionStore((state) => state.authToken);
-
-  useEffect(() => {
-    const getProfileData = async () => {
-      const data = await getUserById(authToken, user_id);
-
-      setProfileData(data);
-    };
-
-    getProfileData();
-  }, []);
+  const { profileData } = useUserById(user_id);
 
   return (
     <>

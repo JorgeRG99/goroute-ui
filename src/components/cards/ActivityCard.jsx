@@ -27,7 +27,11 @@ const CancelActivityPopup = lazy(() =>
 const EditActivity = lazy(() => import("../buttons/EditActivity"));
 const DeleteActivity = lazy(() => import("../Buttons/DeleteActivity"));
 
-export function ActivityCard({ activityData, sports, isCurrentUserProfile }) {
+export default function ActivityCard({
+  activityData,
+  sports,
+  isCurrentUserProfile,
+}) {
   const {
     isOpen: isOpenJoinActivityPopup,
     onOpen: onOpenJoinActivityPopup,

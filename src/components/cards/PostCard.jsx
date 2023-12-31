@@ -5,66 +5,103 @@ import {
   CardHeader,
   User,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import { Link } from "react-router-dom";
 import { Unfold } from "../Buttons/Unfold";
 import { Comment } from "../Icons/Comment";
 import { Like } from "../Icons/Like";
 import { TERTIARY_COLOR } from "../../../config";
 import PropTypes from "prop-types";
+import { useUserById } from "../../hooks/useUserById";
+import { userInitials } from "../../services/helpers";
+import { usePostLikes } from "../../hooks/usePostLikes";
+import { Unlike } from "../icons/Unlike";
 
-export function PostCard({ postData }) {
+const ToggleFollowButton = lazy(() => import("../buttons/ToggleFollowButton"));
+
+export function PostCard({ postData, isForProfile }) {
   const [isUnfolded, setIsUnfolded] = useState(false);
+  const { title, content, tags, user_id } = postData;
+  const { profileData } = useUserById(user_id);
+  const { postLikesList, isLiked, handleLikeStatus } = usePostLikes(postData);
+
+  const cardWidth = isForProfile ? "full" : "80%";
+  const avatarSize = isForProfile ? "md" : "lg";
+  const nameTextSize = isForProfile ? ".95" : "1";
+  const descriptionTextSize = isForProfile ? "text-[.8em]" : "text-[.8em]";
 
   return (
-    <Card
-      isBlurred
-      className="border-none bg-background/60 dark:bg-default-100/50 w-[80%]"
-      shadow="sm"
-    >
-      <CardHeader className="p-[1.5em]">
-        <Link to={`/profile`}>
-          <User
-            classNames={{
-              name: "capitalize text-[.9em] font-semibold",
-              description: "text-[.8em]",
-              wrapper: "ml-[.8em]",
-            }}
-            name={`el nombre`}
-            description={<p className="text-primary text-[1.1em]">@username</p>}
-            avatarProps={{
-              isBordered: true,
-              size: "lg",
-            }}
-          />
-        </Link>
-      </CardHeader>
-      <CardBody
-        className={`px-9 pt-0 flex gap-[2em] ${!isUnfolded && "h-[6.5em]"}`}
-      >
-        <h2 className="font-semibold text-[1.2em]">{postData.title}</h2>
-        {postData.content.map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
-        ))}
-        <span>
-          {postData.tags.map((tag, index) => (
-            <Link key={index} className="text-success hover:underline">
-              #{tag}
+    <>
+      {profileData && (
+        <Card
+          isBlurred
+          className={`border-none bg-background/60 dark:bg-default-100/50 w-[${cardWidth}]`}
+          shadow="sm"
+        >
+          <CardHeader className="p-[1.5em] w-full flex gap-[1.5em] items-center">
+            <Link to={`/${profileData.username}`}>
+              <User
+                classNames={{
+                  name: "capitalize text-[" + nameTextSize + "em]",
+                  description: descriptionTextSize,
+                  base: "py-[.2em]",
+                  wrapper: "ml-[.6em]",
+                }}
+                name={`${profileData.name} ${profileData.surname}`}
+                description={
+                  <p className="text-primary text-[1.1em]">
+                    @{profileData.username}
+                  </p>
+                }
+                avatarProps={{
+                  src: profileData.avatar || undefined,
+                  name: userInitials(profileData.name, profileData.surname),
+                  isBordered: true,
+                  size: avatarSize,
+                }}
+              />
             </Link>
-          ))}
-        </span>
-      </CardBody>
-      <CardFooter className="flex items-center justify-between px-9 py-6">
-        <span className="flex gap-[.8em]">
-          <Like color={TERTIARY_COLOR} />
-          <Comment />
-        </span>
-        <Unfold isUnfolded={isUnfolded} setIsUnfolded={setIsUnfolded} />
-      </CardFooter>
-    </Card>
+            <Suspense>
+              <ToggleFollowButton id={profileData.id} />
+            </Suspense>
+          </CardHeader>
+          <CardBody
+            className={`px-9 pt-0 flex gap-[2em] ${!isUnfolded && "h-[6.5em]"}`}
+          >
+            <h2 className="font-semibold text-[1.2em]">{title}</h2>
+            {content.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+            <span>
+              {tags.map((tag, index) => (
+                <Link key={index} className="text-success hover:underline">
+                  #{tag}
+                </Link>
+              ))}
+            </span>
+          </CardBody>
+          <CardFooter className="flex items-center justify-between px-9 py-6">
+            <span className="flex gap-[.8em]">
+              <span
+                onClick={handleLikeStatus}
+                className="cursor-pointer flex items-center gap-[.5em] text-white"
+              >
+                {isLiked ? <Unlike /> : <Like color={TERTIARY_COLOR} />}
+                <strong className="font-normal text-black">
+                  {postLikesList.length}
+                </strong>
+              </span>
+              <Comment />
+            </span>
+            <Unfold isUnfolded={isUnfolded} setIsUnfolded={setIsUnfolded} />
+          </CardFooter>
+        </Card>
+      )}
+    </>
   );
 }
 
 PostCard.propTypes = {
   postData: PropTypes.object.isRequired,
+  isForProfile: PropTypes.bool,
 };

@@ -64,15 +64,15 @@ export function CreatePostForm({ onClose }) {
           <Input
             label="Tags"
             variant="bordered"
-            placeholder="fitness, running, musculación..."
+            placeholder="#fitness#running#musculación..."
             onValueChange={(value) => {
               userInputData.tagsRef.current = value;
             }}
           />
           <Tooltip content={<TagTooltip />}>
-            <Button size="sm" isIconOnly radius="full">
+            <span className="w-[1.9em] h-[1.7em] bg-secondary-blurred rounded-full flex items-center justify-center">
               <QuestionMark />
-            </Button>
+            </span>
           </Tooltip>
         </span>
       </ModalBody>

@@ -5,7 +5,7 @@ export const COPYRIGHT = "© 2023 GoRoute from GoRoute-Group"
 export const DEFAULT_COLOR = '#5F706D'
 export const PRIMARY_COLOR = '#17aa5a'
 export const SECONDARY_COLOR = '#CC780A'
-export const TERTIARY_COLOR = '#735293'
+export const TERTIARY_COLOR = '#9b4ae8'
 
 // NAME
 export const APP_NAME = 'GOROUTE'
@@ -51,3 +51,6 @@ export const GET_YOUR_POSTS_ENDPOINT = `${API_ORIGIN}/yourPosts`
 export const GET_POSTS_FEED_ENDPOINT = `${API_ORIGIN}/posts`
 export const ADD_POST_ENDPOINT = `${API_ORIGIN}/postRegister`
 export const SUGGESTED_USERS_BY_POSTS = `${API_ORIGIN}/suggestedUsersByPosts`
+export const GET_POST_LIKES_ENDPOINT = `${API_ORIGIN}/postLikes`
+export const LIKE_POST_ENDPOINT = `${API_ORIGIN}/postLike`
+export const UNLIKE_POST_ENDPOINT = `${API_ORIGIN}/postUnlike`

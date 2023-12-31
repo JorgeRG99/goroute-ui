@@ -1,5 +1,5 @@
 import { Chip } from "@nextui-org/react";
-import { Like } from "../../../icons/Like";
+import { Like } from "../../../Icons/Like";
 import { Unlike } from "../../../icons/Unlike";
 import { Location } from "../../../icons/Location";
 import { formatActivityDuration } from "../../../../services/helpers";

@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { getActivitiesFeed } from "../../services/activity";
 import { FeedActivityCardSkeleton } from "../skeletons/FeedActivityCardSkeleton";
-import { ActivityCard } from "../cards/ActivityCard";
 import { useUserSessionStore } from "../../store/userSession";
 import { useSportsStore } from "../../store/sports";
 import { Link } from "react-router-dom";
+
+const ActivityCard = lazy(() => import("../cards/ActivityCard"));
 
 export function Activities() {
   const [activitiesFeed, setActivitiesFeed] = useState(null);
@@ -46,13 +47,14 @@ export function Activities() {
               resolver este inconveniente.
             </p>
             <p>
-              Te invitamos a explorar nuestra sección de Publicacioness donde
-              podrás encontrar una variedad de opciones interesantes y
-              divertidas para ti.
+              Te invitamos a explorar nuestra sección de{" "}
+              <span className="text-tertiary">Publicaciones</span> donde podrás
+              encontrar una variedad de opciones interesantes y divertidas para
+              ti.
             </p>
             <Link className="mx-auto mt-[2em]" to="/posts">
               <span
-                className="text-[.9em] text-[#735293] bg-tertiary-blurred py-[.7em] px-[.8em] rounded-lg hover:opacity-75 transition duration-300 ease-in-out"
+                className="text-[.9em] text-tertiary-dark bg-tertiary-blurred py-[.7em] px-[.8em] rounded-lg hover:opacity-75 transition duration-300 ease-in-out"
                 size="sm"
               >
                 Ver publicaciones
