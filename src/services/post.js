@@ -1,4 +1,4 @@
-import { ADD_POST_ENDPOINT, DELETE_POST_ENDPOINT, EDIT_POST_ENDPOINT, GET_POSTS_FEED_ENDPOINT, GET_POST_LIKES_ENDPOINT, GET_USER_POSTS_ENDPOINT, GET_YOUR_POSTS_ENDPOINT, LIKE_POST_ENDPOINT, UNLIKE_POST_ENDPOINT } from "../../config";
+import { ADD_COMMENT_ENDPOINT, ADD_POST_ENDPOINT, DELETE_POST_ENDPOINT, EDIT_POST_ENDPOINT, GET_POSTS_FEED_ENDPOINT, GET_POST_LIKES_ENDPOINT, GET_USER_POSTS_ENDPOINT, GET_YOUR_POSTS_ENDPOINT, LIKE_POST_ENDPOINT, MORE_COMMENTS_ENDPOINT, UNLIKE_POST_ENDPOINT } from "../../config";
 
 export const getPostsFeed = async (authToken) => {
     try {
@@ -149,7 +149,6 @@ export const unlikePost = async (authToken, postId) => {
 }
 
 export const deletePost = async (authToken, postId) => {
-
     try {
         const res = await fetch(`${DELETE_POST_ENDPOINT}?id=${postId}`, {
             method: 'DELETE',
@@ -164,5 +163,41 @@ export const deletePost = async (authToken, postId) => {
         return response;
     } catch (error) {
         throw new Error(`Error eliminando actividad ${error.message}`);
+    }
+}
+
+export const insertComment = async (authToken, commentData) => {
+    try {
+        const res = await fetch(`${ADD_COMMENT_ENDPOINT}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+            body: JSON.stringify(commentData)
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res;
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error insertando comentario ${error.message}`);
+    }
+}
+
+export const getMoreComments = async (authToken, post_id, limit) => {
+    try {
+        const res = await fetch(`${MORE_COMMENTS_ENDPOINT}?limit=${limit}&post_id=${post_id}`, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+            },
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response = await res.json();
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error obteniendo comentarios ${error.message}`);
     }
 }

@@ -6,6 +6,8 @@ export const DEFAULT_COLOR = '#5F706D'
 export const PRIMARY_COLOR = '#17aa5a'
 export const SECONDARY_COLOR = '#CC780A'
 export const TERTIARY_COLOR = '#9b4ae8'
+export const SUCCESS_COLOR = '#09f'
+
 
 // NAME
 export const APP_NAME = 'GOROUTE'
@@ -58,3 +60,6 @@ export const UNLIKE_POST_ENDPOINT = `${API_ORIGIN}/postUnlike`
 export const EDIT_POST_ENDPOINT = `${API_ORIGIN}/postUpdate`
 export const DELETE_POST_ENDPOINT = `${API_ORIGIN}/postDelete`
 
+// COMMENTS RELATED ROUTES
+export const ADD_COMMENT_ENDPOINT = `${API_ORIGIN}/commentRegister`
+export const MORE_COMMENTS_ENDPOINT = `${API_ORIGIN}/moreComments`

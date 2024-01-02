@@ -7,28 +7,30 @@ import { LoggedTabs } from "./LoggedTabs";
 
 export default function LoggedNavbar() {
   return (
-    <Navbar
-      className="w-[16rem] py-[2em] h-[100vh]"
-      classNames={{
-        wrapper: "flex-col pl-[1.8em] pr-[0] items-start h-full",
-        brand: "flex-grow-0",
-      }}
-    >
-      <NavbarBrand>
-        <Link className="flex items-center" to="/">
-          <GoRouteLogo />
-          <p>{APP_NAME}</p>
-        </Link>
-      </NavbarBrand>
-      <NavbarContent
-        className="hidden sm:flex gap-4 h-[70%] flex-col items-start py-[4em]"
-        justify="start"
+    <>
+      <Navbar
+        className="w-[16rem] py-[2em] h-[100vh]"
+        classNames={{
+          wrapper: "flex-col pl-[1.8em] pr-[0] items-start h-full",
+          brand: "flex-grow-0",
+        }}
       >
-        <LoggedTabs />
-      </NavbarContent>
-      <NavbarContent justify="none" className="grow-0 h-[10%]">
-        <LoggedMenu />
-      </NavbarContent>
-    </Navbar>
+        <NavbarBrand>
+          <Link className="flex items-center" to="/">
+            <GoRouteLogo />
+            <p>{APP_NAME}</p>
+          </Link>
+        </NavbarBrand>
+        <NavbarContent
+          className="hidden sm:flex gap-4 h-[70%] flex-col items-start py-[4em]"
+          justify="start"
+        >
+          <LoggedTabs />
+        </NavbarContent>
+        <NavbarContent justify="none" className="grow-0 h-[10%]">
+          <LoggedMenu />
+        </NavbarContent>
+      </Navbar>
+    </>
   );
 }

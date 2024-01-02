@@ -28,7 +28,7 @@ export function Activities() {
   return (
     <div className="w-[50em] my-[3em]">
       {activitiesFeed && sports ? (
-        activitiesFeed > 0 ? (
+        activitiesFeed.length > 0 ? (
           <ul className="flex flex-col gap-[2em] w-full items-center">
             {activitiesFeed.map((activity) => {
               return (

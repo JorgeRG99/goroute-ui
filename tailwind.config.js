@@ -21,10 +21,11 @@ export default {
           success: {
             foreground: "#FFFFFF",
             DEFAULT: "#09f",
+            light: "#e5f8ff"
           },
           primary: {
             foreground: "#FFFFFF",
-            DEFAULT: "#17aa5a",
+            DEFAULT: "#17aa5a"
           },
           secondary: {
             foreground: "#FFFFFF",

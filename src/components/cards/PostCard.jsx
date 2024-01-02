@@ -14,7 +14,7 @@ import { Like } from "../Icons/Like";
 import { TERTIARY_COLOR } from "../../../config";
 import PropTypes from "prop-types";
 import { useUserById } from "../../hooks/useUserById";
-import { userInitials } from "../../services/helpers";
+import { formatActivityDate, userInitials } from "../../services/helpers";
 import { usePostLikes } from "../../hooks/usePostLikes";
 import { Unlike } from "../icons/Unlike";
 import { createPortal } from "react-dom";
@@ -26,6 +26,7 @@ const OpenEditPostPopup = lazy(() => import("../Buttons/OpenEditPostPopup"));
 const OpenDeletePostPopup = lazy(() =>
   import("../Buttons/OpenDeletePostPopup")
 );
+const Comments = lazy(() => import("../Comment/Comments"));
 
 export default function PostCard({
   postData,
@@ -33,9 +34,20 @@ export default function PostCard({
   isCurrentUserProfile,
 }) {
   const [isUnfolded, setIsUnfolded] = useState(false);
-  const { title, content, tags, user_id } = postData;
+  const [showComments, setShowComments] = useState(false);
+  const {
+    id,
+    title,
+    content,
+    tags,
+    user_id,
+    comments_number,
+    created_at,
+    comments,
+  } = postData;
   const { profileData } = useUserById(user_id);
   const { postLikesList, isLiked, handleLikeStatus } = usePostLikes(postData);
+  const creationDate = formatActivityDate(created_at.slice(0, 10));
 
   const cardWidth = isForProfile ? "full" : "80%";
   const avatarSize = isForProfile ? "md" : "lg";
@@ -53,6 +65,8 @@ export default function PostCard({
     onOpen: onOpenDeletePostPopup,
     onOpenChange: onOpenChangeDeletePostPopup,
   } = useDisclosure();
+
+  const toggleShowComments = () => setShowComments(!showComments);
 
   return (
     <>
@@ -85,7 +99,7 @@ export default function PostCard({
           className={`border-none bg-background/60 dark:bg-default-100/50 w-[${cardWidth}]`}
           shadow="sm"
         >
-          <CardHeader className="p-[1.5em] w-full flex justify-between items-center">
+          <CardHeader className="p-[1.5em] w-full flex justify-between items-start">
             <div className="flex gap-[1.5em] items-center">
               <Link to={`/${profileData.username}`}>
                 <User
@@ -115,6 +129,9 @@ export default function PostCard({
                 </Suspense>
               )}
             </div>
+            <p className="text-[.9em] font-light text-success">
+              Publicado el {creationDate}
+            </p>
             {isCurrentUserProfile && (
               <Suspense>
                 <span className="flex items-center gap-[1em]">
@@ -139,20 +156,35 @@ export default function PostCard({
               ))}
             </span>
           </CardBody>
-          <CardFooter className="flex items-center justify-between px-9 py-6">
-            <span className="flex gap-[.8em]">
-              <span
-                onClick={handleLikeStatus}
-                className="cursor-pointer flex items-center gap-[.5em] text-white"
-              >
-                {isLiked ? <Unlike /> : <Like color={TERTIARY_COLOR} />}
-                <strong className="font-normal text-black">
-                  {postLikesList.length}
-                </strong>
+          <CardFooter className="flex flex-col py-4 overflow-visible">
+            <div className="flex items-center justify-between w-full px-7 pb-4">
+              <span className="flex gap-[.8em]">
+                <span
+                  onClick={handleLikeStatus}
+                  className="cursor-pointer flex items-center gap-[.5em]"
+                >
+                  {isLiked ? <Unlike /> : <Like color={TERTIARY_COLOR} />}
+                  <strong className="font-normal text-black">
+                    {postLikesList.length}
+                  </strong>
+                </span>
+                <span
+                  onClick={toggleShowComments}
+                  className="cursor-pointer flex flex items-center gap-[.5em]"
+                >
+                  <Comment />
+                  <strong className="font-normal text-black">
+                    {comments_number}
+                  </strong>
+                </span>
               </span>
-              <Comment />
-            </span>
-            <Unfold isUnfolded={isUnfolded} setIsUnfolded={setIsUnfolded} />
+              <Unfold isUnfolded={isUnfolded} setIsUnfolded={setIsUnfolded} />
+            </div>
+            {showComments && (
+              <Suspense>
+                <Comments postId={id} comments={comments} />
+              </Suspense>
+            )}
           </CardFooter>
         </Card>
       )}

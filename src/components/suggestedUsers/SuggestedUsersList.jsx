@@ -39,7 +39,7 @@ export function SuggestedUsersList({ type }) {
                   className="w-full flex justify-between items-center"
                   key={user.id}
                 >
-                  <FollowActionCard user={user} />;
+                  <FollowActionCard user={user} />
                 </li>
               );
             })}
