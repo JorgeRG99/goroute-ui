@@ -1,15 +1,25 @@
 import PropTypes from "prop-types";
-import { OpenCreateActivityPopup } from "../../Buttons/OpenCreateActivityPopup";
-import { OpenCreatePostPopup } from "../../Buttons/OpenCreatePostPopup";
+import { lazy, Suspense } from "react";
+
+const OpenCreateActivityPopup = lazy(() =>
+  import("../../Buttons/OpenCreateActivityPopup")
+);
+const OpenCreatePostPopup = lazy(() =>
+  import("../../Buttons/OpenCreatePostPopup")
+);
 
 export default function YourNoPublications({ type }) {
   return (
     <span className="w-[90%] flex flex-col items-center gap-[1em] pt-[4em]">
       <h2>Aún no tienes {type}</h2>
       {type === "actividades" ? (
-        <OpenCreateActivityPopup />
+        <Suspense>
+          <OpenCreateActivityPopup />
+        </Suspense>
       ) : (
-        <OpenCreatePostPopup />
+        <Suspense>
+          <OpenCreatePostPopup />
+        </Suspense>
       )}
     </span>
   );

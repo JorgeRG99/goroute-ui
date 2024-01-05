@@ -2,11 +2,17 @@ import { User } from "@nextui-org/user";
 import { Link } from "react-router-dom";
 import { userInitials } from "../../services/helpers";
 import PropTypes from "prop-types";
+import { useUserSessionStore } from "../../store/userSession";
 
 export default function UserSmallCard({ user }) {
   const { username, name, surname, avatar } = user;
+  const userData = useUserSessionStore((state) => state.userData);
+
+  const userProfileUrl =
+    userData.username === username ? "/profile" : `/${username}`;
+
   return (
-    <Link to={`/${username}`}>
+    <Link to={userProfileUrl}>
       <User
         classNames={{ name: "capitalize", base: "ml-[.5em] py-[.2em]" }}
         name={`${name} ${surname}`}

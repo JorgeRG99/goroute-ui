@@ -1,6 +1,7 @@
 export const EyeFilledSlash = (props) => (
   <svg
     aria-hidden="true"
+    aria-label="Mostrar"
     fill="none"
     focusable="false"
     height="1em"

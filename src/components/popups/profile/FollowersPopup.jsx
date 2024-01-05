@@ -8,7 +8,12 @@ import {
 import { Popups, usePopups } from "../../../hooks/usePopups";
 import { FollowersCard } from "../../cards/FollowersCard";
 import PropTypes from "prop-types";
-import { CreateActivity } from "../../buttons/CreateActivity";
+import { Suspense, lazy } from "react";
+
+const OpenCreateActivityPopup = lazy(() =>
+  import("../../Buttons/OpenCreateActivityPopup")
+);
+
 export default function FollowersPopup({ followersList }) {
   const { popups, togglePopup } = usePopups();
 
@@ -38,10 +43,12 @@ export default function FollowersPopup({ followersList }) {
                   })}
                 </ul>
               ) : (
-                <span className="flex flex-col items-center gap-[1em] py-[1em]">
-                  <p>Aun no tienes seguidores, crea una actividad!</p>
-                  <CreateActivity />
-                </span>
+                <Suspense>
+                  <span className="flex flex-col items-center gap-[1em] py-[1em]">
+                    <p>Aun no tienes seguidores, crea una actividad!</p>
+                    <OpenCreateActivityPopup />
+                  </span>
+                </Suspense>
               )}
             </ModalBody>
           </>

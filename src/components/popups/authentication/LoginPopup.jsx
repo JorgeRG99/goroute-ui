@@ -16,6 +16,7 @@ import { EyeFilled } from "../../icons/EyeFilled";
 import { Popups, usePopups } from "../../../hooks/usePopups";
 import { useUserSessionStore } from "../../../store/userSession";
 import { useUserActivitiesStore } from "../../../store/userActivities";
+import { useUserPostsStore } from "../../../store/userPosts";
 
 export default function LoginPopup() {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +25,8 @@ export default function LoginPopup() {
   const setUserActivities = useUserActivitiesStore(
     (state) => state.setUserActivities
   );
+
+  const setUserPosts = useUserPostsStore((state) => state.setUserPosts);
   const { popups, togglePopup } = usePopups();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -108,6 +111,7 @@ export default function LoginPopup() {
                   });
 
                   setUserActivities();
+                  setUserPosts();
 
                   onClose();
                 }}

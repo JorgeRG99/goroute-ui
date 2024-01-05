@@ -56,6 +56,16 @@ export const useUserActivitiesStore = create((set) => {
             }
         },
 
+        setUserActivities: async () => {
+            const authToken = getFromStorage('AuthToken');
+
+            if (authToken) {
+                const fetchedActivities = await getYourActivities(authToken)
+    
+                set({ yourActivities: fetchedActivities })
+            }
+        },
+
         cleanActivities: () => set({ yourActivities: null }),
     }
 })

@@ -11,7 +11,7 @@ export default function OpenEditPostPopup({ onOpen }) {
       variant="shadow"
       size="sm"
     >
-      <Edit />
+      <Edit color="white" />
     </Button>
   );
 }

@@ -11,6 +11,7 @@ import { useActivityLikes } from "../../hooks/useActivityLikes";
 import { createPortal } from "react-dom";
 import { Suspense, lazy } from "react";
 import { useActivityParticipants } from "../../hooks/useActivityParticipants";
+import { LIKE_MEDIUM_SIZE } from "../../../config";
 
 const JoinActivityPopup = lazy(() =>
   import("../popups/activity/JoinActivityPopup")
@@ -91,7 +92,11 @@ export function HistoryActivityCard({ activity, sports }) {
               <strong className="font-normal text-[1.1em] text-black">
                 {activityLikesList.length}
               </strong>
-              {isLiked ? <Unlike /> : <Like color="black" />}
+              {isLiked ? (
+                <Unlike size={LIKE_MEDIUM_SIZE} />
+              ) : (
+                <Like color="black" size={LIKE_MEDIUM_SIZE} />
+              )}
             </span>
             <Button
               onPress={onOpenJoinActivityPopup}

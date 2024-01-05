@@ -55,6 +55,14 @@ export const useUserPostsStore = create((set) => {
             }
         },
 
+        setUserPosts: async () => {
+            const authToken = getFromStorage('AuthToken') || null;
+            const fetchedPosts = await getYourPosts(authToken)
+
+            set({ yourPosts: fetchedPosts })
+
+        },
+
         cleanPosts: () => set({ yourPosts: null }),
     }
 })

@@ -107,6 +107,7 @@ export function LoggedTabs() {
               src={userData.avatar || undefined}
               size="sm"
               name={userInitials(userData.name, userData.surname)}
+              className={selected === "/profile" && "bg-primary text-white"}
             />
             <span>Perfil</span>
           </Link>

@@ -34,11 +34,7 @@ export default function FollowsPopup({ followsList }) {
                   return (
                     <FollowActionCard
                       key={user.id}
-                      id={user.id}
-                      name={user.name}
-                      surname={user.surname}
-                      username={user.username}
-                      avatar={user.avatar}
+                      user={user}
                       onClose={onClose}
                     />
                   );

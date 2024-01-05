@@ -4,6 +4,7 @@ import { Unlike } from "../../../icons/Unlike";
 import { Location } from "../../../icons/Location";
 import { formatActivityDuration } from "../../../../services/helpers";
 import PropTypes from "prop-types";
+import { LIKE_MEDIUM_SIZE } from "../../../../../config";
 
 export function JoinActivityPopupHeader({
   duration,
@@ -30,7 +31,11 @@ export function JoinActivityPopupHeader({
           onClick={handleLikeStatus}
           className="cursor-pointer flex items-center gap-[.5em] text-white"
         >
-          {isLiked ? <Unlike /> : <Like color={"white"} />}
+          {isLiked ? (
+            <Unlike size={LIKE_MEDIUM_SIZE} />
+          ) : (
+            <Like color="white" size={LIKE_MEDIUM_SIZE} />
+          )}
           <strong className="font-normal">{likes}</strong>
         </span>
         <Chip color="primary">

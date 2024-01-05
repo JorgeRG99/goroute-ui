@@ -1,6 +1,10 @@
 //COPYRIGHT
 export const COPYRIGHT = "© 2023 GoRoute from GoRoute-Group"
 
+//ICONS SIZE
+export const LIKE_MEDIUM_SIZE = "24"
+export const LIKE_SMALL_SIZE = "18"
+
 // COLORS
 export const DEFAULT_COLOR = '#5F706D'
 export const PRIMARY_COLOR = '#17aa5a'
@@ -61,5 +65,9 @@ export const EDIT_POST_ENDPOINT = `${API_ORIGIN}/postUpdate`
 export const DELETE_POST_ENDPOINT = `${API_ORIGIN}/postDelete`
 
 // COMMENTS RELATED ROUTES
+export const GET_LAST_COMMENT_ENDPOINT = `${API_ORIGIN}/getLastComment`
 export const ADD_COMMENT_ENDPOINT = `${API_ORIGIN}/commentRegister`
 export const MORE_COMMENTS_ENDPOINT = `${API_ORIGIN}/moreComments`
+export const DELETE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentDelete`
+export const LIKE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentLike`
+export const UNLIKE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentUnlike`

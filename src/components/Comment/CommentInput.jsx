@@ -6,23 +6,31 @@ import { useRef } from "react";
 import { useComments } from "../../hooks/useComments";
 import PropTypes from "prop-types";
 
-export function CommentInput({ postId }) {
-  const { addComment } = useComments();
+export function CommentInput({ postId, setPostComments }) {
+  const { addComment, getLastComment } = useComments();
   const userData = useUserSessionStore((state) => state.userData);
   const commentRef = useRef();
 
-  const handleCommentChange = (e) => {
-    commentRef.current = e.target.value;
-  };
-
   const handleCommentSubmit = async () => {
-    const content = commentRef.current
+    const content = commentRef.current.value
       .split("\n")
       .filter((paragraph) => paragraph);
 
-    await addComment({
+    const newCommentData = {
       post_id: postId,
       content,
+    };
+
+    await addComment(newCommentData);
+
+    const newComment = await getLastComment(postId);
+
+    setPostComments((prevState) => {
+      const updatedCommentsList = [...prevState];
+
+      updatedCommentsList.unshift(newComment);
+
+      return updatedCommentsList;
     });
   };
 
@@ -40,8 +48,8 @@ export function CommentInput({ postId }) {
         variant="underlined"
         classNames={{ innerWrapper: "items-end" }}
         size="sm"
+        ref={commentRef}
         placeholder="¿Qué te parece este post? Deja un comentario..."
-        onChange={handleCommentChange}
         endContent={
           <Button
             isIconOnly
@@ -60,4 +68,5 @@ export function CommentInput({ postId }) {
 
 CommentInput.propTypes = {
   postId: PropTypes.string.isRequired,
+  setPostComments: PropTypes.func.isRequired,
 };

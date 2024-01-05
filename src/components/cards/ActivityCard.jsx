@@ -121,7 +121,7 @@ export default function ActivityCard({
           <Chip variant="solid" color="secondary">
             {sport}
           </Chip>
-          {activityData.participants.length !== 0 ? (
+          {activityParticipants.length !== 0 ? (
             <ActivityMembers participants={activityParticipants} />
           ) : (
             <Chip className="bg-tertiary text-white">Sin participantes</Chip>

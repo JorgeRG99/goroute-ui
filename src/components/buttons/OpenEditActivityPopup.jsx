@@ -12,7 +12,7 @@ export default function OpenEditActivityPopup({ onOpen }) {
       size="sm"
       isIconOnly
     >
-      <Edit />
+      <Edit color="white" />
     </Button>
   );
 }

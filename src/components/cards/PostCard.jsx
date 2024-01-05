@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { Unfold } from "../Buttons/Unfold";
 import { Comment } from "../Icons/Comment";
 import { Like } from "../Icons/Like";
-import { TERTIARY_COLOR } from "../../../config";
+import { LIKE_MEDIUM_SIZE, TERTIARY_COLOR } from "../../../config";
 import PropTypes from "prop-types";
 import { useUserById } from "../../hooks/useUserById";
 import { formatActivityDate, userInitials } from "../../services/helpers";
@@ -48,7 +48,7 @@ export default function PostCard({
   const { profileData } = useUserById(user_id);
   const { postLikesList, isLiked, handleLikeStatus } = usePostLikes(postData);
   const creationDate = formatActivityDate(created_at.slice(0, 10));
-
+  const [commentsNumber, setCommentsNumber] = useState(comments_number);
   const cardWidth = isForProfile ? "full" : "80%";
   const avatarSize = isForProfile ? "md" : "lg";
   const nameTextSize = isForProfile ? ".95" : "1";
@@ -72,13 +72,14 @@ export default function PostCard({
     <>
       {isOpenEditPostPopup && (
         <Suspense>
-          createPortal(
-          <EditPostPopup
-            isOpen={isOpenEditPostPopup}
-            onOpenChange={onOpenChangeEditPostPopup}
-            postData={postData}
-          />
-          , document.body )
+          {createPortal(
+            <EditPostPopup
+              isOpen={isOpenEditPostPopup}
+              onOpenChange={onOpenChangeEditPostPopup}
+              postData={postData}
+            />,
+            document.body
+          )}
         </Suspense>
       )}
       {isOpenDeletePostPopup && (
@@ -129,7 +130,7 @@ export default function PostCard({
                 </Suspense>
               )}
             </div>
-            <p className="text-[.9em] font-light text-success">
+            <p className="text-[.9em] font-light">
               Publicado el {creationDate}
             </p>
             {isCurrentUserProfile && (
@@ -163,7 +164,11 @@ export default function PostCard({
                   onClick={handleLikeStatus}
                   className="cursor-pointer flex items-center gap-[.5em]"
                 >
-                  {isLiked ? <Unlike /> : <Like color={TERTIARY_COLOR} />}
+                  {isLiked ? (
+                    <Unlike size={LIKE_MEDIUM_SIZE} />
+                  ) : (
+                    <Like color={TERTIARY_COLOR} size={LIKE_MEDIUM_SIZE} />
+                  )}
                   <strong className="font-normal text-black">
                     {postLikesList.length}
                   </strong>
@@ -174,7 +179,7 @@ export default function PostCard({
                 >
                   <Comment />
                   <strong className="font-normal text-black">
-                    {comments_number}
+                    {commentsNumber}
                   </strong>
                 </span>
               </span>
@@ -182,7 +187,11 @@ export default function PostCard({
             </div>
             {showComments && (
               <Suspense>
-                <Comments postId={id} comments={comments} />
+                <Comments
+                  postId={id}
+                  comments={comments}
+                  setCommentsNumber={setCommentsNumber}
+                />
               </Suspense>
             )}
           </CardFooter>

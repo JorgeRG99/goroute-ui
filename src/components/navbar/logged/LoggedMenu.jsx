@@ -12,7 +12,7 @@ export function LoggedMenu() {
 
   return (
     <>
-      <Dropdown>
+      <Dropdown size="sm">
         <DropdownTrigger>
           <button aria-label="Session options" className="focus:outline-none">
             <Settings />

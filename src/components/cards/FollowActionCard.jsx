@@ -9,7 +9,7 @@ const ToggleFollowButton = lazy(() => import("../buttons/ToggleFollowButton"));
 export function FollowActionCard({ user }) {
   const { id, name, surname, username, avatar } = user;
   return (
-    <>
+    <div className="flex items-center justify-between w-full">
       <Link to={`/${username}`}>
         <User
           classNames={{ name: "capitalize" }}
@@ -25,7 +25,7 @@ export function FollowActionCard({ user }) {
       <Suspense>
         <ToggleFollowButton id={id} />
       </Suspense>
-    </>
+    </div>
   );
 }
 

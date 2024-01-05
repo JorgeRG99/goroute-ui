@@ -1,6 +1,7 @@
 export const EyeFilled = (props) => (
   <svg
     aria-hidden="true"
+    aria-label="Ocultar"
     fill="none"
     focusable="false"
     height="1em"

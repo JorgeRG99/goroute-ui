@@ -11,7 +11,7 @@ export default function OpenDeleteActivityPopup({ onOpen }) {
       isIconOnly
       onPress={onOpen}
     >
-      <Delete />
+      <Delete color="white" />
     </Button>
   );
 }
