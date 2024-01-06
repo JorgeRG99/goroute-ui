@@ -49,6 +49,7 @@ export default function RegisterPopup() {
       isOpen={popups[Popups.Register]}
       onClose={() => togglePopup(Popups.Register)}
       placement="top-center"
+      backdrop="blur"
     >
       <ModalContent>
         {(onClose) => (

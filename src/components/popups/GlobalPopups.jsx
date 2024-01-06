@@ -6,6 +6,7 @@ const LogoutPopup = lazy(() => import("./authentication/LogoutPopup"));
 const CreateContentPopup = lazy(() =>
   import("./createContent/CreateContentPopup")
 );
+const FindUsersPopup = lazy(() => import("./FindUsers/FindUsersPopup"));
 
 export default function GlobalPopups() {
   const sports = useSportsStore((state) => state.sports);
@@ -21,6 +22,11 @@ export default function GlobalPopups() {
       {popups[Popups.CreateContent] && (
         <Suspense>
           <CreateContentPopup sports={sports} />
+        </Suspense>
+      )}
+      {popups[Popups.FindUser] && (
+        <Suspense>
+          <FindUsersPopup />
         </Suspense>
       )}
     </>

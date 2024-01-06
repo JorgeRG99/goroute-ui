@@ -9,7 +9,8 @@ export default function RegisterPostPopup() {
     <Modal
       isOpen={popups[Popups.AddPost]}
       onClose={() => togglePopup(Popups.AddPost)}
-      placement="top-center"
+      placement="center"
+      backdrop="blur"
     >
       <ModalContent>
         {(onClose) => (

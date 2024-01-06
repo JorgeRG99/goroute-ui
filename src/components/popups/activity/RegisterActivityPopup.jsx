@@ -10,6 +10,7 @@ export default function RegisterActivityPopup() {
       isOpen={popups[Popups.AddActivity]}
       onClose={() => togglePopup(Popups.AddActivity)}
       placement="top-center"
+      backdrop="blur"
     >
       <ModalContent>
         {(onClose) => (

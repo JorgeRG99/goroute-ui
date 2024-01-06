@@ -6,11 +6,12 @@ import { Suspense, lazy } from "react";
 
 const ToggleFollowButton = lazy(() => import("../buttons/ToggleFollowButton"));
 
-export function FollowActionCard({ user }) {
+export function FollowActionCard({ user, isCurrentUserProfile }) {
   const { id, name, surname, username, avatar } = user;
+  console.log(isCurrentUserProfile);
   return (
     <div className="flex items-center justify-between w-full">
-      <Link to={`/${username}`}>
+      <Link to={isCurrentUserProfile ? "/profile" : `/${username}`}>
         <User
           classNames={{ name: "capitalize" }}
           name={`${name} ${surname}`}
@@ -31,4 +32,5 @@ export function FollowActionCard({ user }) {
 
 FollowActionCard.propTypes = {
   user: PropTypes.object.isRequired,
+  isCurrentUserProfile: PropTypes.bool,
 };

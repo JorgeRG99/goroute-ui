@@ -38,6 +38,7 @@ export default function LoginPopup() {
       isOpen={popups[Popups.Login]}
       onClose={() => togglePopup(Popups.Login)}
       placement="top-center"
+      backdrop="blur"
     >
       <ModalContent>
         {(onClose) => (

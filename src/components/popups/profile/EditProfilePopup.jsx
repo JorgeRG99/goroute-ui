@@ -44,7 +44,8 @@ export default function EditProfilePopup() {
     <Modal
       isOpen={popups[Popups.EditUser]}
       onClose={() => togglePopup(Popups.EditUser)}
-      placement="top-center"
+      placement="center"
+      backdrop="blur"
     >
       <ModalContent>
         {(onClose) => (

@@ -11,7 +11,8 @@ import {
     USER_REMOVE_FOLLOWER_ENDPOINT, 
     USER_FOLLOWS_ENDPOINT,
     USER_FOLLOWERS_ENDPOINT,
-    USER_JOINED_ACTIVITIES_ENDPOINT} from '../../config'
+    USER_JOINED_ACTIVITIES_ENDPOINT,
+    FIND_USER_BY_PARTIAL_USERNAME_ENDPOINT} from '../../config'
 
 export const user = async (authToken) => {
     try {
@@ -26,7 +27,24 @@ export const user = async (authToken) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error obteniendo datos del ususario de usuario ${error.message}`);
+        throw new Error(`Error obteniendo datos del ususario ${error.message}`);
+    }
+}
+
+export const findUserByPartialUsername = async (authToken, username) => {
+    try {
+        const res = await fetch(`${FIND_USER_BY_PARTIAL_USERNAME_ENDPOINT}?username=${username}`, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            },
+        });
+        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        const response =  await res.json();
+
+        return response;
+    } catch (error) {
+        throw new Error(`Error obteniendo usuarios ${error.message}`);
     }
 }
 
@@ -43,7 +61,7 @@ export const userByUsername = async (authToken, username) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error obteniendo datos del ususario de usuario ${error.message}`);
+        throw new Error(`Error obteniendo datos del ususario ${error.message}`);
     }
 }
 

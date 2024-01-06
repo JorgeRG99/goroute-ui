@@ -22,6 +22,7 @@ const API_ORIGIN = import.meta.env.VITE_APP_API_ORIGIN
 // USER ENDPOINTS
 export const USER_ENDPOINT = `${API_ORIGIN}/user`
 export const USER_BY_USERNAME_ENDPOINT = `${API_ORIGIN}/userByUsername`
+export const FIND_USER_BY_PARTIAL_USERNAME_ENDPOINT = `${API_ORIGIN}/findUsersByPartialUsername`
 export const USER_BY_ID_ENDPOINT = `${API_ORIGIN}/userById`
 export const REGISTER_ENDPOINT = `${API_ORIGIN}/userRegister`
 export const EDIT_USER_ENDPOINT = `${API_ORIGIN}/userUpdate`

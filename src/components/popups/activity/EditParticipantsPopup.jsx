@@ -35,6 +35,7 @@ export default function EditParticipantsPopup({
       onOpenChange={onOpenChange}
       placement="top-center"
       scrollBehavior="inside"
+      backdrop="blur"
     >
       <ModalContent>
         {() => (

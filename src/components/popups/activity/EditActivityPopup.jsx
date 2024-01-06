@@ -108,7 +108,12 @@ export default function EditActivityPopup({
           )}
         </Suspense>
       )}
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="top-center"
+        backdrop="blur"
+      >
         <ModalContent>
           {() => (
             <>

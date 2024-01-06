@@ -12,9 +12,11 @@ export function ActivitySearchBar({ setTitleFilter }) {
     <Input
       radius="xl"
       type="text"
-      size="sm"
-      placeholder="Partido de futbol amateur..."
+      size="md"
+      placeholder="Ej: Partido de futbol amateur..."
+      label="Encuentra tu próxima actividad"
       variant="faded"
+      labelPlacement="outside"
       onValueChange={onValueChangeDebounced}
       classNames={{ base: "w-[70%]" }}
       endContent={<Search />}

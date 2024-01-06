@@ -11,6 +11,7 @@ import { userInitials } from "../../../services/helpers";
 import { Popups, usePopups } from "../../../hooks/usePopups";
 import { useState } from "react";
 import { useUserSessionStore } from "../../../store/userSession";
+import { SearchNavbar } from "../../Icons/SearchNavbar";
 
 export function LoggedTabs() {
   const { pathname } = useLocation();
@@ -29,6 +30,20 @@ export function LoggedTabs() {
       onSelectionChange={(key) => setSelected(key)}
       selectedKey={pathname}
     >
+      <Tab
+        key="search"
+        title={
+          <div
+            onClick={() => togglePopup(Popups.FindUser)}
+            className="flex items-center space-x-3"
+          >
+            <SearchNavbar
+              color={selected === "search" ? PRIMARY_COLOR : DEFAULT_COLOR}
+            />
+            <span>Buscar</span>
+          </div>
+        }
+      />
       <Tab
         id="/"
         key="/"

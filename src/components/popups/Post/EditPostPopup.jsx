@@ -56,7 +56,12 @@ export default function EditPostPopup({ postData, isOpen, onOpenChange }) {
   };
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      placement="top-center"
+      backdrop="blur"
+    >
       <ModalContent>
         {() => (
           <>

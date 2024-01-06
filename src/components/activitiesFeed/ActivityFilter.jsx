@@ -7,9 +7,13 @@ export function ActivityFilter({ setSportFilter }) {
 
   return (
     <Autocomplete
-      size="sm"
-      label="Seleciona un filtro"
-      className="max-w-[25%]"
+      size="md"
+      label="Elige tu Deporte"
+      variant="faded"
+      isClearable={false}
+      placeholder="Seleciona un deporte"
+      labelPlacement="outside"
+      className="max-w-[27%]"
       onSelectionChange={(value) => {
         setSportFilter(value);
       }}

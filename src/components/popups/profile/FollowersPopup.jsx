@@ -21,7 +21,7 @@ export default function FollowersPopup({ followersList }) {
     <Modal
       isOpen={popups[Popups.Followers]}
       onClose={() => togglePopup(Popups.Followers)}
-      placement="top-center"
+      placement="center"
       scrollBehavior="inside"
     >
       <ModalContent>
