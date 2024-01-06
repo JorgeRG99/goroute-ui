@@ -1,19 +1,33 @@
-import { lazy, useRef } from "react";
+import { lazy, useRef, useState } from "react";
 import { FeedPostCardSkeleton } from "../Skeletons/FeedPostCardSkeleton";
 import { Link } from "react-router-dom";
 import { Spinner } from "@nextui-org/spinner";
 import FeedFooter from "../FeedFooter/FeedFooter";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import { getPostsFeed } from "../../services/post";
+import { PostsFeedHeader } from "./PostsFeedHeader";
 
 const PostCard = lazy(() => import("../Cards/PostCard"));
 
 export function Posts() {
   const elementToObserve = useRef(null);
-  const { feed, isLoading } = useInfiniteScroll(getPostsFeed, elementToObserve);
+  const [tagFilter, setTagFilter] = useState();
+  const [titleFilter, setTitleFilter] = useState();
+  const { feed, isLoading } = useInfiniteScroll(
+    getPostsFeed,
+    elementToObserve,
+    {
+      firstFilter: tagFilter,
+      secondFilter: titleFilter,
+    }
+  );
 
   return (
-    <section>
+    <section className="flex flex-col items-center">
+      <PostsFeedHeader
+        setTagFilter={setTagFilter}
+        setTitleFilter={setTitleFilter}
+      />
       <main className="w-[50em] flex flex-col items-center gap-[2em]">
         {feed ? (
           feed.length > 0 ? (

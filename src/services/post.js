@@ -1,8 +1,16 @@
 import { ADD_POST_ENDPOINT, DELETE_POST_ENDPOINT, EDIT_POST_ENDPOINT, GET_POSTS_FEED_ENDPOINT, GET_POST_LIKES_ENDPOINT, GET_USER_POSTS_ENDPOINT, GET_YOUR_POSTS_ENDPOINT, LIKE_POST_ENDPOINT, UNLIKE_POST_ENDPOINT } from "../../config";
 
-export const getPostsFeed = async (authToken, from) => {
+export const getPostsFeed = async (authToken, from, { firstFilter = undefined, secondFilter = undefined } = {}) => {
+    const feedUrl = firstFilter && !secondFilter ?
+        `${GET_POSTS_FEED_ENDPOINT}?from=${from}&tag=${firstFilter}` :
+        secondFilter && !firstFilter ?
+            `${GET_POSTS_FEED_ENDPOINT}?from=${from}&title=${secondFilter}` :
+            secondFilter && firstFilter ?
+                `${GET_POSTS_FEED_ENDPOINT}?from=${from}&title=${secondFilter}&tag=${firstFilter}` :
+                `${GET_POSTS_FEED_ENDPOINT}?from=${from}`
+
     try {
-        const res = await fetch(`${GET_POSTS_FEED_ENDPOINT}?from=${from}`, {
+        const res = await fetch(feedUrl, {
             headers: {
                 'Authorization': `Bearer ${authToken}`
             },

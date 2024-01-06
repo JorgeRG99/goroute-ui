@@ -1,9 +1,9 @@
 import { Input } from "@nextui-org/react";
-import { Search } from "../Icons/Search";
 import debounce from "just-debounce-it";
 import PropTypes from "prop-types";
+import { Search } from "../Icons/Search";
 
-export function ActivitySearchBar({ setTitleFilter }) {
+export function PostTitleSearchBar({ setTitleFilter }) {
   const onValueChangeDebounced = debounce((value) => {
     setTitleFilter(value);
   }, 300);
@@ -12,8 +12,10 @@ export function ActivitySearchBar({ setTitleFilter }) {
     <Input
       radius="xl"
       type="text"
-      size="sm"
-      placeholder="Partido de futbol amateur..."
+      size="md"
+      labelPlacement="outside"
+      label="Descubre Tips de Salud y Deporte"
+      placeholder="Ej: Los mejores alimentos.para tu ciclo de definición.."
       variant="faded"
       onValueChange={onValueChangeDebounced}
       classNames={{ base: "w-[70%]" }}
@@ -22,6 +24,6 @@ export function ActivitySearchBar({ setTitleFilter }) {
   );
 }
 
-ActivitySearchBar.propTypes = {
+PostTitleSearchBar.propTypes = {
   setTitleFilter: PropTypes.func.isRequired,
 };

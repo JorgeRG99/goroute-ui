@@ -31,7 +31,7 @@ export const useInfiniteScroll = (getFeed, elementToObserve, filters) => {
       300,
       { leading: true }
     ),
-    [filters.sport, filters.title]
+    [filters.firstFilter, filters.secondFilter]
   );
 
   useEffect(() => {
@@ -56,14 +56,14 @@ export const useInfiniteScroll = (getFeed, elementToObserve, filters) => {
     if(elementToObserve.current) observer.observe(elementToObserve.current);
 
     if (!feed) setUserPostFeed();
-    if (filters.sport !== prevFilters.current.sport || filters.title !== prevFilters.current.title) {
+    if (filters.firstFilter !== prevFilters.current.firstFilter || filters.secondFilter !== prevFilters.current.secondFilter) {
       firstPublicationToFetchRef.current = 0
       prevFilters.current = filters
       setUserPostFeed()
     }
 
     return () => observer.disconnect();
-  }, [firstPublicationToFetchRef.current, isIntersecting, filters.sport, filters.title]);
+  }, [firstPublicationToFetchRef.current, isIntersecting, filters.firstFilter, filters.secondFilter]);
 
   useEffect(() => {
     if (isIntersecting && !endReached) displayMoreFeed()

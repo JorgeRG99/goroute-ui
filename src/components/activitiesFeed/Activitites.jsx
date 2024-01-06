@@ -17,8 +17,8 @@ export function Activities() {
     getActivitiesFeed,
     elementToObserve,
     {
-      sport: sportFilter,
-      title: titleFilter,
+      firstFilter: sportFilter,
+      secondFilter: titleFilter,
     }
   );
 
