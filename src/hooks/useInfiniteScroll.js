@@ -2,58 +2,63 @@ import throttle from "just-throttle";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useUserSessionStore } from "../store/userSession";
 
-export const useInfiniteScroll = (getFeed, observatedId) => {
-    const [feed, setFeed] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const authToken = useUserSessionStore((state) => state.authToken);
-    const firstPublicationToFetchRef = useRef(0);
-    const [endReached, setEndReached] = useState(false);
+export const useInfiniteScroll = (getFeed, elementToObserve) => {
+  const [feed, setFeed] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const authToken = useUserSessionStore((state) => state.authToken);
+  const firstPublicationToFetchRef = useRef(0);
+  const [isIntersecting, setIsIntersecting] = useState(false)
 
-    const handleScroll = useCallback(
-        throttle(
-          async () => {
-            const postFeedElement = document.querySelector(`#${observatedId}`);
-    
-            if (
-              window.innerHeight + window.scrollY >=
-              postFeedElement.offsetHeight
-            ) {
-              setIsLoading(true);
-              const newFeedResponse = await getFeed(
-                authToken,
-                firstPublicationToFetchRef.current
-              );
-              setFeed((prevFeed) => [
-                ...prevFeed,
-                ...newFeedResponse.feed,
-              ]);
-              firstPublicationToFetchRef.current = firstPublicationToFetchRef.current + 3;
-              setEndReached(newFeedResponse.endReached);
-              setIsLoading(false);
-            }
-          },
-          300,
-          { leading: true }
-        ),
-        []
+  const displayMoreFeed = useCallback(
+    throttle(
+      async () => {
+        setIsLoading(true);
+        const newFeedResponse = await getFeed(
+          authToken,
+          firstPublicationToFetchRef.current
+        );
+        setFeed((prevFeed) => [
+          ...prevFeed,
+          ...newFeedResponse,
+        ]);
+        firstPublicationToFetchRef.current = firstPublicationToFetchRef.current + 3;
+        setIsLoading(false);
+
+      },
+      100,
+      { leading: true }
+    ),
+    []
+  );
+
+  useEffect(() => {
+    const setUserPostFeed = async () => {
+      const newFeed = await getFeed(
+        authToken,
+        firstPublicationToFetchRef.current
       );
-    
-      useEffect(() => {
-        const setUserPostFeed = async () => {
-          const newFeed = await getFeed(
-            authToken,
-            firstPublicationToFetchRef.current
-          );
-    
-          setFeed(newFeed.feed);
-          firstPublicationToFetchRef.current = firstPublicationToFetchRef.current + 3;
-        };
-    
-        if (!feed) setUserPostFeed();
-        if (!endReached) window.addEventListener("scroll", handleScroll);
-    
-        return () => window.removeEventListener("scroll", handleScroll);
-      }, [endReached]);
 
-  return { isLoading, feed}
+      setFeed(newFeed);
+      firstPublicationToFetchRef.current = firstPublicationToFetchRef.current + 3;
+    };
+
+    const observer = new IntersectionObserver(
+      (entry) => {
+        setIsIntersecting(entry[0].isIntersecting);
+      },
+      { threshold: 0.9 }
+    );
+
+    if(elementToObserve.current) observer.observe(elementToObserve.current);
+
+    if (!feed) setUserPostFeed();
+
+    return () => observer.disconnect();
+  }, [firstPublicationToFetchRef.current, isIntersecting]);
+
+  useEffect(() => {
+    if (isIntersecting) displayMoreFeed()
+  }, [isIntersecting])
+
+  return { isLoading, feed }
 }

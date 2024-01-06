@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { lazy, useRef } from "react";
 import { FeedPostCardSkeleton } from "../Skeletons/FeedPostCardSkeleton";
 import { Link } from "react-router-dom";
 import { Spinner } from "@nextui-org/spinner";
@@ -9,14 +9,12 @@ import { getPostsFeed } from "../../services/post";
 const PostCard = lazy(() => import("../Cards/PostCard"));
 
 export function Posts() {
-  const { feed, isLoading } = useInfiniteScroll(getPostsFeed, "post-feed");
+  const elementToObserve = useRef(null);
+  const { feed, isLoading } = useInfiniteScroll(getPostsFeed, elementToObserve);
 
   return (
     <section>
-      <main
-        id="post-feed"
-        className="w-[50em] my-[1em] flex flex-col items-center gap-[1em]"
-      >
+      <main className="w-[50em] my-[2em] flex flex-col items-center gap-[2em]">
         {feed ? (
           feed.length > 0 ? (
             <ul className="flex flex-col gap-[2em] w-full items-center">
@@ -61,11 +59,13 @@ export function Posts() {
             <FeedPostCardSkeleton />
             <FeedPostCardSkeleton />
             <FeedPostCardSkeleton />
+            <FeedPostCardSkeleton />
+            <FeedPostCardSkeleton />
           </div>
         )}
         {isLoading && <Spinner color="primary" />}
       </main>
-      <FeedFooter />
+      <FeedFooter elementToObserve={elementToObserve} />
     </section>
   );
 }

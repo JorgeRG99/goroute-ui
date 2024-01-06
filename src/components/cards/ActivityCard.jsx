@@ -14,6 +14,7 @@ import { ActivityMembers } from "./ActivityMembers";
 import { Suspense, lazy } from "react";
 import { useActivityParticipants } from "../../hooks/useActivityParticipants";
 import { useActivityLikes } from "../../hooks/useActivityLikes";
+import { useSportsStore } from "../../store/sports";
 
 const JoinActivityPopup = lazy(() =>
   import("../popups/activity/JoinActivityPopup")
@@ -31,11 +32,7 @@ const OpenDeleteActivityPopup = lazy(() =>
   import("../Buttons/OpenDeleteActivityPopup")
 );
 
-export default function ActivityCard({
-  activityData,
-  sports,
-  isCurrentUserProfile,
-}) {
+export default function ActivityCard({ activityData, isCurrentUserProfile }) {
   const {
     isOpen: isOpenJoinActivityPopup,
     onOpen: onOpenJoinActivityPopup,
@@ -53,7 +50,7 @@ export default function ActivityCard({
     onOpen: onOpenCancelActivityPopup,
     onOpenChange: onOpenChangeCancelActivityPopup,
   } = useDisclosure();
-
+  const sports = useSportsStore((state) => state.sports);
   const sport = getActivitySport(activityData.sport_id, sports);
   const date = formatActivityDate(activityData.day);
 
@@ -164,6 +161,5 @@ export default function ActivityCard({
 
 ActivityCard.propTypes = {
   activityData: PropTypes.object.isRequired,
-  sports: PropTypes.array.isRequired,
   isCurrentUserProfile: PropTypes.bool,
 };

@@ -12,12 +12,11 @@ import { Unfold } from "../Buttons/Unfold";
 import { Comment } from "../Icons/Comment";
 import { Like } from "../Icons/Like";
 import { LIKE_MEDIUM_SIZE, TERTIARY_COLOR } from "../../../config";
-import PropTypes from "prop-types";
-import { useUserById } from "../../hooks/useUserById";
 import { formatActivityDate, userInitials } from "../../services/helpers";
 import { usePostLikes } from "../../hooks/usePostLikes";
 import { Unlike } from "../icons/Unlike";
 import { createPortal } from "react-dom";
+import PropTypes from "prop-types";
 
 const ToggleFollowButton = lazy(() => import("../buttons/ToggleFollowButton"));
 const EditPostPopup = lazy(() => import("../Popups/Post/EditPostPopup"));
@@ -40,12 +39,12 @@ export default function PostCard({
     title,
     content,
     tags,
-    user_id,
+    user,
     comments_number,
     created_at,
     comments,
   } = postData;
-  const { profileData } = useUserById(user_id);
+
   const { postLikesList, isLiked, handleLikeStatus } = usePostLikes(postData);
   const creationDate = formatActivityDate(created_at.slice(0, 10));
   const [commentsNumber, setCommentsNumber] = useState(comments_number);
@@ -94,7 +93,7 @@ export default function PostCard({
           )}
         </Suspense>
       )}
-      {profileData && (
+      {user && (
         <Card
           isBlurred
           className={`border-none bg-background/60 dark:bg-default-100/50 w-[${cardWidth}]`}
@@ -102,7 +101,7 @@ export default function PostCard({
         >
           <CardHeader className="p-[1.5em] w-full flex justify-between items-start">
             <div className="flex gap-[1.5em] items-center">
-              <Link to={`/${profileData.username}`}>
+              <Link to={`/${user.username}`}>
                 <User
                   classNames={{
                     name: "capitalize text-[" + nameTextSize + "em]",
@@ -110,15 +109,15 @@ export default function PostCard({
                     base: "py-[.2em]",
                     wrapper: "ml-[.6em]",
                   }}
-                  name={`${profileData.name} ${profileData.surname}`}
+                  name={`${user.name} ${user.surname}`}
                   description={
                     <p className="text-primary text-[1.1em]">
-                      @{profileData.username}
+                      @{user.username}
                     </p>
                   }
                   avatarProps={{
-                    src: profileData.avatar || undefined,
-                    name: userInitials(profileData.name, profileData.surname),
+                    src: user.avatar || undefined,
+                    name: userInitials(user.name, user.surname),
                     isBordered: true,
                     size: avatarSize,
                   }}
@@ -126,7 +125,7 @@ export default function PostCard({
               </Link>
               {!isCurrentUserProfile && (
                 <Suspense>
-                  <ToggleFollowButton id={profileData.id} />
+                  <ToggleFollowButton id={user.id} />
                 </Suspense>
               )}
             </div>

@@ -1,7 +1,6 @@
-import { lazy } from "react";
+import { lazy, useRef } from "react";
 import { getActivitiesFeed } from "../../services/activity";
 import { FeedActivityCardSkeleton } from "../skeletons/FeedActivityCardSkeleton";
-import { useSportsStore } from "../../store/sports";
 import { Link } from "react-router-dom";
 import FeedFooter from "../FeedFooter/FeedFooter";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
@@ -10,19 +9,21 @@ import { Spinner } from "@nextui-org/spinner";
 const ActivityCard = lazy(() => import("../cards/ActivityCard"));
 
 export function Activities() {
-  const { feed, isLoading } = useInfiniteScroll(getActivitiesFeed, "post-feed");
-  const sports = useSportsStore((state) => state.sports);
-
+  const elementToObserve = useRef(null);
+  const { feed, isLoading } = useInfiniteScroll(
+    getActivitiesFeed,
+    elementToObserve
+  );
   return (
     <section>
-      <main className="w-[50em]" id="post-feed">
-        {feed && sports ? (
+      <main className="w-[50em] flex flex-col gap-[2em] items-center">
+        {feed ? (
           feed.length > 0 ? (
             <ul className="flex flex-col gap-[2em] w-full items-center">
               {feed.map((activity) => {
                 return (
                   <li className="w-[60%]" key={activity.id}>
-                    <ActivityCard activityData={activity} sports={sports} />
+                    <ActivityCard activityData={activity} />
                   </li>
                 );
               })}
@@ -59,7 +60,7 @@ export function Activities() {
         )}
         {isLoading && <Spinner color="primary" />}
       </main>
-      <FeedFooter />
+      <FeedFooter elementToObserve={elementToObserve} />
     </section>
   );
 }

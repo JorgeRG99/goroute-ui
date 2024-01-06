@@ -1,9 +1,14 @@
 import { Divider } from "@nextui-org/react";
 import { COPYRIGHT } from "../../../config";
+import PropTypes from "prop-types";
 
-export default function FeedFooter() {
+export default function FeedFooter({ elementToObserve }) {
   return (
-    <footer className="w-full mt-[2em] mb-[1em]" id="post-footer">
+    <footer
+      ref={elementToObserve}
+      className="w-full mt-[2em] mb-[1em]"
+      id="post-footer"
+    >
       <Divider className="my-[.9em] mx-auto w-[70%]" />
       <p className="text-[.8em] text-center w-full block text-default-light">
         {COPYRIGHT}
@@ -11,3 +16,7 @@ export default function FeedFooter() {
     </footer>
   );
 }
+
+FeedFooter.propTypes = {
+  elementToObserve: PropTypes.object.isRequired,
+};
