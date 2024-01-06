@@ -11,12 +11,11 @@ export function ShowComments({ setPostComments, postId, numberOfComments }) {
   const handleGetMoreComments = async () => {
     if (hasMoreComments) {
       setIsLoading(true);
+      const newCommentsData = await moreComments(numberOfComments, postId);
 
-      const newCommentsLimit = numberOfComments + 3;
-
-      const newCommentsData = await moreComments(newCommentsLimit, postId);
-
-      setPostComments(newCommentsData.comments);
+      setPostComments((prevComments) =>
+        prevComments.concat(newCommentsData.comments)
+      );
       setHasMoreComments(newCommentsData.hasMoreComments);
 
       setIsLoading(false);

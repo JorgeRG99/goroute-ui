@@ -22,9 +22,9 @@ export const useComments = () => {
         }
     }
 
-    const moreComments = async (limit, postId) => {
+    const moreComments = async (from, postId) => {
         try {
-            return await getMoreComments(authToken, postId, limit)
+            return await getMoreComments(authToken, postId, from)
         } catch (error) {
             throw new Error(`Error obteniendo comentarios ${error.message}`);
         }

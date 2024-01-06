@@ -143,7 +143,9 @@ export default function PostCard({
             )}
           </CardHeader>
           <CardBody
-            className={`px-9 pt-0 flex gap-[2em] ${!isUnfolded && "h-[6.5em]"}`}
+            className={`px-9 pt-0 flex gap-[2em] ${
+              !isUnfolded && "h-[6.5em]"
+            } overflow-hidden`}
           >
             <h2 className="font-semibold text-[1.2em]">{title}</h2>
             {content.map((paragraph, index) => (

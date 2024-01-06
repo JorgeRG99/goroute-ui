@@ -34,9 +34,9 @@ export const getUserActivities = async (authToken, username) => {
     }
 }
 
-export const getActivitiesFeed = async (authToken) => {
+export const getActivitiesFeed = async (authToken, from) => {
     try {
-        const res = await fetch(GET_ACTIVITIES_FEED_ENDPOINT, {
+        const res = await fetch(`${GET_ACTIVITIES_FEED_ENDPOINT}?from=${from}`, {
             headers: {
                 'Authorization': `Bearer ${authToken}`
             },

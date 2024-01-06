@@ -1,8 +1,8 @@
 import { ADD_POST_ENDPOINT, DELETE_POST_ENDPOINT, EDIT_POST_ENDPOINT, GET_POSTS_FEED_ENDPOINT, GET_POST_LIKES_ENDPOINT, GET_USER_POSTS_ENDPOINT, GET_YOUR_POSTS_ENDPOINT, LIKE_POST_ENDPOINT, UNLIKE_POST_ENDPOINT } from "../../config";
 
-export const getPostsFeed = async (authToken) => {
+export const getPostsFeed = async (authToken, from) => {
     try {
-        const res = await fetch(GET_POSTS_FEED_ENDPOINT, {
+        const res = await fetch(`${GET_POSTS_FEED_ENDPOINT}?from=${from}`, {
             headers: {
                 'Authorization': `Bearer ${authToken}`
             },

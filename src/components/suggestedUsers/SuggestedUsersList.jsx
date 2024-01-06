@@ -47,9 +47,9 @@ export function SuggestedUsersList({ type }) {
         )}
       </div>
       <Divider className="my-[.9em] mx-auto w-[90%]" />
-      <span className="text-[.8em] text-center w-full block text-default-light">
+      <p className="text-[.8em] text-center w-full block text-default-light">
         {COPYRIGHT}
-      </span>
+      </p>
     </section>
   );
 }

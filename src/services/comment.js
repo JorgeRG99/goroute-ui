@@ -36,9 +36,9 @@ export const insertComment = async (authToken, commentData) => {
     }
 }
 
-export const getMoreComments = async (authToken, postId, limit) => {
+export const getMoreComments = async (authToken, postId, from) => {
     try {
-        const res = await fetch(`${MORE_COMMENTS_ENDPOINT}?limit=${limit}&post_id=${postId}`, {
+        const res = await fetch(`${MORE_COMMENTS_ENDPOINT}?from=${from}&post_id=${postId}`, {
             headers: {
                 'Authorization': `Bearer ${authToken}`,
             },
