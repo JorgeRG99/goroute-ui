@@ -1,21 +1,33 @@
-import { lazy, useRef } from "react";
+import { lazy, useRef, useState } from "react";
 import { getActivitiesFeed } from "../../services/activity";
 import { FeedActivityCardSkeleton } from "../skeletons/FeedActivityCardSkeleton";
 import { Link } from "react-router-dom";
 import FeedFooter from "../FeedFooter/FeedFooter";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import { Spinner } from "@nextui-org/spinner";
+import { ActivitiesFeedHeader } from "./ActivitiesFeedHeader";
 
 const ActivityCard = lazy(() => import("../cards/ActivityCard"));
 
 export function Activities() {
   const elementToObserve = useRef(null);
+  const [sportFilter, setSportFilter] = useState();
+  const [titleFilter, setTitleFilter] = useState();
   const { feed, isLoading } = useInfiniteScroll(
     getActivitiesFeed,
-    elementToObserve
+    elementToObserve,
+    {
+      sport: sportFilter,
+      title: titleFilter,
+    }
   );
+
   return (
-    <section>
+    <section className="flex flex-col items-center">
+      <ActivitiesFeedHeader
+        setSportFilter={setSportFilter}
+        setTitleFilter={setTitleFilter}
+      />
       <main className="w-[50em] flex flex-col gap-[2em] items-center">
         {feed ? (
           feed.length > 0 ? (

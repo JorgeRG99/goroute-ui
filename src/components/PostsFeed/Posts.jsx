@@ -14,7 +14,7 @@ export function Posts() {
 
   return (
     <section>
-      <main className="w-[50em] my-[2em] flex flex-col items-center gap-[2em]">
+      <main className="w-[50em] flex flex-col items-center gap-[2em]">
         {feed ? (
           feed.length > 0 ? (
             <ul className="flex flex-col gap-[2em] w-full items-center">

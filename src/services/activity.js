@@ -34,9 +34,17 @@ export const getUserActivities = async (authToken, username) => {
     }
 }
 
-export const getActivitiesFeed = async (authToken, from) => {
+export const getActivitiesFeed = async (authToken, from, {sport = undefined, title = undefined} = {}) => {
+    const feedUrl = sport && !title ? 
+                    `${GET_ACTIVITIES_FEED_ENDPOINT}?from=${from}&sport=${sport}` : 
+                    title && !sport ? 
+                    `${GET_ACTIVITIES_FEED_ENDPOINT}?from=${from}&title=${title}` :
+                    title && sport ? 
+                    `${GET_ACTIVITIES_FEED_ENDPOINT}?from=${from}&title=${title}&sport=${sport}` :
+                    `${GET_ACTIVITIES_FEED_ENDPOINT}?from=${from}`
+
     try {
-        const res = await fetch(`${GET_ACTIVITIES_FEED_ENDPOINT}?from=${from}`, {
+        const res = await fetch(feedUrl, {
             headers: {
                 'Authorization': `Bearer ${authToken}`
             },
