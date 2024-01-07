@@ -91,12 +91,9 @@ export const userRegister = async (userData) => {
             },
             body: JSON.stringify(userData),
         });
-        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`);
+        if (!res.ok) return res.status;
 
-        const response = await res.json();
-
-        return response;
-
+        return await res.status;
     } catch (error) {
         throw new Error(`Error en el registro de usuario ${error.message}`);
     }

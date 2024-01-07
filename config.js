@@ -72,3 +72,7 @@ export const MORE_COMMENTS_ENDPOINT = `${API_ORIGIN}/moreComments`
 export const DELETE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentDelete`
 export const LIKE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentLike`
 export const UNLIKE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentUnlike`
+
+//ERRORS
+export const GENERAL_SERVER_ERROR = "No se pudo completar la operación debido a un error. Por favor, verifica tu conexión a internet y vuelve a intentarlo más tarde."
+export const EMPTY_VALUES_ERROR = "Por favor, asegúrate de rellenar todos los campos antes de continuar. "
