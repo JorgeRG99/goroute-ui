@@ -17,7 +17,7 @@ export default function YourPosts() {
           </Suspense>
         ) : (
           <ul className="flex flex-col gap-[1rem] items-center w-full">
-            {yourPosts?.map((post) => {
+            {yourPosts.map((post) => {
               return (
                 <li key={post.id} className="w-full">
                   <PostCard

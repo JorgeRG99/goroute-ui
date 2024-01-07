@@ -11,7 +11,7 @@ import { useUserPostsStore } from "../../../store/userPosts";
 import { QuestionMark } from "../../Icons/QuestionMark";
 import { TagTooltip } from "../../Tooltips/TagTooltip";
 import PropTypes from "prop-types";
-import { usePostDataValidator } from "../../../hooks/FormValidationsHooks/usePostDataVlidator";
+import { usePostDataValidator } from "../../../hooks/FormValidationsHooks/usePostDataValidator";
 
 export function CreatePostForm({ onClose }) {
   const [isLoading, setIsLoading] = useState(false);

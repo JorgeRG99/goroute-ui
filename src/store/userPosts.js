@@ -27,8 +27,6 @@ export const useUserPostsStore = create((set) => {
                 if(isNumber(response)) return response
 
                 setYourPosts()
-
-                return response
             } catch (error) {
                 throw new Error(`Error añadiendo publicacion ${error.message}`);
             }
@@ -38,9 +36,9 @@ export const useUserPostsStore = create((set) => {
             try {
                 const response = await updatePost(authToken, updatedPostData)
 
-                setYourPosts()
+                if(isNumber(response)) return response
 
-                return response
+                setYourPosts()
             } catch (error) {
                 throw new Error(`Error añadiendo actividad ${error.message}`);
             }

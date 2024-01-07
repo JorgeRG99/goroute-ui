@@ -19,6 +19,7 @@ export default function DeletePostPopup({ isOpen, onOpenChange, postId }) {
     <Modal
       backdrop="blur"
       size="sm"
+      placement="center"
       className="bg-gradient-to-br from-white via-white to-slate-200"
       isOpen={isOpen}
       onOpenChange={onOpenChange}

@@ -88,11 +88,8 @@ export const updatePost = async (authToken, updatedPostData) => {
             },
             body: JSON.stringify(updatedPostData),
         });
-        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
 
-        const response = await res;
-
-        return response;
+        if (!res.ok) return res.status
     } catch (error) {
         throw new Error(`Error actualizando actividad ${error.message}`);
     }

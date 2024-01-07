@@ -10,56 +10,72 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import PropTypes from "prop-types";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useUserPostsStore } from "../../../store/userPosts";
 import { TagTooltip } from "../../Tooltips/TagTooltip";
 import { QuestionMark } from "../../Icons/QuestionMark";
+import { usePostDataValidator } from "../../../hooks/FormValidationsHooks/usePostDataValidator";
 
 export default function EditPostPopup({ postData, isOpen, onOpenChange }) {
   const [isLoading, setIsLoading] = useState(false);
   const editPost = useUserPostsStore((state) => state.editPost);
-
   const formattedTags = `#${postData.tags.join("#")}`;
+  const formattedContent = `${postData.content.join("\n")}`;
+  const [postNewData, setPostNewData] = useState({
+    id: postData.id,
+    title: postData.title,
+    content: formattedContent,
+    tags: formattedTags,
+  });
 
-  const postNewData = {
-    titleRef: useRef(),
-    contentRef: useRef(),
-    tagsRef: useRef(),
-  };
+  const {
+    isTitleInvalid,
+    isContentInvalid,
+    isTagsInvalid,
+    serverErrors,
+    catchEmptyValues,
+    catchedServerErrors,
+  } = usePostDataValidator(postNewData);
 
   const handleEditPost = async () => {
     setIsLoading(true);
 
-    const newContent =
-      postNewData.contentRef.current &&
-      postNewData.contentRef.current
+    const catchedEmptyData = catchEmptyValues();
+
+    if (!catchedEmptyData) {
+      const newContent = postNewData.content
         .split("\n")
         .filter((paragraph) => paragraph);
 
-    const newTags =
-      postNewData.tagsRef.current &&
-      postNewData.tagsRef.current.split("#").filter((tag) => tag);
+      const newTags = postNewData.tags.split("#").filter((tag) => tag);
 
-    const updatedPostData = Object.fromEntries(
-      Object.entries({
-        id: postData.id,
-        title: postNewData.titleRef.current,
+      const response = await editPost({
+        ...postNewData,
         content: newContent,
         tags: newTags,
-      }).filter((entry) => entry[1] !== undefined)
-    );
+      });
 
-    await editPost(updatedPostData);
+      const errorOcurred = catchedServerErrors(response);
+
+      if (!errorOcurred) onOpenChange();
+      setIsLoading(false);
+    }
 
     setIsLoading(false);
-    onOpenChange();
+  };
+
+  const handlePostNewDataChange = (e) => {
+    setPostNewData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   return (
     <Modal
       isOpen={isOpen}
       onOpenChange={onOpenChange}
-      placement="top-center"
+      placement="center"
       backdrop="blur"
     >
       <ModalContent>
@@ -72,29 +88,44 @@ export default function EditPostPopup({ postData, isOpen, onOpenChange }) {
               <ModalBody className="px-0">
                 <Input
                   label="Título"
+                  name="title"
                   defaultValue={postData.title}
                   variant="bordered"
-                  onValueChange={(value) => {
-                    postNewData.titleRef.current = value;
-                  }}
+                  isInvalid={isTitleInvalid}
+                  errorMessage={
+                    isTitleInvalid &&
+                    "Por favor, utiliza solo letras y espacios, con un mínimo de 10 caracteres y máximo de 30 caracteres"
+                  }
+                  color={isTitleInvalid ? "danger" : undefined}
+                  onChange={handlePostNewDataChange}
                 />
                 <Textarea
                   size="md"
                   label="Contenido"
                   defaultValue={postData.content}
                   variant="bordered"
-                  onValueChange={(value) => {
-                    postNewData.contentRef.current = value;
-                  }}
+                  name="content"
+                  isInvalid={isContentInvalid}
+                  errorMessage={
+                    isContentInvalid &&
+                    "Por favor, utiliza solo letras y espacios, con un mínimo de 10 caracteres y máximo de 3000 caracteres"
+                  }
+                  color={isContentInvalid ? "danger" : undefined}
+                  onChange={handlePostNewDataChange}
                 />
                 <span className="flex items-center gap-[1em]">
                   <Input
                     label="Tags"
                     variant="bordered"
                     defaultValue={formattedTags}
-                    onValueChange={(value) => {
-                      postNewData.tagsRef.current = value;
-                    }}
+                    onChange={handlePostNewDataChange}
+                    isInvalid={isTagsInvalid}
+                    name="tags"
+                    errorMessage={
+                      isTagsInvalid &&
+                      "Por favor, asegúrate de que cada tag comience con #, seguido únicamente por letras, números y guiones bajos. Recuerda que cada tag debe estar separado por un espacio o salto de línea."
+                    }
+                    color={isTagsInvalid ? "danger" : undefined}
                   />
                   <Tooltip content={<TagTooltip />}>
                     <span className="w-[1.9em] h-[1.7em] bg-secondary-blurred rounded-full flex items-center justify-center">
@@ -104,22 +135,32 @@ export default function EditPostPopup({ postData, isOpen, onOpenChange }) {
                 </span>
               </ModalBody>
             </ModalBody>
-            <ModalFooter>
-              <Button
-                color="danger"
-                variant="flat"
-                onPress={onOpenChange}
-                isDisabled={isLoading ? true : false}
-              >
-                Cerrar
-              </Button>
-              <Button
-                color="primary"
-                isLoading={isLoading ? true : false}
-                onPress={handleEditPost}
-              >
-                Actualizar
-              </Button>
+            <ModalFooter className="pt-[1em] flex flex-col gap-[2em]">
+              {serverErrors && (
+                <p className="text-danger text-[.85em]">{serverErrors}</p>
+              )}
+              <div className="flex gap-[1em] justify-end">
+                <Button
+                  color="danger"
+                  isDisabled={isLoading ? true : false}
+                  variant="flat"
+                  onPress={onOpenChange}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  isLoading={isLoading ? true : false}
+                  color="primary"
+                  onPress={handleEditPost}
+                  isDisabled={
+                    isTitleInvalid || isContentInvalid || isTagsInvalid
+                      ? true
+                      : false
+                  }
+                >
+                  Crear
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}
