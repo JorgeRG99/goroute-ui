@@ -69,7 +69,7 @@ export const createPost = async (postData, authToken) => {
             },
             body: JSON.stringify(postData),
         });
-        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+        if (!res.ok) return res.status
 
         const response = await res.json();
 

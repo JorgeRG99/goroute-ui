@@ -79,14 +79,19 @@ export const EMPTY_VALUES_ERROR = "Por favor, asegúrate de rellenar todos los c
 export const USER_NOT_FOUND_ERROR = "Usuario no encontrado"
 export const INVALID_CREDENTIALS_ERROR = "Email o contraseña incorrectos"
 
-//USER REGISTER REGEX
+//USER REGEX
 export const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
 export const NAME_SURNAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/
 export const USERNAME_REGEX = /^[a-zA-Z0-9_]{3,20}$/
 export const PASSWORD_REGEX = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
 
-//ACTIVITY REGISTER REGEX
+//ACTIVITY REGEX
 export const ACTVITY_TITLE_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{10,30}$/
 export const ACTVITY_DESCRIPTION_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{10,100}$/
 export const ACTVITY_PARTICPANTS_REGEX = /^[0-9]{1,2}$/
 export const ACTVITY_LOCATION_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{0,100}$/
+
+//POSTS REGEX
+export const POST_TITLE_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{10,30}$/
+export const POST_CONTENT_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{10,3000}$/
+export const POST_TAGS_REGEX = /^#(\w+)(#\w+)*$/

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { getFromStorage } from "../services/storage";
 import { createPost, deletePost, getYourPosts, updatePost } from "../services/post";
+import { isNumber } from "../services/helpers";
 
 export const useUserPostsStore = create((set) => {
 
@@ -22,6 +23,8 @@ export const useUserPostsStore = create((set) => {
         addPost: async (postData) => {
             try {
                 const response = await createPost(postData, authToken)
+
+                if(isNumber(response)) return response
 
                 setYourPosts()
 
