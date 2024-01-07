@@ -10,8 +10,10 @@ export default function CreateContentPopup() {
     <Modal
       isOpen={popups[Popups.CreateContent]}
       onClose={() => togglePopup(Popups.CreateContent)}
-      placement="top-center"
-      classNames={{ base: "flex flex-col items-center" }}
+      placement="center"
+      classNames={{
+        base: "flex flex-col items-center max-h-[38em] overflow-scroll",
+      }}
       backdrop="blur"
     >
       <ModalContent>
