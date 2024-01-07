@@ -8,7 +8,7 @@ import {
   Checkbox,
   Input,
 } from "@nextui-org/react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail } from "../../icons/Mail";
 import { EyeFilledSlash } from "../../icons/EyeFilledSlash";
@@ -17,6 +17,7 @@ import { Popups, usePopups } from "../../../hooks/usePopups";
 import { useUserSessionStore } from "../../../store/userSession";
 import { useUserActivitiesStore } from "../../../store/userActivities";
 import { useUserPostsStore } from "../../../store/userPosts";
+import { useLoginFormValidator } from "../../../hooks/FormValidationsHooks/useLoginFormValidator";
 
 export default function LoginPopup() {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,19 +26,47 @@ export default function LoginPopup() {
   const setUserActivities = useUserActivitiesStore(
     (state) => state.setUserActivities
   );
-
   const setUserPosts = useUserPostsStore((state) => state.setUserPosts);
   const { popups, togglePopup } = usePopups();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-
+  const [userCredentials, setUserCredentials] = useState({
+    email: "",
+    password: "",
+  });
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const { catchEmptyValues, catchedServerErrors, serverErrors } =
+    useLoginFormValidator(userCredentials);
+
+  const handleUserLogin = async () => {
+    setIsLoading(true);
+    const catchedEmptyData = catchEmptyValues();
+
+    if (!catchedEmptyData) {
+      const response = await login(userCredentials);
+      const errorOcurred = catchedServerErrors(response);
+
+      if (!errorOcurred) {
+        setUserActivities();
+        setUserPosts();
+        togglePopup(Popups.Login);
+      }
+      setIsLoading(false);
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleCredentialsChange = (e) => {
+    setUserCredentials((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   return (
     <Modal
       isOpen={popups[Popups.Login]}
       onClose={() => togglePopup(Popups.Login)}
-      placement="top-center"
+      placement="center"
       backdrop="blur"
     >
       <ModalContent>
@@ -54,13 +83,14 @@ export default function LoginPopup() {
                 }
                 label="Correo electrónico"
                 variant="bordered"
-                onValueChange={(value) => {
-                  emailRef.current = value;
-                }}
+                name="email"
+                autoComplete="email"
+                onChange={handleCredentialsChange}
               />
               <Input
                 label="Contraseña"
                 type={isVisible ? "text" : "password"}
+                name="password"
                 endContent={
                   <button
                     className="focus:outline-none"
@@ -75,9 +105,7 @@ export default function LoginPopup() {
                   </button>
                 }
                 variant="bordered"
-                onValueChange={(value) => {
-                  passwordRef.current = value;
-                }}
+                onChange={handleCredentialsChange}
               />
               <div className="flex py-2 px-1 justify-between">
                 <Checkbox
@@ -97,29 +125,22 @@ export default function LoginPopup() {
                 </Link>
               </div>
             </ModalBody>
-            <ModalFooter>
-              <Button color="danger" variant="flat" onPress={onClose}>
-                Cerrar
-              </Button>
-              <Button
-                color="primary"
-                onPress={async () => {
-                  setIsLoading(true);
-
-                  await login({
-                    email: emailRef.current,
-                    password: passwordRef.current,
-                  });
-
-                  setUserActivities();
-                  setUserPosts();
-
-                  onClose();
-                }}
-                isLoading={isLoading ? true : false}
-              >
-                Acceder
-              </Button>
+            <ModalFooter className="pt-[1em] flex flex-col gap-[2em]">
+              {serverErrors && (
+                <p className="text-danger text-[.85em]">{serverErrors}</p>
+              )}
+              <div className="flex gap-[1em] justify-end">
+                <Button color="danger" variant="flat" onPress={onClose}>
+                  Cerrar
+                </Button>
+                <Button
+                  color="primary"
+                  onPress={handleUserLogin}
+                  isLoading={isLoading ? true : false}
+                >
+                  Acceder
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}

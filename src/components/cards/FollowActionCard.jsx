@@ -8,7 +8,7 @@ const ToggleFollowButton = lazy(() => import("../buttons/ToggleFollowButton"));
 
 export function FollowActionCard({ user, isCurrentUserProfile }) {
   const { id, name, surname, username, avatar } = user;
-  console.log(isCurrentUserProfile);
+
   return (
     <div className="flex items-center justify-between w-full">
       <Link to={isCurrentUserProfile ? "/profile" : `/${username}`}>

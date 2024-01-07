@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { getFromStorage } from "../services/storage";
 import { createActivity, deleteActivity, getYourActivities, updateActivity } from "../services/activity";
+import { isNumber } from "../services/helpers";
 
 export const useUserActivitiesStore = create((set) => {
 
@@ -23,6 +24,8 @@ export const useUserActivitiesStore = create((set) => {
 
             try {
                 const response = await createActivity(activityData, authToken)
+
+                if(isNumber(response)) return response
 
                 setYourActivities()
 

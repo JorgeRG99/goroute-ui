@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
-import { EMPTY_VALUES_ERROR, GENERAL_SERVER_ERROR } from "../../../config";
+import { EMAIL_REGEX, EMPTY_VALUES_ERROR, GENERAL_SERVER_ERROR, NAME_SURNAME_REGEX, PASSWORD_REGEX, USERNAME_REGEX } from "../../../config";
 
 export const useRegisterFormValidator = (registerData) => {
     const [serverErrors, setServerErrors] = useState();
-    const validateUsername = (value) => value.match(/^[a-zA-Z0-9_]{3,20}$/);
-    const validateEmail = (value) => value.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/);
-    const validateNameSurname = (value) => value.match(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/);
-    const validatePassword = (value) => value.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
+    const validateUsername = (value) => value.match(USERNAME_REGEX);
+    const validateEmail = (value) => value.match(EMAIL_REGEX);
+    const validateNameSurname = (value) => value.match(NAME_SURNAME_REGEX);
+    const validatePassword = (value) => value.match(PASSWORD_REGEX);
     const validatePasswordConfirm = (value) => value === registerData.password;
     const validateBirthDate = (value) => {
         const birthDate = new Date(value);
@@ -65,7 +65,7 @@ export const useRegisterFormValidator = (registerData) => {
     }, [registerData.birth]);
 
     const catchedServerErrors = (response) => {
-        if (response > 299 && response > 499)  {
+        if (response > 499)  {
             setServerErrors(GENERAL_SERVER_ERROR)
 
             return true

@@ -109,7 +109,7 @@ export const userLogin = async (userCredentials) => {
             body: JSON.stringify(userCredentials),
         });
 
-        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`);
+        if (!res.ok) return res.status;
 
         const response = res.json()
 

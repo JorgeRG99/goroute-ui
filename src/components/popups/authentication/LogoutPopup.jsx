@@ -22,6 +22,7 @@ export default function LogoutPopup() {
     <Modal
       backdrop="blur"
       size="xs"
+      placement="center"
       className="bg-gradient-to-br from-white via-white to-slate-200"
       isOpen={popups[Popups.Logout]}
       onClose={() => togglePopup(Popups.Logout)}

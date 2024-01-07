@@ -69,7 +69,8 @@ export const createActivity = async (activityData, authToken) => {
             },
             body: JSON.stringify(activityData),
         });
-        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+
+        if (!res.ok) return res.status;
 
         const response = await res.json();
 

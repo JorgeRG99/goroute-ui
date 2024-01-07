@@ -76,3 +76,17 @@ export const UNLIKE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentUnlike`
 //ERRORS
 export const GENERAL_SERVER_ERROR = "No se pudo completar la operación debido a un error. Por favor, verifica tu conexión a internet y vuelve a intentarlo más tarde."
 export const EMPTY_VALUES_ERROR = "Por favor, asegúrate de rellenar todos los campos antes de continuar. "
+export const USER_NOT_FOUND_ERROR = "Usuario no encontrado"
+export const INVALID_CREDENTIALS_ERROR = "Email o contraseña incorrectos"
+
+//USER REGISTER REGEX
+export const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+export const NAME_SURNAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/
+export const USERNAME_REGEX = /^[a-zA-Z0-9_]{3,20}$/
+export const PASSWORD_REGEX = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
+
+//ACTIVITY REGISTER REGEX
+export const ACTVITY_TITLE_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{10,30}$/
+export const ACTVITY_DESCRIPTION_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{10,100}$/
+export const ACTVITY_PARTICPANTS_REGEX = /^[0-9]{1,2}$/
+export const ACTVITY_LOCATION_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{0,100}$/

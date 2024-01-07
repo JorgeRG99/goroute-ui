@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { deleteFromStorage, getFromStorage, storage } from "../services/storage";
 import { user, userLogin, userLogout, userRegister} from "../services/user";
-import { getUserCreationDate } from "../services/helpers";
+import { getUserCreationDate, isNumber } from "../services/helpers";
 
 export const useUserSessionStore = create((set, get) => {
     //TODO: DO BETTER PRACTICES SHIT!!!!!
@@ -41,6 +41,8 @@ export const useUserSessionStore = create((set, get) => {
             try {
                 const { setUserSessionData } = get()
                 const response = await userLogin(userCredentials)
+
+                if(isNumber(response)) return response
 
                 set({ authToken: response.token, isAuthenticated: true })
 

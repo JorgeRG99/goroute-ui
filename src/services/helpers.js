@@ -65,3 +65,7 @@ export const getActivitySport = (sportId, sports) => {
 
   return sport.name;
 };
+
+export const isNumber = (value) => {
+  return typeof value === 'number' && !isNaN(value);
+}
