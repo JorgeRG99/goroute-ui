@@ -6,7 +6,6 @@ export default function OpenEditActivityPopup({ onOpen }) {
   return (
     <Button
       onPress={onOpen}
-      className="text-tiny"
       color="primary"
       variant="shadow"
       size="sm"

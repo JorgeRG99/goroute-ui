@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { ACTVITY_DESCRIPTION_REGEX, ACTVITY_LOCATION_REGEX, ACTVITY_PARTICPANTS_REGEX, ACTVITY_TITLE_REGEX, EMPTY_VALUES_ERROR, GENERAL_SERVER_ERROR } from "../../../config";
 
-export const useActivityRegisterValidator = (activityRegisterData) => {
+export const useActivityDataValidator = (activityData) => {
   const [serverErrors, setServerErrors] = useState();
   const validateTitle = (value) => value.match(ACTVITY_TITLE_REGEX);
   const validateDescription = (value) => value.match(ACTVITY_DESCRIPTION_REGEX);
@@ -15,34 +15,34 @@ export const useActivityRegisterValidator = (activityRegisterData) => {
   }
 
   const isTitleInvalid = useMemo(() => {
-    if (activityRegisterData.name === "") return false;
+    if (activityData.name === "") return false;
 
-    return validateTitle(activityRegisterData.name) ? false : true;
-  }, [activityRegisterData.name]);
+    return validateTitle(activityData.name) ? false : true;
+  }, [activityData.name]);
 
   const isDescriptionInvalid = useMemo(() => {
-    if (activityRegisterData.description === "") return false;
+    if (activityData.description === "") return false;
 
-    return validateDescription(activityRegisterData.description) ? false : true;
-  }, [activityRegisterData.description]);
+    return validateDescription(activityData.description) ? false : true;
+  }, [activityData.description]);
 
   const isParticipantsInvalid = useMemo(() => {
-    if (activityRegisterData.participants === "") return false;
+    if (activityData.participants === "") return false;
 
-    return validateParticipants(activityRegisterData.participants) ? false : true;
-  }, [activityRegisterData.participants]);
+    return validateParticipants(activityData.participants) ? false : true;
+  }, [activityData.participants]);
 
   const isLocationInvalid = useMemo(() => {
-    if (activityRegisterData.location === "") return false;
+    if (activityData.location === "") return false;
 
-    return validateLocation(activityRegisterData.location) ? false : true;
-  }, [activityRegisterData.location]);
+    return validateLocation(activityData.location) ? false : true;
+  }, [activityData.location]);
 
   const isActivityDateInvalid = useMemo(() => {
-    if (activityRegisterData.day === "") return false;
+    if (activityData.day === "") return false;
 
-    return validateActivityDate(activityRegisterData.day) ? false : true;
-  }, [activityRegisterData.day]);
+    return validateActivityDate(activityData.day) ? false : true;
+  }, [activityData.day]);
 
   const catchedServerErrors = (response) => {
     if (response > 499) {
@@ -53,7 +53,7 @@ export const useActivityRegisterValidator = (activityRegisterData) => {
   }
 
   const catchEmptyValues = () => {
-    if (Object.values(activityRegisterData).some(data => data.length === 0)) {
+    if (Object.values(activityData).some(data => data.length === 0)) {
       setServerErrors(EMPTY_VALUES_ERROR)
 
       return true;

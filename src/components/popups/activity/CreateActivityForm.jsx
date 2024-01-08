@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useUserSessionStore } from "../../../store/userSession";
 import { useUserActivitiesStore } from "../../../store/userActivities";
 import { useSportsStore } from "../../../store/sports";
-import { useActivityRegisterValidator } from "../../../hooks/FormValidationsHooks/useActivityRegisterValidator";
+import { useActivityDataValidator } from "../../../hooks/FormValidationsHooks/useActivityDataValidator";
 
 export function CreateActivityForm({ onClose }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +41,7 @@ export function CreateActivityForm({ onClose }) {
     serverErrors,
     catchEmptyValues,
     catchedServerErrors,
-  } = useActivityRegisterValidator(activityData);
+  } = useActivityDataValidator(activityData);
 
   const handleAddActivity = async () => {
     setIsLoading(true);
@@ -201,7 +201,7 @@ export function CreateActivityForm({ onClose }) {
           isInvalid={isDescriptionInvalid}
           errorMessage={
             isDescriptionInvalid &&
-            "Por favor, utiliza solo letras, espacios y números, con un mínimo de 10 caracteres y máximo de 100 caracteres"
+            "Por favor, utiliza solo letras, espacios y los siguientes signos de puntuación (.,), con un mínimo de 10 caracteres y máximo de 100 caracteres"
           }
           color={isDescriptionInvalid ? "danger" : undefined}
           onChange={handleActivityDataChange}

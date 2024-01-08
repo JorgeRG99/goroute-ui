@@ -1,6 +1,4 @@
 import {
-  Autocomplete,
-  AutocompleteItem,
   Button,
   Select,
   SelectItem,
@@ -16,15 +14,16 @@ import {
 } from "@nextui-org/react";
 import PropTypes from "prop-types";
 import { ACTIVITY_HOURS, ACTIVITY_MINUTES } from "../../../services/helpers";
-import { Suspense, lazy, useRef, useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import { useUserActivitiesStore } from "../../../store/userActivities";
 import { createPortal } from "react-dom";
+import { useActivityDataValidator } from "../../../hooks/FormValidationsHooks/useActivityDataValidator";
+import { useSportsStore } from "../../../store/sports";
 
 const EditParticipantsPopup = lazy(() => import("./EditParticipantsPopup"));
 
 export default function EditActivityPopup({
   activityData,
-  sports,
   isOpen,
   onOpenChange,
   participants,
@@ -32,49 +31,70 @@ export default function EditActivityPopup({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const editActivity = useUserActivitiesStore((state) => state.editActivity);
+  const sports = useSportsStore((state) => state.sports);
   const {
     isOpen: isOpenEditParticipantsPopup,
     onOpen: onOpenEditParticipantsPopup,
     onOpenChange: onOpenChangeEditParticipantsPopup,
   } = useDisclosure();
-
-  const activityNewData = {
-    nameRef: useRef(),
-    descriptionRef: useRef(),
-    sportRef: useRef(),
-    dayRef: useRef(),
-    hourRef: useRef(activityData.hour.slice(0, 2)),
-    minutesRef: useRef(activityData.hour.slice(3, 5)),
-    durationRef: useRef(activityData.duration / 3600),
-    locationRef: useRef(),
-    participantsRef: useRef(activityData.max_participants),
-  };
+  console.log(activityData);
+  const [activityNewData, setActivityNewData] = useState({
+    id: activityData.id,
+    name: activityData.name,
+    description: activityData.description,
+    sport_id: activityData.sport_id,
+    day: activityData.day,
+    hour: activityData.hour.slice(0, 2),
+    minutes: activityData.hour.slice(3, 5),
+    duration: activityData.duration / 3600,
+    location: activityData.location,
+    participants: activityData.max_participants.toString(),
+  });
+  const {
+    isTitleInvalid,
+    isDescriptionInvalid,
+    isLocationInvalid,
+    isParticipantsInvalid,
+    isActivityDateInvalid,
+    serverErrors,
+    catchEmptyValues,
+    catchedServerErrors,
+  } = useActivityDataValidator(activityNewData);
 
   const handleEditActivity = async () => {
     setIsLoading(true);
 
-    const updatedData = Object.fromEntries(
-      Object.entries({
-        id: activityData.id,
-        name: activityNewData.nameRef.current,
-        location: activityNewData.locationRef.current,
-        sport_id: activityNewData.sportRef.current,
-        day: activityNewData.dayRef.current,
-        hour: `${activityNewData.hourRef.current}:${activityNewData.minutesRef.current}:00`,
-        duration: activityNewData.durationRef.current * 3600,
-        description: activityNewData.descriptionRef.current,
-        max_participants: parseInt(activityNewData.participantsRef.current),
-      }).filter((entry) => entry[1] !== undefined)
-    );
-
-    if (updatedData.max_participants < activityData.participants.length) {
+    if (activityNewData.participants < activityData.participants.length) {
       onOpenEditParticipantsPopup();
-    } else {
-      await editActivity(updatedData);
+    }
+
+    const catchedEmptyData = catchEmptyValues();
+
+    if (!catchedEmptyData) {
+      const response = await editActivity({
+        id: activityNewData.id,
+        name: activityNewData.name,
+        description: activityNewData.description,
+        sport_id: activityNewData.sport_id,
+        day: activityNewData.day,
+        location: activityNewData.location,
+        max_participants: activityNewData.participants,
+        duration: activityNewData.duration * 3600,
+        hour: `${activityNewData.hour}:${activityNewData.minutes}:00`,
+      });
+      const errorOcurred = catchedServerErrors(response);
+      if (!errorOcurred) onOpenChange();
     }
 
     setIsLoading(false);
     onOpenChange();
+  };
+
+  const handleActivityNewDataChange = (e) => {
+    setActivityNewData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   return (
@@ -86,21 +106,7 @@ export default function EditActivityPopup({
               activityData={activityData}
               isOpen={isOpenEditParticipantsPopup}
               onOpenChange={onOpenChangeEditParticipantsPopup}
-              updatedData={Object.fromEntries(
-                Object.entries({
-                  id: activityData.id,
-                  name: activityNewData.nameRef.current,
-                  location: activityNewData.locationRef.current,
-                  sport_id: activityNewData.sportRef.current,
-                  day: activityNewData.dayRef.current,
-                  hour: `${activityNewData.hourRef.current}:${activityNewData.minutesRef.current}:00`,
-                  duration: activityNewData.durationRef.current * 3600,
-                  description: activityNewData.descriptionRef.current,
-                  max_participants: parseInt(
-                    activityNewData.participantsRef.current
-                  ),
-                }).filter((entry) => entry[1] !== undefined)
-              )}
+              updatedData={activityNewData}
               participants={participants}
               setParticipants={setParticipants}
             />,
@@ -121,71 +127,88 @@ export default function EditActivityPopup({
                 Editar Actividad
               </ModalHeader>
               <ModalBody>
-                <Input
-                  size="sm"
-                  label="Titulo"
-                  variant="bordered"
-                  placeholder={activityData.name}
-                  onValueChange={(value) => {
-                    activityNewData.nameRef.current = value;
-                  }}
-                />
-                <Input
-                  size="sm"
-                  label="Ubicación"
-                  placeholder={activityData.location}
-                  variant="bordered"
-                  onValueChange={(value) => {
-                    activityNewData.locationRef.current = value;
-                  }}
-                />
-                <Autocomplete
+                <div className="flex gap-[1em]">
+                  <Input
+                    size="sm"
+                    label="Titulo"
+                    variant="bordered"
+                    defaultValue={activityNewData.name}
+                    onChange={handleActivityNewDataChange}
+                    name="name"
+                    isInvalid={isTitleInvalid}
+                    errorMessage={
+                      isTitleInvalid &&
+                      "Por favor, utiliza solo letras, espacios y los siguientes signos de puntuación (.,), con un mínimo de 10 caracteres y máximo de 30 caracteres"
+                    }
+                    color={isTitleInvalid ? "danger" : undefined}
+                  />
+                  <Input
+                    size="sm"
+                    label="Ubicación"
+                    defaultValue={activityNewData.location}
+                    variant="bordered"
+                    onChange={handleActivityNewDataChange}
+                    name="location"
+                    isInvalid={isLocationInvalid}
+                    errorMessage={
+                      isLocationInvalid &&
+                      "Por favor, utiliza solo letras, espacios y números, con máximo de 100 caracteres"
+                    }
+                    color={isLocationInvalid ? "danger" : undefined}
+                  />
+                </div>
+                <Select
                   label="Tipo de actividad"
                   size="sm"
                   variant="bordered"
-                  defaultSelectedKey={activityData.sport_id}
-                  onSelectionChange={(value) => {
-                    activityNewData.sportRef.current = value;
-                  }}
+                  name="sport_id"
+                  defaultSelectedKeys={[activityNewData.sport_id]}
+                  onChange={handleActivityNewDataChange}
                 >
-                  {sports.map((sports) => (
-                    <AutocompleteItem key={sports.id} value={sports.name}>
-                      {sports.name}
-                    </AutocompleteItem>
+                  {sports.map((sport) => (
+                    <SelectItem key={sport.id} value={sport.name}>
+                      {sport.name}
+                    </SelectItem>
                   ))}
-                </Autocomplete>
+                </Select>
                 <span className="flex gap-[1em]">
                   <Input
                     size="sm"
                     type="date"
+                    name="day"
+                    isInvalid={isActivityDateInvalid}
+                    errorMessage={
+                      isActivityDateInvalid &&
+                      "La fecha elegida debe ser como mínimo la fecha actual"
+                    }
+                    color={isActivityDateInvalid ? "danger" : undefined}
                     classNames={{ base: "w-[50%]" }}
-                    defaultValue={activityData.day}
+                    defaultValue={activityNewData.day}
                     variant="bordered"
-                    onValueChange={(value) => {
-                      activityNewData.dayRef.current = value;
-                    }}
+                    onChange={handleActivityNewDataChange}
                   />
                   <Input
                     size="sm"
                     classNames={{ base: "w-[50%]" }}
                     type="text"
                     label="Participantes"
-                    defaultValue={activityData.max_participants}
+                    name="participants"
+                    defaultValue={activityNewData.participants}
+                    isInvalid={isParticipantsInvalid}
+                    errorMessage={
+                      isParticipantsInvalid &&
+                      "El valor de los participantes debe ser numérico y con un máximo de 99"
+                    }
                     variant="bordered"
-                    onValueChange={(value) => {
-                      activityNewData.participantsRef.current = value;
-                    }}
+                    onChange={handleActivityNewDataChange}
                   />
                 </span>
 
                 <span className="flex gap-[1em]">
                   <Select
                     label="Hora"
-                    defaultSelectedKeys={[activityData.hour.slice(0, 2)]}
-                    onSelectionChange={(value) => {
-                      activityNewData.hourRef.current =
-                        Object.entries(value)[0][1];
-                    }}
+                    defaultSelectedKeys={[activityNewData.hour]}
+                    onSelectionChange={handleActivityNewDataChange}
                     size="sm"
                     variant="bordered"
                   >
@@ -197,11 +220,8 @@ export default function EditActivityPopup({
                   </Select>
                   <Select
                     label="Minutos"
-                    defaultSelectedKeys={[activityData.hour.slice(3, 5)]}
-                    onSelectionChange={(value) => {
-                      activityNewData.minutesRef.current =
-                        Object.entries(value)[0][1];
-                    }}
+                    defaultSelectedKeys={[activityNewData.minutes]}
+                    onSelectionChange={handleActivityNewDataChange}
                     size="sm"
                     variant="bordered"
                   >
@@ -217,38 +237,60 @@ export default function EditActivityPopup({
                   step={0.5}
                   maxValue={6}
                   minValue={0}
-                  defaultValue={activityData.duration / 3600}
+                  defaultValue={activityNewData.duration}
                   getValue={(hours) => `${hours} horas`}
                   showSteps={true}
-                  onChange={(value) => {
-                    activityNewData.durationRef.current = value;
+                  onChange={(newValue) => {
+                    setActivityNewData((prevState) => ({
+                      ...prevState,
+                      duration: newValue,
+                    }));
                   }}
                 />
                 <Textarea
                   label="Descripción"
                   variant="bordered"
-                  placeholder={activityData.description}
-                  onValueChange={(value) => {
-                    activityNewData.descriptionRef.current = value;
-                  }}
+                  defaultValue={activityNewData.description}
+                  name="description"
+                  isInvalid={isDescriptionInvalid}
+                  errorMessage={
+                    isDescriptionInvalid &&
+                    "Por favor, utiliza solo letras, espacios y números, con un mínimo de 10 caracteres y máximo de 100 caracteres"
+                  }
+                  color={isDescriptionInvalid ? "danger" : undefined}
+                  onChange={handleActivityNewDataChange}
                 />
               </ModalBody>
-              <ModalFooter>
-                <Button
-                  color="danger"
-                  variant="flat"
-                  onPress={onOpenChange}
-                  isDisabled={isLoading ? true : false}
-                >
-                  Cerrar
-                </Button>
-                <Button
-                  color="primary"
-                  isLoading={isLoading ? true : false}
-                  onPress={handleEditActivity}
-                >
-                  Actualizar
-                </Button>
+              <ModalFooter className="pt-[1em] flex flex-col gap-[2em]">
+                {serverErrors && (
+                  <p className="text-danger text-[.85em]">{serverErrors}</p>
+                )}
+                <div className="flex gap-[1em] justify-end">
+                  <Button
+                    color="danger"
+                    variant="flat"
+                    onPress={onOpenChange}
+                    isDisabled={isLoading ? true : false}
+                  >
+                    Cerrar
+                  </Button>
+                  <Button
+                    color="primary"
+                    isLoading={isLoading ? true : false}
+                    onPress={handleEditActivity}
+                    isDisabled={
+                      isTitleInvalid ||
+                      isDescriptionInvalid ||
+                      isLocationInvalid ||
+                      isParticipantsInvalid ||
+                      isActivityDateInvalid
+                        ? true
+                        : false
+                    }
+                  >
+                    Actualizar
+                  </Button>
+                </div>
               </ModalFooter>
             </>
           )}
