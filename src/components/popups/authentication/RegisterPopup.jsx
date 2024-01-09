@@ -13,7 +13,7 @@ import { Mail } from "../../icons/Mail";
 import { EyeFilled } from "../../icons/EyeFilled";
 import { EyeFilledSlash } from "../../icons/EyeFilledSlash";
 import { useUserSessionStore } from "../../../store/userSession";
-import { useRegisterFormValidator } from "../../../hooks/FormValidationsHooks/useRegisterFormValidator";
+import { useUserDataValidator } from "../../../hooks/FormValidationsHooks/useUserDataValidator";
 
 export default function RegisterPopup() {
   const register = useUserSessionStore((state) => state.register);
@@ -41,7 +41,7 @@ export default function RegisterPopup() {
     serverErrors,
     catchEmptyValues,
     catchedServerErrors,
-  } = useRegisterFormValidator(registerData);
+  } = useUserDataValidator(registerData);
 
   const handleFormChange = (e) => {
     setRegisterData((prevState) => ({

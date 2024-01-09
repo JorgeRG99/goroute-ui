@@ -92,28 +92,33 @@ export default function EditPostPopup({ postData, isOpen, onOpenChange }) {
                   defaultValue={postData.title}
                   variant="bordered"
                   isInvalid={isTitleInvalid}
+                  isRequired
+                  labelPlacement="outside"
+                  size="md"
                   errorMessage={
                     isTitleInvalid &&
-                    "Por favor, utiliza solo letras y espacios, con un mínimo de 10 caracteres y máximo de 30 caracteres"
+                    "Por favor, utiliza solo letras, espacios y los siguientes signos de puntuación (.,¿?!¡-_%&/), con un mínimo de 10 caracteres y máximo de 30 caracteres"
                   }
                   color={isTitleInvalid ? "danger" : undefined}
                   onChange={handlePostNewDataChange}
                 />
                 <Textarea
-                  size="md"
                   label="Contenido"
                   defaultValue={postData.content}
                   variant="bordered"
                   name="content"
                   isInvalid={isContentInvalid}
+                  isRequired
+                  labelPlacement="outside"
+                  size="md"
                   errorMessage={
                     isContentInvalid &&
-                    "Por favor, utiliza solo letras y espacios, con un mínimo de 10 caracteres y máximo de 3000 caracteres"
+                    "Por favor, utiliza solo letras, espacios y los siguientes signos de puntuación (.,¿?!¡-_%&/), con un mínimo de 10 caracteres y máximo de 3000 caracteres"
                   }
                   color={isContentInvalid ? "danger" : undefined}
                   onChange={handlePostNewDataChange}
                 />
-                <span className="flex items-center gap-[1em]">
+                <span className="flex items-end gap-[1em]">
                   <Input
                     label="Tags"
                     variant="bordered"
@@ -121,6 +126,9 @@ export default function EditPostPopup({ postData, isOpen, onOpenChange }) {
                     onChange={handlePostNewDataChange}
                     isInvalid={isTagsInvalid}
                     name="tags"
+                    isRequired
+                    labelPlacement="outside"
+                    size="md"
                     errorMessage={
                       isTagsInvalid &&
                       "Por favor, asegúrate de que cada tag comience con #, seguido únicamente por letras, números y guiones bajos. Recuerda que cada tag debe estar separado por un espacio o salto de línea."
@@ -128,7 +136,7 @@ export default function EditPostPopup({ postData, isOpen, onOpenChange }) {
                     color={isTagsInvalid ? "danger" : undefined}
                   />
                   <Tooltip content={<TagTooltip />}>
-                    <span className="w-[1.9em] h-[1.7em] bg-secondary-blurred rounded-full flex items-center justify-center">
+                    <span className="w-[1.9em] h-[1.7em] mb-[.45em] bg-secondary-blurred rounded-full flex items-center justify-center">
                       <QuestionMark />
                     </span>
                   </Tooltip>

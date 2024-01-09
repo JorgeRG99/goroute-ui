@@ -1,25 +1,31 @@
-import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
+import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import { Popups, usePopups } from "../../../hooks/usePopups";
 import debounce from "just-debounce-it";
 import { Search } from "../../Icons/Search";
 import { Input, Spinner } from "@nextui-org/react";
 import { findUserByPartialUsername } from "../../../services/user";
 import { useUserSessionStore } from "../../../store/userSession";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UsersFoundList } from "./UsersFoundList";
+import { useSuggestedUsersList } from "../../../hooks/useSuggestedUsersList";
 
 export default function FindUsersPopup() {
   const { popups, togglePopup } = usePopups();
-  const [usersList, setUsersList] = useState(null);
+  const { usersList } = useSuggestedUsersList("Activity");
+  const [usersFoundedList, setUsersFoundedList] = useState(usersList);
   const [isLoading, setIsLoading] = useState(false);
   const authToken = useUserSessionStore((state) => state.authToken);
+
+  useEffect(() => {
+    if (usersList) setUsersFoundedList(usersList);
+  }, [usersList]);
 
   const onValueChangeDebounced = debounce(async (value) => {
     try {
       setIsLoading(true);
       const usersFound = await findUserByPartialUsername(authToken, value);
 
-      setUsersList(usersFound);
+      setUsersFoundedList(usersFound);
     } catch (error) {
       throw new Error(`Error obteniendo usuarios ${error.message}`);
     } finally {
@@ -54,7 +60,10 @@ export default function FindUsersPopup() {
                 endContent={<Search />}
               />
               {isLoading && <Spinner />}
-              <UsersFoundList foundedUsersList={usersList} onClose={onClose} />
+              <UsersFoundList
+                foundedUsersList={usersFoundedList}
+                onClose={onClose}
+              />
             </ModalBody>
           </>
         )}

@@ -1,27 +1,11 @@
-import { suggestedUsers } from "../../services/activity";
 import { FollowActionCard } from "../cards/FollowActionCard";
-import { useUserSessionStore } from "../../store/userSession";
-import { useEffect, useState } from "react";
 import { Divider } from "@nextui-org/react";
 import { COPYRIGHT } from "../../../config";
 import PropTypes from "prop-types";
+import { useSuggestedUsersList } from "../../hooks/useSuggestedUsersList";
 
 export function SuggestedUsersList({ type }) {
-  const authToken = useUserSessionStore((state) => state.authToken);
-  const [usersList, setUserList] = useState(null);
-
-  useEffect(() => {
-    const getSuggestedUsers = async () => {
-      try {
-        const users = await suggestedUsers(authToken, type);
-        setUserList(users);
-      } catch (error) {
-        console.error("Error fetching suggested users:", error);
-      }
-    };
-
-    getSuggestedUsers();
-  }, []);
+  const { usersList } = useSuggestedUsersList(type);
 
   return (
     <section className="w-[20em] sticky top-[5em] h-[20em] z-40">

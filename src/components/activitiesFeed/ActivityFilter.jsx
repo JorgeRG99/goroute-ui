@@ -10,7 +10,7 @@ export function ActivityFilter({ setSportFilter }) {
       size="md"
       label="Elige tu Deporte"
       variant="faded"
-      isClearable={false}
+      isClearable={true}
       placeholder="Seleciona un deporte"
       labelPlacement="outside"
       className="max-w-[27%]"

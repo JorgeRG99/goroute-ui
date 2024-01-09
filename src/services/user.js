@@ -147,7 +147,7 @@ export const userEdit = async (newUserData, authToken) => {
             body: JSON.stringify(newUserData),
         })
 
-        if (!res.ok) throw new Error(`Error en la solicitud ${res.json}`);
+        if (!res.ok) return res.status;
 
     } catch (error) {
         throw new Error(`Error editando los datos del usuario ${error.message}`);

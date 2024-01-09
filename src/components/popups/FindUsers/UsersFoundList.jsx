@@ -8,12 +8,12 @@ export function UsersFoundList({ foundedUsersList, onClose }) {
   return (
     <div className="overflow-scroll w-full flex flex-col items-center pt-[.5em]">
       {foundedUsersList && foundedUsersList.length > 0 ? (
-        <ul className="h-full w-[95%] flex flex-col gap-[1em]">
+        <ul className="h-full w-[95%] flex flex-col">
           {foundedUsersList.map((user) => (
             <li
               onClick={onClose}
               key={user.username}
-              className="w-full flex justify-between items-center"
+              className="w-full flex justify-between items-center hover:bg-gray-100 transition duration-300 ease-in-out py-[.7em] pr-[.5em] pl-[1em] rounded-lg"
             >
               <FollowActionCard
                 user={user}

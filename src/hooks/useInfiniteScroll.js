@@ -69,5 +69,9 @@ export const useInfiniteScroll = (getFeed, elementToObserve, filters) => {
     if (isIntersecting && !endReached) displayMoreFeed()
   }, [isIntersecting])
 
+  useEffect(() => {
+    setEndReached(false)
+  }, [filters.firstFilter, filters.secondFilter])
+
   return { isLoading, feed }
 }

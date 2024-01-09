@@ -16,7 +16,7 @@ export const useComments = () => {
 
     const addComment = async (commentData) => {
         try {
-            await insertComment(authToken, commentData)
+            return await insertComment(authToken, commentData)
         } catch (error) {
             throw new Error(`Error insertando comentario ${error.message}`);
         }

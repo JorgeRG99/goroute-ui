@@ -83,6 +83,7 @@ export function CreateActivityForm({ onClose }) {
             label="Titulo"
             variant="bordered"
             name="name"
+            isRequired
             onChange={handleActivityDataChange}
             isInvalid={isTitleInvalid}
             errorMessage={
@@ -97,6 +98,7 @@ export function CreateActivityForm({ onClose }) {
             name="location"
             variant="bordered"
             isInvalid={isLocationInvalid}
+            isRequired
             errorMessage={
               isLocationInvalid &&
               "Por favor, utiliza solo letras, espacios y números, con máximo de 100 caracteres"
@@ -109,6 +111,7 @@ export function CreateActivityForm({ onClose }) {
           label="Tipo de actividad"
           size="sm"
           variant="bordered"
+          isRequired
           name="sport_id"
           onChange={handleActivityDataChange}
         >
@@ -139,6 +142,7 @@ export function CreateActivityForm({ onClose }) {
             type="text"
             name="participants"
             label="Participantes"
+            isRequired
             variant="bordered"
             isInvalid={isParticipantsInvalid}
             errorMessage={
@@ -155,6 +159,7 @@ export function CreateActivityForm({ onClose }) {
             label="Hora"
             onChange={handleActivityDataChange}
             name="hour"
+            isRequired
             size="sm"
             variant="bordered"
           >
@@ -168,6 +173,7 @@ export function CreateActivityForm({ onClose }) {
             label="Minutos"
             onChange={handleActivityDataChange}
             name="minutes"
+            isRequired
             size="sm"
             variant="bordered"
           >
@@ -198,10 +204,11 @@ export function CreateActivityForm({ onClose }) {
           label="Descripción"
           variant="bordered"
           name="description"
+          isRequired
           isInvalid={isDescriptionInvalid}
           errorMessage={
             isDescriptionInvalid &&
-            "Por favor, utiliza solo letras, espacios y los siguientes signos de puntuación (.,), con un mínimo de 10 caracteres y máximo de 100 caracteres"
+            "Por favor, utiliza solo letras, espacios y los siguientes signos de puntuación (.,¿?!¡-_), con un mínimo de 10 caracteres y máximo de 100 caracteres"
           }
           color={isDescriptionInvalid ? "danger" : undefined}
           onChange={handleActivityDataChange}

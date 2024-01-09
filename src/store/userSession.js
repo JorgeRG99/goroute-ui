@@ -1,10 +1,9 @@
 import { create } from "zustand";
 import { deleteFromStorage, getFromStorage, storage } from "../services/storage";
-import { user, userLogin, userLogout, userRegister} from "../services/user";
+import { user, userEdit, userLogin, userLogout, userRegister } from "../services/user";
 import { getUserCreationDate, isNumber } from "../services/helpers";
 
 export const useUserSessionStore = create((set, get) => {
-    //TODO: DO BETTER PRACTICES SHIT!!!!!
     const authToken = getFromStorage('AuthToken') || null;
 
     const restoreUserSession = async () => {
@@ -12,7 +11,7 @@ export const useUserSessionStore = create((set, get) => {
             try {
                 const userData = await user(authToken);
                 const userSince = getUserCreationDate(userData.created_at.slice(0, 10))
-                
+
                 set({ userData: userData, isLoading: false, userSince: userSince });
             } catch (error) {
                 console.error(`Error obteniendo datos del usuario ${error.message}`);
@@ -42,7 +41,7 @@ export const useUserSessionStore = create((set, get) => {
                 const { setUserSessionData } = get()
                 const response = await userLogin(userCredentials)
 
-                if(isNumber(response)) return response
+                if (isNumber(response)) return response
 
                 set({ authToken: response.token, isAuthenticated: true })
 
@@ -62,7 +61,7 @@ export const useUserSessionStore = create((set, get) => {
                 const { authToken } = get()
                 userLogout(authToken);
 
-                set({ authToken: null, isAuthenticated: false, userData: null, isLoading:true })
+                set({ authToken: null, isAuthenticated: false, userData: null, isLoading: true })
 
                 deleteFromStorage('AuthToken')
             } catch (error) {
@@ -81,17 +80,14 @@ export const useUserSessionStore = create((set, get) => {
             }
         },
 
-        updateUserData: (updatedData) => {
-            const { userData } = get()
+        updateUserData: async (updatedData) => {
+            const { authToken } = get()
 
-            const cleanData = Object.fromEntries(Object.entries(updatedData).filter(value => value[1] !== undefined))
+            const response = await userEdit(updatedData, authToken)
 
-            const updatedUser = {
-                ...userData,
-                ...cleanData
-            }
-
-            set({ userData: updatedUser })
+            if(isNumber(response)) return response
+            
+            set({ userData: updatedData })
         },
     }
 })

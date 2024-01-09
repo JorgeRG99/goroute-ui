@@ -32,9 +32,15 @@ export function Activities() {
         {feed ? (
           feed.length > 0 ? (
             <ul className="flex flex-col gap-[2em] w-full items-center">
-              {feed.map((activity) => {
+              {feed.map((activity, index) => {
                 return (
-                  <li className="w-[60%]" key={activity.id}>
+                  <li
+                    className="w-[60%]"
+                    ref={
+                      index === feed.length - 1 ? elementToObserve : undefined
+                    }
+                    key={activity.id}
+                  >
                     <ActivityCard activityData={activity} />
                   </li>
                 );

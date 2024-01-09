@@ -84,14 +84,17 @@ export const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
 export const NAME_SURNAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/
 export const USERNAME_REGEX = /^[a-zA-Z0-9_]{3,20}$/
 export const PASSWORD_REGEX = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
+export const BIOGRAPHY_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{0,200}$/
+
 
 //ACTIVITY REGEX
-export const ACTVITY_TITLE_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{10,50}$/
-export const ACTVITY_DESCRIPTION_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,!¡\s]{10,220}$/
+export const ACTVITY_TITLE_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{10,50}$/
+export const ACTVITY_DESCRIPTION_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{10,220}$/
 export const ACTVITY_PARTICPANTS_REGEX = /^[0-9]{1,2}$/
 export const ACTVITY_LOCATION_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{0,100}$/
 
 //POSTS REGEX
-export const POST_TITLE_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{10,100}$/
-export const POST_CONTENT_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{10,3000}$/
+export const POST_TITLE_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{10,100}$/
+export const POST_CONTENT_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{10,3000}$/
 export const POST_TAGS_REGEX = /^#(\w+)(#\w+)*$/
+export const POST_COMMENT_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{10,150}$/

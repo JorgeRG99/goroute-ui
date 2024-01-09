@@ -26,11 +26,8 @@ export const insertComment = async (authToken, commentData) => {
             },
             body: JSON.stringify(commentData)
         });
-        if (!res.ok) throw new Error(`Error en la solicitud ${res.status}`)
+        if (!res.ok) return res.status
 
-        const response = await res;
-
-        return response;
     } catch (error) {
         throw new Error(`Error insertando comentario ${error.message}`);
     }

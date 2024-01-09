@@ -11,7 +11,10 @@ export function FollowActionCard({ user, isCurrentUserProfile }) {
 
   return (
     <div className="flex items-center justify-between w-full">
-      <Link to={isCurrentUserProfile ? "/profile" : `/${username}`}>
+      <Link
+        to={isCurrentUserProfile ? "/profile" : `/${username}`}
+        className="flex items-center justify-center"
+      >
         <User
           classNames={{ name: "capitalize" }}
           name={`${name} ${surname}`}

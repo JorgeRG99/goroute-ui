@@ -73,19 +73,25 @@ export function CreatePostForm({ onClose }) {
           variant="bordered"
           name="title"
           autoComplete="title"
+          isRequired
+          labelPlacement="outside"
+          size="md"
           isInvalid={isTitleInvalid}
           errorMessage={
             isTitleInvalid &&
-            "Por favor, utiliza solo letras y espacios, con un mínimo de 10 caracteres y máximo de 30 caracteres"
+            "Por favor, utiliza solo letras, espacios y los siguientes signos de puntuación (.,?!¡), con un mínimo de 10 caracteres y máximo de 30 caracteres"
           }
           color={isTitleInvalid ? "danger" : undefined}
           onChange={handlePostDataChange}
         />
         <Textarea
-          size="md"
           label="Contenido"
           variant="bordered"
           name="content"
+          isRequired
+          labelPlacement="outside"
+          size="md"
+          classNames={{ input: "min-h-[8em]" }}
           placeholder="Comparte tus rutinas, consejos o experiencias deportivas aquí..."
           isInvalid={isContentInvalid}
           errorMessage={
@@ -95,13 +101,16 @@ export function CreatePostForm({ onClose }) {
           color={isContentInvalid ? "danger" : undefined}
           onChange={handlePostDataChange}
         />
-        <span className="flex items-center gap-[1em]">
+        <span className="flex items-end gap-[1em]">
           <Input
             label="Tags"
             variant="bordered"
             name="tags"
             placeholder="#fitness#running#musculación..."
             isInvalid={isTagsInvalid}
+            isRequired
+            labelPlacement="outside"
+            size="md"
             errorMessage={
               isTagsInvalid &&
               "Por favor, asegúrate de que cada tag comience con #, seguido únicamente por letras, números y guiones bajos. Recuerda que cada tag debe estar separado por un espacio o salto de línea."
@@ -110,7 +119,7 @@ export function CreatePostForm({ onClose }) {
             onChange={handlePostDataChange}
           />
           <Tooltip content={<TagTooltip />}>
-            <span className="w-[1.9em] h-[1.7em] bg-secondary-blurred rounded-full flex items-center justify-center">
+            <span className="w-[1.9em] mb-[.45em] h-[1.7em] bg-secondary-blurred rounded-full flex items-center justify-center">
               <QuestionMark />
             </span>
           </Tooltip>

@@ -8,6 +8,7 @@ import {
 import { Popups, usePopups } from "../../../hooks/usePopups";
 import { FollowActionCard } from "../../cards/FollowActionCard";
 import PropTypes from "prop-types";
+import OpenFindUsersPopup from "../../Buttons/OpenFindUsersPopup";
 import { useRef } from "react";
 
 export default function FollowsPopup({ followsList }) {
@@ -18,7 +19,7 @@ export default function FollowsPopup({ followsList }) {
     <Modal
       isOpen={popups[Popups.Follows]}
       onClose={() => togglePopup(Popups.Follows)}
-      placement="top-center"
+      placement="center"
       scrollBehavior="inside"
     >
       <ModalContent>
@@ -30,18 +31,19 @@ export default function FollowsPopup({ followsList }) {
             <Divider />
             <ModalBody className="py-[1em]">
               {followedListRef.current.length !== 0 ? (
-                followedListRef.current?.map((user) => {
-                  return (
-                    <FollowActionCard
-                      key={user.id}
-                      user={user}
-                      onClose={onClose}
-                    />
-                  );
-                })
+                <ul className="flex flex-col gap-5">
+                  {followedListRef.current?.map((user) => {
+                    return (
+                      <li key={user.id}>
+                        <FollowActionCard user={user} onClose={onClose} />
+                      </li>
+                    );
+                  })}
+                </ul>
               ) : (
-                <span className="flex flex-col items-center gap-[1em] py-[1em]">
+                <span className="flex items-center justify-center gap-[1.5em] py-[1em]">
                   <p>Aun no sigues a ningún usuario!</p>
+                  <OpenFindUsersPopup />
                 </span>
               )}
             </ModalBody>
