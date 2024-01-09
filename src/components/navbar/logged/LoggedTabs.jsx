@@ -40,7 +40,7 @@ export function LoggedTabs() {
             <SearchNavbar
               color={selected === "search" ? PRIMARY_COLOR : DEFAULT_COLOR}
             />
-            <span>Buscar</span>
+            <span className="hidden xl:flex">Buscar</span>
           </div>
         }
       />
@@ -50,7 +50,7 @@ export function LoggedTabs() {
         title={
           <Link to="/" className="flex items-center space-x-2">
             <Runner color={selected === "/" ? PRIMARY_COLOR : DEFAULT_COLOR} />
-            <span>Actividades</span>
+            <span className="hidden xl:flex">Actividades</span>
           </Link>
         }
       />
@@ -62,7 +62,7 @@ export function LoggedTabs() {
             <Posts
               color={selected === "/posts" ? PRIMARY_COLOR : DEFAULT_COLOR}
             />
-            <span>Publicaciones</span>
+            <span className="hidden xl:flex">Publicaciones</span>
           </Link>
         }
       />
@@ -71,7 +71,7 @@ export function LoggedTabs() {
         title={
           <div className="flex items-center space-x-2">
             <Map color={selected === "map" ? PRIMARY_COLOR : DEFAULT_COLOR} />
-            <span>Mapa</span>
+            <span className="hidden xl:flex">Mapa</span>
           </div>
         }
       />
@@ -85,7 +85,7 @@ export function LoggedTabs() {
             <Create
               color={selected === "create" ? PRIMARY_COLOR : DEFAULT_COLOR}
             />
-            <span>Crear</span>
+            <span className="hidden xl:flex">Crear</span>
           </div>
         }
       />
@@ -96,7 +96,7 @@ export function LoggedTabs() {
             <Chat
               color={selected === "chats" ? PRIMARY_COLOR : DEFAULT_COLOR}
             />
-            <span>Mensajes</span>
+            <span className="hidden xl:flex">Mensajes</span>
           </div>
         }
       />
@@ -109,7 +109,7 @@ export function LoggedTabs() {
                 selected === "notifications" ? PRIMARY_COLOR : DEFAULT_COLOR
               }
             />
-            <span>Notificaciones</span>
+            <span className="hidden xl:flex">Notificaciones</span>
           </div>
         }
       />
@@ -124,7 +124,7 @@ export function LoggedTabs() {
               name={userInitials(userData.name, userData.surname)}
               className={selected === "/profile" && "bg-primary text-white"}
             />
-            <span>Perfil</span>
+            <span className="hidden xl:flex">Perfil</span>
           </Link>
         }
       />

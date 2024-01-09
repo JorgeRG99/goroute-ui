@@ -73,13 +73,13 @@ export const DELETE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentDelete`
 export const LIKE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentLike`
 export const UNLIKE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentUnlike`
 
-//ERRORS
+// ERRORS
 export const GENERAL_SERVER_ERROR = "No se pudo completar la operación debido a un error. Por favor, verifica tu conexión a internet y vuelve a intentarlo más tarde."
 export const EMPTY_VALUES_ERROR = "Por favor, asegúrate de rellenar todos los campos antes de continuar. "
 export const USER_NOT_FOUND_ERROR = "Usuario no encontrado"
 export const INVALID_CREDENTIALS_ERROR = "Email o contraseña incorrectos"
 
-//USER REGEX
+// USER REGEX
 export const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
 export const NAME_SURNAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/
 export const USERNAME_REGEX = /^[a-zA-Z0-9_]{3,20}$/
@@ -87,14 +87,20 @@ export const PASSWORD_REGEX = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
 export const BIOGRAPHY_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{0,200}$/
 
 
-//ACTIVITY REGEX
+// ACTIVITY REGEX
 export const ACTVITY_TITLE_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{10,50}$/
 export const ACTVITY_DESCRIPTION_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{10,220}$/
 export const ACTVITY_PARTICPANTS_REGEX = /^[0-9]{1,2}$/
 export const ACTVITY_LOCATION_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,\s]{0,100}$/
 
-//POSTS REGEX
+// POSTS REGEX
 export const POST_TITLE_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{10,100}$/
 export const POST_CONTENT_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{10,3000}$/
 export const POST_TAGS_REGEX = /^#(\w+)(#\w+)*$/
 export const POST_COMMENT_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9.,¿?!¡\-_%&/\s]{10,150}$/
+
+
+// USER CARD SIZES
+export const USER_CARD_SMALL_SIZE = 'sm'
+export const USER_CARD_MEDIUM_SIZE = 'md'
+export const USER_CARD_BIG_SIZE = 'lg'

@@ -3,7 +3,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  User,
   useDisclosure,
 } from "@nextui-org/react";
 import { Suspense, lazy, useState } from "react";
@@ -11,12 +10,17 @@ import { Link } from "react-router-dom";
 import { Unfold } from "../Buttons/Unfold";
 import { Comment } from "../Icons/Comment";
 import { Like } from "../Icons/Like";
-import { LIKE_MEDIUM_SIZE, TERTIARY_COLOR } from "../../../config";
-import { formatActivityDate, userInitials } from "../../services/helpers";
+import {
+  LIKE_MEDIUM_SIZE,
+  TERTIARY_COLOR,
+  USER_CARD_BIG_SIZE,
+} from "../../../config";
+import { formatActivityDate } from "../../services/helpers";
 import { usePostLikes } from "../../hooks/usePostLikes";
 import { Unlike } from "../icons/Unlike";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
+import UserCard from "./UserCard";
 
 const ToggleFollowButton = lazy(() => import("../buttons/ToggleFollowButton"));
 const EditPostPopup = lazy(() => import("../Popups/Post/EditPostPopup"));
@@ -49,9 +53,6 @@ export default function PostCard({
   const creationDate = formatActivityDate(created_at.slice(0, 10));
   const [commentsNumber, setCommentsNumber] = useState(comments_number);
   const cardWidth = isForProfile ? "full" : "80%";
-  const avatarSize = isForProfile ? "md" : "lg";
-  const nameTextSize = isForProfile ? ".95" : "1";
-  const descriptionTextSize = isForProfile ? "text-[.8em]" : "text-[.8em]";
 
   const {
     isOpen: isOpenEditPostPopup,
@@ -101,7 +102,8 @@ export default function PostCard({
         >
           <CardHeader className="p-[1.5em] w-full flex justify-between items-start">
             <div className="flex gap-[1.5em] items-center">
-              <Link to={`/${user.username}`}>
+              <UserCard size={USER_CARD_BIG_SIZE} user={user} />
+              {/*  <Link to={`/${user.username}`}>
                 <User
                   classNames={{
                     name: "capitalize text-[" + nameTextSize + "em]",
@@ -122,7 +124,7 @@ export default function PostCard({
                     size: avatarSize,
                   }}
                 />
-              </Link>
+              </Link> */}
               {!isCurrentUserProfile && (
                 <Suspense>
                   <ToggleFollowButton id={user.id} />

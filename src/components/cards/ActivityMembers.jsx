@@ -8,8 +8,9 @@ import {
 } from "@nextui-org/react";
 import PropTypes from "prop-types";
 import { Suspense, lazy } from "react";
+import { USER_CARD_SMALL_SIZE } from "../../../config";
 
-const UserSmallCard = lazy(() => import("./UserSmallCard"));
+const UserCard = lazy(() => import("./UserCard"));
 
 export function ActivityMembers({ participants }) {
   return (
@@ -34,7 +35,7 @@ export function ActivityMembers({ participants }) {
               className="h-14 gap-2 p-0"
             >
               <Suspense fallback={<div>...</div>}>
-                <UserSmallCard user={user} />
+                <UserCard user={user} size={USER_CARD_SMALL_SIZE} />
               </Suspense>
             </DropdownItem>
           );

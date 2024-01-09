@@ -9,7 +9,7 @@ export default function LoggedNavbar() {
   return (
     <>
       <Navbar
-        className="w-[16rem] py-[2em] h-[100vh]"
+        className="w-auto py-[2em] h-[100vh]"
         classNames={{
           wrapper: "flex-col pl-[1.8em] pr-[0] items-start h-full",
           brand: "flex-grow-0",
@@ -18,7 +18,7 @@ export default function LoggedNavbar() {
         <NavbarBrand>
           <Link className="flex items-center" to="/">
             <GoRouteLogo />
-            <p>{APP_NAME}</p>
+            <p className="hidden xl:block">{APP_NAME}</p>
           </Link>
         </NavbarBrand>
         <NavbarContent

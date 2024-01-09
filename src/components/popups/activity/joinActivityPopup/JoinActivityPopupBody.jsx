@@ -3,8 +3,9 @@ import { Clock } from "../../../icons/Clock";
 import PropTypes from "prop-types";
 import { Suspense, lazy } from "react";
 import { useUserById } from "../../../../hooks/useUserById";
+import { USER_CARD_SMALL_SIZE } from "../../../../../config";
 
-const UserSmallCard = lazy(() => import("../../../cards/UserSmallCard"));
+const UserCard = lazy(() => import("../../../cards/UserCard"));
 
 export function JoinActivityPopupBody({
   sport,
@@ -47,7 +48,7 @@ export function JoinActivityPopupBody({
         </span>
         {profileData && (
           <Suspense>
-            <UserSmallCard user={profileData} />
+            <UserCard size={USER_CARD_SMALL_SIZE} user={profileData} />
           </Suspense>
         )}
       </div>

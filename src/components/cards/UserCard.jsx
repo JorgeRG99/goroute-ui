@@ -4,7 +4,7 @@ import { userInitials } from "../../services/helpers";
 import PropTypes from "prop-types";
 import { useUserSessionStore } from "../../store/userSession";
 
-export default function UserSmallCard({ user }) {
+export function UserCard({ user, size }) {
   const { username, name, surname, avatar } = user;
   const userData = useUserSessionStore((state) => state.userData);
 
@@ -21,13 +21,16 @@ export default function UserSmallCard({ user }) {
           src: avatar || undefined,
           name: userInitials(name, surname),
           isBordered: true,
-          size: "sm",
+          size: size,
         }}
       />
     </Link>
   );
 }
 
-UserSmallCard.propTypes = {
+UserCard.propTypes = {
   user: PropTypes.object.isRequired,
+  size: PropTypes.string.isRequired,
 };
+
+export default UserCard;
