@@ -22,10 +22,10 @@ export function useCommentLikes(comment) {
             await likeComment(authToken, comment.id);
 
             setCommentLikesList(prevState => {
-                const updatedLikesList = [...prevState];
-                updatedLikesList.push(userData);
-
-                return updatedLikesList
+                [
+                    ...prevState,
+                    userData
+                ]
             });
         } else {
             await unlikeComment(authToken, comment.id);

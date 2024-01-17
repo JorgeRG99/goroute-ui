@@ -103,28 +103,6 @@ export default function PostCard({
           <CardHeader className="p-[1.5em] w-full flex justify-between items-start">
             <div className="flex gap-[1.5em] items-center">
               <UserCard size={USER_CARD_BIG_SIZE} user={user} />
-              {/*  <Link to={`/${user.username}`}>
-                <User
-                  classNames={{
-                    name: "capitalize text-[" + nameTextSize + "em]",
-                    description: descriptionTextSize,
-                    base: "py-[.2em]",
-                    wrapper: "ml-[.6em]",
-                  }}
-                  name={`${user.name} ${user.surname}`}
-                  description={
-                    <p className="text-primary text-[1.1em]">
-                      @{user.username}
-                    </p>
-                  }
-                  avatarProps={{
-                    src: user.avatar || undefined,
-                    name: userInitials(user.name, user.surname),
-                    isBordered: true,
-                    size: avatarSize,
-                  }}
-                />
-              </Link> */}
               {!isCurrentUserProfile && (
                 <Suspense>
                   <ToggleFollowButton id={user.id} />

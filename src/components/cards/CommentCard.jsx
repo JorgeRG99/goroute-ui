@@ -43,7 +43,7 @@ export function CommentCard({ comment, setPostComments, setCommentsNumber }) {
           )}
         </Suspense>
       )}
-      <div className="px-[.8em] pt-[.5em] pb-[.8em] bg-success-light w-[90%] rounded-b-md rounded-tr-md flex flex-col gap-[1em]">
+      <div className="px-[.8em] pt-[.5em] pb-[.8em] bg-success-light w-[90%] rounded-b-md rounded-tr-md flex flex-col gap-[1em] break-words">
         <div className="flex justify-between">
           <span>
             <h3 className="text-[.8em] font-semibold">{`${user.name} ${user.surname}`}</h3>

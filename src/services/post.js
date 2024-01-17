@@ -38,7 +38,7 @@ export const getYourPosts = async (authToken) => {
 
         return response;
     } catch (error) {
-        throw new Error(`Error leyendo las actividades del usuario ${error.message}`);
+        throw new Error(`Error obteniendo posts del usuario ${error.message}`);
     }
 }
 

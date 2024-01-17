@@ -23,7 +23,7 @@ export function Posts() {
   );
 
   return (
-    <section className="flex flex-col items-center">
+    <section className="flex flex-col items-center xl:mr-[2em]">
       <PostsFeedHeader
         setTagFilter={setTagFilter}
         setTitleFilter={setTitleFilter}

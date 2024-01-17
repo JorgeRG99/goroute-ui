@@ -17,6 +17,13 @@ export const useSportsStore = create((set) => {
     setSports()
 
     return {
-        sports: null
+        sports: null,
+
+        setSports: async () => {
+            const authToken = getFromStorage('AuthToken')
+            const sportsData = await getSports(authToken)
+
+            set({ sports: sportsData })
+        }
     }
 })

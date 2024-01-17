@@ -4,7 +4,7 @@ import { SuggestedUsersList } from "../components/suggestedUsers/SuggestedUsersL
 
 export default function PostsFeed() {
   return (
-    <section className="flex">
+    <section className="flex ">
       <Divider orientation="vertical" className="h-full" />
       <Posts />
       <SuggestedUsersList type="Posts" />

@@ -1,4 +1,13 @@
+import { useLocation } from "react-router-dom";
+import { PRIMARY_COLOR, TERTIARY_COLOR } from "../../../config";
+
 export const GoRouteLogo = () => {
+  const { pathname } = useLocation();
+
+  const logoColor = pathname.startsWith("/messages")
+    ? TERTIARY_COLOR
+    : PRIMARY_COLOR;
+
   return (
     <svg
       version="1.0"
@@ -10,7 +19,7 @@ export const GoRouteLogo = () => {
     >
       <g
         transform="translate(-150.000000,874.000000) scale(0.100000,-0.100000)"
-        fill="#007c38"
+        fill={logoColor}
         stroke="none"
       >
         <path

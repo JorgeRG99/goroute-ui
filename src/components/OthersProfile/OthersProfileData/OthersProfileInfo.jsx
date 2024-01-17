@@ -5,6 +5,7 @@ import { OthersActivitiesHistory } from "./OthersActivityHistory";
 import PropTypes from "prop-types";
 import { useUserProfile } from "../../../hooks/useUserProfile";
 import ToggleFollowButton from "../../buttons/ToggleFollowButton";
+import { OpenChat } from "../../Buttons/OpenChat";
 
 export function OthersProfileInfo({ userPosts, userActivities, username }) {
   const { profileData, userSince } = useUserProfile(username);
@@ -13,7 +14,7 @@ export function OthersProfileInfo({ userPosts, userActivities, username }) {
     <section className="flex-none sticky top-[4rem] h-[20em] z-40 w-[55%] px-[1em]">
       {profileData ? (
         <>
-          <header className="flex items-center gap-[30px]">
+          <header className="flex items-center gap-[30px] h-[4rem]">
             <User
               name={`${profileData.name} ${profileData.surname}`}
               description={`@${profileData.username}`}
@@ -35,7 +36,7 @@ export function OthersProfileInfo({ userPosts, userActivities, username }) {
             <ToggleFollowButton id={profileData.id} />
           </header>
           <main className="flex flex-col gap-[1em] py-[2em] w-full items-start">
-            <article className="flex gap-[5px] items-end text-[.9em]">
+            <article className="flex gap-[5px] items-center text-[.9em]">
               <p>{!userActivities ? 0 : userActivities.length}</p>
               <p className="font-bold mr-[1em]">Actividades</p>
 
@@ -47,6 +48,7 @@ export function OthersProfileInfo({ userPosts, userActivities, username }) {
 
               <p>{!profileData.follows ? 0 : profileData.follows.length}</p>
               <p className="font-bold mr-[1em]">Seguidos</p>
+              <OpenChat userProfileId={profileData.id} username={username} />
             </article>
             <article className="flex flex-col gap-[8px] w-[70%]">
               <p className="text-[.85em] text-[#8c8c8c]">{userSince}</p>

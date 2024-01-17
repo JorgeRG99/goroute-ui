@@ -11,7 +11,8 @@ export default {
     extend: {
       gridTemplateColumns: {
       'user-activities': 'repeat(auto-fit, minmax(250px, 1fr))',
-    },},
+    },
+  },
   },
   darkMode: "class",
   plugins: [nextui({
@@ -34,7 +35,7 @@ export default {
           },
           tertiary: {
             foreground: "#FFFFFF",
-            DEFAULT: "#9b4ae8",
+            DEFAULT: "#a96de0",
             blurred: "#dbc1f4",
             dark: "#765793"
           },

@@ -18,6 +18,7 @@ import { useUserSessionStore } from "../../../store/userSession";
 import { useUserActivitiesStore } from "../../../store/userActivities";
 import { useUserPostsStore } from "../../../store/userPosts";
 import { useLoginFormValidator } from "../../../hooks/FormValidationsHooks/useLoginFormValidator";
+import { useSportsStore } from "../../../store/sports";
 
 export default function LoginPopup() {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +28,7 @@ export default function LoginPopup() {
     (state) => state.setUserActivities
   );
   const setUserPosts = useUserPostsStore((state) => state.setUserPosts);
+  const setSports = useSportsStore((state) => state.setSports);
   const { popups, togglePopup } = usePopups();
   const [userCredentials, setUserCredentials] = useState({
     email: "",
@@ -47,6 +49,7 @@ export default function LoginPopup() {
       if (!errorOcurred) {
         setUserActivities();
         setUserPosts();
+        setSports();
         togglePopup(Popups.Login);
       }
       setIsLoading(false);

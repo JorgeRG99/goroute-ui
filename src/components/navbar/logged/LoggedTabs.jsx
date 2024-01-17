@@ -4,20 +4,39 @@ import { Runner } from "../../icons/Runner";
 import { Posts } from "../../icons/Posts";
 import { Chat } from "../../icons/Chat";
 import { Notifications } from "../../icons/Notifications";
-import { DEFAULT_COLOR, PRIMARY_COLOR } from "../../../../config";
-import { Link, useLocation } from "react-router-dom";
+import {
+  DEFAULT_COLOR,
+  PRIMARY_COLOR,
+  TERTIARY_COLOR,
+} from "../../../../config";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Avatar, Tab, Tabs } from "@nextui-org/react";
 import { userInitials } from "../../../services/helpers";
 import { Popups, usePopups } from "../../../hooks/usePopups";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserSessionStore } from "../../../store/userSession";
 import { SearchNavbar } from "../../Icons/SearchNavbar";
+import { PAGES_URLS } from "../../../../config";
 
 export function LoggedTabs() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [selected, setSelected] = useState(pathname);
   const userData = useUserSessionStore((state) => state.userData);
   const { togglePopup } = usePopups();
+
+  useEffect(() => {
+    if (pathname.startsWith("/messages")) {
+      setSelected("/messages");
+    } else {
+      setSelected(pathname);
+    }
+  }, [pathname]);
+
+  const handleSelectionChange = (key) => {
+    setSelected(key);
+    if (key.startsWith("/")) navigate(key);
+  };
 
   return (
     <Tabs
@@ -26,9 +45,10 @@ export function LoggedTabs() {
         tabList: "flex flex-col bg-[transparent]",
         tab: "justify-start",
         cursor: "shadow-custom",
+        base: "mr-[1rem]",
       }}
-      onSelectionChange={(key) => setSelected(key)}
-      selectedKey={pathname}
+      onSelectionChange={handleSelectionChange}
+      selectedKey={selected}
     >
       <Tab
         key="search"
@@ -45,25 +65,23 @@ export function LoggedTabs() {
         }
       />
       <Tab
-        id="/"
-        key="/"
+        key={PAGES_URLS.home}
         title={
-          <Link to="/" className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2">
             <Runner color={selected === "/" ? PRIMARY_COLOR : DEFAULT_COLOR} />
             <span className="hidden xl:flex">Actividades</span>
-          </Link>
+          </div>
         }
       />
       <Tab
-        id="/posts"
-        key="/posts"
+        key={PAGES_URLS.posts}
         title={
-          <Link to="/posts" className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2">
             <Posts
               color={selected === "/posts" ? PRIMARY_COLOR : DEFAULT_COLOR}
             />
             <span className="hidden xl:flex">Publicaciones</span>
-          </Link>
+          </div>
         }
       />
       <Tab
@@ -90,11 +108,13 @@ export function LoggedTabs() {
         }
       />
       <Tab
-        key="chats"
+        key={PAGES_URLS.chats}
         title={
           <div className="flex items-center space-x-2">
             <Chat
-              color={selected === "chats" ? PRIMARY_COLOR : DEFAULT_COLOR}
+              color={
+                pathname.includes("/messages") ? TERTIARY_COLOR : DEFAULT_COLOR
+              }
             />
             <span className="hidden xl:flex">Mensajes</span>
           </div>
@@ -114,10 +134,9 @@ export function LoggedTabs() {
         }
       />
       <Tab
-        id="/profile"
-        key={`/profile`}
+        key={PAGES_URLS.yourProfile}
         title={
-          <Link to={`/profile`} className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2">
             <Avatar
               src={userData.avatar || undefined}
               size="sm"
@@ -125,7 +144,7 @@ export function LoggedTabs() {
               className={selected === "/profile" && "bg-primary text-white"}
             />
             <span className="hidden xl:flex">Perfil</span>
-          </Link>
+          </div>
         }
       />
     </Tabs>

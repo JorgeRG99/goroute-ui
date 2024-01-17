@@ -23,7 +23,7 @@ export function Activities() {
   );
 
   return (
-    <section className="flex flex-col items-center">
+    <section className="flex flex-col items-center xl:mr-[2em]">
       <ActivitiesFeedHeader
         setSportFilter={setSportFilter}
         setTitleFilter={setTitleFilter}

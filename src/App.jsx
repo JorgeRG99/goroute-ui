@@ -3,12 +3,14 @@ import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
 import { useUserSessionStore } from "./store/userSession";
 import { Suspense, lazy } from "react";
+import { PAGES_URLS } from "../config";
 
 const YourProfile = lazy(() => import("./pages/YourProfile"));
 const OtherUserProfile = lazy(() => import("./pages/OtherUserProfile"));
 const Home = lazy(() => import("./pages/Home"));
 const ActivitiesFeed = lazy(() => import("./pages/ActivitiesFeed"));
 const PostsFeed = lazy(() => import("./pages/PostsFeed"));
+const Messages = lazy(() => import("./pages/Messages"));
 const Error404 = lazy(() => import("./pages/Error404"));
 const NotLoggedNavbar = lazy(() =>
   import("./components/navbar/notlogged/NotLoggedNavbar")
@@ -46,7 +48,7 @@ function App() {
         )}
         <Routes>
           <Route
-            path="*"
+            path={PAGES_URLS.notFound}
             element={
               <Suspense fallback={<h1>...</h1>}>
                 <Error404 />
@@ -54,7 +56,7 @@ function App() {
             }
           />
           <Route
-            path="/"
+            path={PAGES_URLS.home}
             element={
               isAuthenticated ? (
                 isLoading ? (
@@ -74,7 +76,7 @@ function App() {
             }
           />
           <Route
-            path="/posts"
+            path={PAGES_URLS.posts}
             element={
               isAuthenticated ? (
                 isLoading ? (
@@ -94,7 +96,7 @@ function App() {
             }
           />
           <Route
-            path="/:username"
+            path={PAGES_URLS.othersProfile}
             element={
               isAuthenticated ? (
                 isLoading ? (
@@ -107,12 +109,12 @@ function App() {
                   </Suspense>
                 )
               ) : (
-                <Navigate to="/" replace />
+                <Navigate to={PAGES_URLS.home} replace />
               )
             }
           />
           <Route
-            path="/profile"
+            path={PAGES_URLS.yourProfile}
             element={
               isAuthenticated ? (
                 isLoading ? (
@@ -125,7 +127,43 @@ function App() {
                   </Suspense>
                 )
               ) : (
-                <Navigate to="/" replace />
+                <Navigate to={PAGES_URLS.home} replace />
+              )
+            }
+          />
+          <Route
+            path={PAGES_URLS.chats}
+            element={
+              isAuthenticated ? (
+                isLoading ? (
+                  <Suspense fallback={<h1>...</h1>}>
+                    <Loader />
+                  </Suspense>
+                ) : (
+                  <Suspense fallback={<h1>...</h1>}>
+                    <Messages />
+                  </Suspense>
+                )
+              ) : (
+                <Navigate to={PAGES_URLS.home} replace />
+              )
+            }
+          />
+          <Route
+            path={PAGES_URLS.userChat}
+            element={
+              isAuthenticated ? (
+                isLoading ? (
+                  <Suspense fallback={<h1>...</h1>}>
+                    <Loader />
+                  </Suspense>
+                ) : (
+                  <Suspense fallback={<h1>...</h1>}>
+                    <Messages />
+                  </Suspense>
+                )
+              ) : (
+                <Navigate to={PAGES_URLS.home} replace />
               )
             }
           />

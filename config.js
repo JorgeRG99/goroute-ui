@@ -1,6 +1,17 @@
 //COPYRIGHT
 export const COPYRIGHT = "© 2023 GoRoute from GoRoute-Group"
 
+// PAGES URLs
+export const PAGES_URLS = {
+    home: '/',
+    posts: '/posts',
+    chats: '/messages',
+    userChat: '/messages/:pathUsername',
+    yourProfile: '/profile',
+    othersProfile: '/:username',
+    notFound: '*'
+};
+
 //ICONS SIZE
 export const LIKE_MEDIUM_SIZE = "24"
 export const LIKE_SMALL_SIZE = "18"
@@ -9,7 +20,7 @@ export const LIKE_SMALL_SIZE = "18"
 export const DEFAULT_COLOR = '#5F706D'
 export const PRIMARY_COLOR = '#17aa5a'
 export const SECONDARY_COLOR = '#CC780A'
-export const TERTIARY_COLOR = '#9b4ae8'
+export const TERTIARY_COLOR = '#a96de0'
 export const SUCCESS_COLOR = '#09f'
 
 
@@ -19,59 +30,68 @@ export const APP_NAME = 'GOROUTE'
 // API
 const API_ORIGIN = import.meta.env.VITE_APP_API_ORIGIN
 
+// MIDDLEWARES
+const API_MIDDLEWARE = '/api'
+
 // USER ENDPOINTS
-export const USER_ENDPOINT = `${API_ORIGIN}/user`
-export const USER_BY_USERNAME_ENDPOINT = `${API_ORIGIN}/userByUsername`
-export const FIND_USER_BY_PARTIAL_USERNAME_ENDPOINT = `${API_ORIGIN}/findUsersByPartialUsername`
-export const USER_BY_ID_ENDPOINT = `${API_ORIGIN}/userById`
-export const REGISTER_ENDPOINT = `${API_ORIGIN}/userRegister`
-export const EDIT_USER_ENDPOINT = `${API_ORIGIN}/userUpdate`
-export const LOGIN_ENDPOINT = `${API_ORIGIN}/login`
-export const LOGOUT_ENDPOINT = `${API_ORIGIN}/logout`
-export const USER_FOLLOWS_ENDPOINT = `${API_ORIGIN}/userFollows`
-export const USER_FOLLOWERS_ENDPOINT = `${API_ORIGIN}/userFollowers`
-export const USER_FOLLOW_ENDPOINT = `${API_ORIGIN}/userFollow`
-export const USER_UNFOLLOW_ENDPOINT = `${API_ORIGIN}/userUnfollow`
-export const USER_REMOVE_FOLLOWER_ENDPOINT = `${API_ORIGIN}/followerRemove`
-export const USER_JOINED_ACTIVITIES_ENDPOINT = `${API_ORIGIN}/userJoinedActivities`
-export const SUGGESTED_USERS_ENDPOINT = `${API_ORIGIN}/suggestedUsersBy`
+export const USER_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/user`
+export const USER_BY_USERNAME_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/userByUsername`
+export const FIND_USER_BY_PARTIAL_USERNAME_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/findUsersByPartialUsername`
+export const USER_BY_ID_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/userById`
+export const REGISTER_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/userRegister`
+export const EDIT_USER_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/userUpdate`
+export const LOGIN_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/login`
+export const LOGOUT_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/logout`
+export const USER_FOLLOWS_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/userFollows`
+export const USER_FOLLOWERS_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/userFollowers`
+export const USER_FOLLOW_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/userFollow`
+export const USER_UNFOLLOW_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/userUnfollow`
+export const USER_REMOVE_FOLLOWER_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/followerRemove`
+export const USER_JOINED_ACTIVITIES_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/userJoinedActivities`
+export const SUGGESTED_USERS_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/suggestedUsersBy`
 
 // ACTIVITY ENDPOINTS
-export const GET_YOUR_ACTIVITIES_ENDPOINT = `${API_ORIGIN}/yourActivities`
-export const GET_USER_ACTIVITIES_ENDPOINT = `${API_ORIGIN}/activitiesByUser`
-export const GET_ACTIVITIES_FEED_ENDPOINT = `${API_ORIGIN}/activities`
-export const GET_ACTIVITY_LIKES_ENDPOINT = `${API_ORIGIN}/activityLikes`
-export const LIKE_ACTIVITY_ENDPOINT = `${API_ORIGIN}/activityLike`
-export const UNLIKE_ACTIVITY_ENDPOINT = `${API_ORIGIN}/activityUnlike`
-export const GET_ACTIVITY_PARTICIPANTS_ENDPOINT = `${API_ORIGIN}/participants`
-export const ADD_PARTICIPANT_ENDPOINT = `${API_ORIGIN}/participantAdd`
-export const REMOVE_PARTICIPANT_ENDPOINT = `${API_ORIGIN}/participantRemove`
-export const ADD_ACTIVITY_ENDPOINT = `${API_ORIGIN}/activityRegister`
-export const EDIT_ACTIVITY_ENDPOINT = `${API_ORIGIN}/activityUpdate`
-export const DELETE_ACTIVITY_ENDPOINT = `${API_ORIGIN}/activityDelete`
+export const GET_YOUR_ACTIVITIES_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/yourActivities`
+export const GET_USER_ACTIVITIES_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/activitiesByUser`
+export const GET_ACTIVITIES_FEED_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/activities`
+export const GET_ACTIVITY_LIKES_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/activityLikes`
+export const LIKE_ACTIVITY_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/activityLike`
+export const UNLIKE_ACTIVITY_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/activityUnlike`
+export const GET_ACTIVITY_PARTICIPANTS_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/participants`
+export const ADD_PARTICIPANT_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/participantAdd`
+export const REMOVE_PARTICIPANT_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/participantRemove`
+export const ADD_ACTIVITY_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/activityRegister`
+export const EDIT_ACTIVITY_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/activityUpdate`
+export const DELETE_ACTIVITY_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/activityDelete`
 
 // SPORTS ENDPOINTS
-export const GET_SPORTS_ENDPOINT = `${API_ORIGIN}/sports`
+export const GET_SPORTS_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/sports`
 
 // POSTS ENDPOINTS
-export const GET_YOUR_POSTS_ENDPOINT = `${API_ORIGIN}/yourPosts`
-export const GET_POSTS_FEED_ENDPOINT = `${API_ORIGIN}/posts`
-export const GET_USER_POSTS_ENDPOINT = `${API_ORIGIN}/postsByUser`
-export const ADD_POST_ENDPOINT = `${API_ORIGIN}/postRegister`
-export const SUGGESTED_USERS_BY_POSTS = `${API_ORIGIN}/suggestedUsersByPosts`
-export const GET_POST_LIKES_ENDPOINT = `${API_ORIGIN}/postLikes`
-export const LIKE_POST_ENDPOINT = `${API_ORIGIN}/postLike`
-export const UNLIKE_POST_ENDPOINT = `${API_ORIGIN}/postUnlike`
-export const EDIT_POST_ENDPOINT = `${API_ORIGIN}/postUpdate`
-export const DELETE_POST_ENDPOINT = `${API_ORIGIN}/postDelete`
+export const GET_YOUR_POSTS_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/yourPosts`
+export const GET_POSTS_FEED_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/posts`
+export const GET_USER_POSTS_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/postsByUser`
+export const ADD_POST_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/postRegister`
+export const SUGGESTED_USERS_BY_POSTS = `${API_ORIGIN}${API_MIDDLEWARE}/suggestedUsersByPosts`
+export const GET_POST_LIKES_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/postLikes`
+export const LIKE_POST_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/postLike`
+export const UNLIKE_POST_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/postUnlike`
+export const EDIT_POST_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/postUpdate`
+export const DELETE_POST_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/postDelete`
 
 // COMMENTS RELATED ROUTES
-export const GET_LAST_COMMENT_ENDPOINT = `${API_ORIGIN}/getLastComment`
-export const ADD_COMMENT_ENDPOINT = `${API_ORIGIN}/commentRegister`
-export const MORE_COMMENTS_ENDPOINT = `${API_ORIGIN}/moreComments`
-export const DELETE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentDelete`
-export const LIKE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentLike`
-export const UNLIKE_COMMENT_ENDPOINT = `${API_ORIGIN}/commentUnlike`
+export const GET_LAST_COMMENT_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/getLastComment`
+export const ADD_COMMENT_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/commentRegister`
+export const MORE_COMMENTS_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/moreComments`
+export const DELETE_COMMENT_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/commentDelete`
+export const LIKE_COMMENT_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/commentLike`
+export const UNLIKE_COMMENT_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/commentUnlike`
+
+// CHATS RELATED ROUTES
+export const GET_YOUR_CHATS_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/yourChats`
+export const CHAT_WITH_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/chatWith`
+export const SENT_CHAT_MESSAGE_ENDPOINT = `${API_ORIGIN}${API_MIDDLEWARE}/messageSent`
+
 
 // ERRORS
 export const GENERAL_SERVER_ERROR = "No se pudo completar la operación debido a un error. Por favor, verifica tu conexión a internet y vuelve a intentarlo más tarde."
