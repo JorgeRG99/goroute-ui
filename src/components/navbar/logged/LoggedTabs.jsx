@@ -54,6 +54,7 @@ export function LoggedTabs() {
         key="search"
         title={
           <div
+            id="jbdsjb"
             onClick={() => togglePopup(Popups.FindUser)}
             className="flex items-center space-x-3"
           >

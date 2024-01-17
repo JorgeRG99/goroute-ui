@@ -17,6 +17,7 @@
     "@nextui-org/spinner": "^2.0.24",
     "@nextui-org/tabs": "^2.0.26",
     "@nextui-org/user": "^2.0.25",
+    "@preact/signals-react": "^2.0.0",
     "axios": "^1.6.2",
     "framer-motion": "^10.16.5",
     "just-debounce-it": "^3.2.0",

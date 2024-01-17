@@ -21,7 +21,7 @@ export const useLoginFormValidator = (userCredentials) => {
     }
 
     const catchEmptyValues = () => {
-        if (Object.values(userCredentials).some(data => data.length === 0)) {
+        if (Object.values(userCredentials.value).some(data => data.length === 0)) {
             setServerErrors(EMPTY_VALUES_ERROR)
 
             return true;

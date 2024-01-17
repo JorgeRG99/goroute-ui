@@ -8,7 +8,6 @@ import {
   Checkbox,
   Input,
 } from "@nextui-org/react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail } from "../../icons/Mail";
 import { EyeFilledSlash } from "../../icons/EyeFilledSlash";
@@ -19,6 +18,8 @@ import { useUserActivitiesStore } from "../../../store/userActivities";
 import { useUserPostsStore } from "../../../store/userPosts";
 import { useLoginFormValidator } from "../../../hooks/FormValidationsHooks/useLoginFormValidator";
 import { useSportsStore } from "../../../store/sports";
+import { useSignal } from "@preact/signals-react";
+import { useState } from "react";
 
 export default function LoginPopup() {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,11 +31,13 @@ export default function LoginPopup() {
   const setUserPosts = useUserPostsStore((state) => state.setUserPosts);
   const setSports = useSportsStore((state) => state.setSports);
   const { popups, togglePopup } = usePopups();
-  const [userCredentials, setUserCredentials] = useState({
+  const userCredentials = useSignal({
     email: "",
     password: "",
   });
-  const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const toggleVisibility = () => setIsVisible((prevState) => !prevState);
+
   const { catchEmptyValues, catchedServerErrors, serverErrors } =
     useLoginFormValidator(userCredentials);
 
@@ -43,7 +46,7 @@ export default function LoginPopup() {
     const catchedEmptyData = catchEmptyValues();
 
     if (!catchedEmptyData) {
-      const response = await login(userCredentials);
+      const response = await login(userCredentials.value);
       const errorOcurred = catchedServerErrors(response);
 
       if (!errorOcurred) {
@@ -54,15 +57,14 @@ export default function LoginPopup() {
       }
       setIsLoading(false);
     }
-
     setIsLoading(false);
   };
 
   const handleCredentialsChange = (e) => {
-    setUserCredentials((prevState) => ({
-      ...prevState,
+    userCredentials.value = {
+      ...userCredentials.value,
       [e.target.name]: e.target.value,
-    }));
+    };
   };
 
   return (
@@ -139,7 +141,7 @@ export default function LoginPopup() {
                 <Button
                   color="primary"
                   onPress={handleUserLogin}
-                  isLoading={isLoading ? true : false}
+                  isLoading={isLoading}
                 >
                   Acceder
                 </Button>
