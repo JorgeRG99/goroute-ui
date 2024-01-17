@@ -24,12 +24,4 @@ export const useSocket = (chatId, setChatMessages) => {
             channel.stopListening('MessageSent', messageSentCallback);
         };
     }, [chatId, authToken, setChatMessages, userData]);
-
-
-    /* const sendTypingEvent = () => {
-        window.Echo.channel(`chat.${chatId}`)
-                    .whisper('typing', 'ahahaha')
-    }
-
-    return  { sendTypingEvent } */
 };
