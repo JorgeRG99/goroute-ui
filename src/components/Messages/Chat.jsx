@@ -22,10 +22,14 @@ export function Chat({ chat }) {
     e.key === "Enter" && !e.shiftKey && handleMessageSent();
 
   const handleMessageSent = async () => {
+    const formattedMessageContent = messageContent
+      .split("\n")
+      .filter((paragraph) => paragraph !== "");
+
     if (messageContent !== "") {
       await sendMessage(authToken, {
         chat_id: chat.id,
-        content: messageContent,
+        content: formattedMessageContent,
       });
 
       setMessageContent("");
@@ -35,7 +39,7 @@ export function Chat({ chat }) {
           ...prevState,
           {
             id: crypto.randomUUID(),
-            content: messageContent,
+            content: formattedMessageContent,
             user: userData,
           },
         ];
@@ -64,7 +68,7 @@ export function Chat({ chat }) {
             <div ref={endOfMessagesRef} />
           </ul>
         }
-        <span className="w-full flex justify-between items-center">
+        <form className="w-full flex justify-between items-center">
           <Textarea
             minRows={1.5}
             maxRows={4}
@@ -94,7 +98,7 @@ export function Chat({ chat }) {
               </Button>
             }
           />
-        </span>
+        </form>
       </div>
     </div>
   );

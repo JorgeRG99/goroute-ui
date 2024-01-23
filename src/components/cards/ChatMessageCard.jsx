@@ -4,7 +4,7 @@ import { Avatar } from "@nextui-org/react";
 import { userInitials } from "../../services/helpers";
 
 export function ChatMessageCard({ messageData }) {
-  const { user, content, avatar } = messageData;
+  const { user, content } = messageData;
   const userData = useUserSessionStore((state) => state.userData);
 
   const messageContentAlignClasses =
@@ -23,15 +23,22 @@ export function ChatMessageCard({ messageData }) {
       className={`max-w-[80%] flex items-start gap-[.5em] px-[0.3em] ${messageContainerAlignClasses}`}
     >
       <Avatar
-        src={avatar || `https://i.pravatar.cc/${300}`}
-        name={avatar || userInitials(user.name, user.surname)}
+        src={user.avatar || `https://i.pravatar.cc/${300}`}
+        name={user.avatar || userInitials(user.name, user.surname)}
         size="sm"
         isBordered
       />
       <div
-        className={`rounded-b-lg p-[.5em] max-w-[70%] text-[.85em] ${messageContentAlignClasses}`}
+        className={`rounded-b-lg p-[.5em] max-w-[70%] text-[.85em] ${messageContentAlignClasses} flex flex-col gap-[.5em]`}
       >
-        <p className={`${messageTextColorClasses} break-words`}>{content}</p>
+        {content.map((paragraph) => (
+          <p
+            className={`${messageTextColorClasses} break-words`}
+            key={crypto.randomUUID()}
+          >
+            {paragraph}
+          </p>
+        ))}
       </div>
     </div>
   );
