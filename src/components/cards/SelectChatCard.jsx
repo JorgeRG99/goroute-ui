@@ -6,16 +6,18 @@ export function SelectChatCard({ user, lastMessage }) {
   const { username, name, surname, avatar } = user;
 
   return (
-    <div className="flex gap-[.7em] items-center">
+    <div className="flex gap-[.7em] items-center w-full">
       <Avatar
         isBordered
         src={avatar || `https://i.pravatar.cc/${300}`}
         name={avatar || userInitials(name, surname)}
       />
-      <div className="flex flex-col items-start justify-start">
+      <div className="flex flex-col items-start justify-start w-10/12 truncate">
         <p>{username}</p>
         {lastMessage && (
-          <p className="text-tertiary text-[.85em]">{lastMessage.content}</p>
+          <p className="text-tertiary text-[.85em] w-full truncate">
+            {lastMessage.content}
+          </p>
         )}
       </div>
     </div>

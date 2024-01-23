@@ -19,7 +19,7 @@ export function Chats({ yourChats }) {
             cursor: "shadow-custom w-full h-[4em]",
             base: "mx-[2rem] pt-[1em] w-[25em]",
             panel: "p-0 w-[60%]",
-            tabContent: "flex items-center",
+            tabContent: "flex items-center w-full",
           }}
           selectedKey={selectedChat}
           onSelectionChange={(key) => setSelectedChat(key)}
@@ -27,8 +27,9 @@ export function Chats({ yourChats }) {
           {yourChats.map((chat) => (
             <Tab
               key={chat.user.username}
+              className="w-full"
               title={
-                <Link to={`/messages/${chat.user.username}`}>
+                <Link to={`/messages/${chat.user.username}`} className="w-full">
                   <SelectChatCard
                     user={chat.user}
                     lastMessage={chat.messages.slice(-1)[0]}

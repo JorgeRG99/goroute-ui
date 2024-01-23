@@ -31,7 +31,7 @@ export function ChatMessageCard({ messageData }) {
       <div
         className={`rounded-b-lg p-[.5em] max-w-[70%] text-[.85em] ${messageContentAlignClasses}`}
       >
-        <p className={`break-word ${messageTextColorClasses}`}>{content}</p>
+        <p className={`${messageTextColorClasses} break-words`}>{content}</p>
       </div>
     </div>
   );
