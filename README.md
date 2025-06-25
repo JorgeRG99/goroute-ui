@@ -1,4 +1,4 @@
-# GoRoute UI 🏃‍♂️🌐
+# GoRoute 🏃‍♂️🌐
 
 A modern and responsive frontend for **GoRoute**, a social network that connects users to discover and participate in sports activities, built with **React** and **TypeScript** for a seamless and engaging user experience.
 
